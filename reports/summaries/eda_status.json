@@ -1,0 +1,18 @@
+{
+  "dataset": "ULB Credit Card Fraud Detection",
+  "dataset_file_present_at_initial_audit": false,
+  "data_classification": "no_local_observations",
+  "local_row_count": null,
+  "local_column_count": null,
+  "local_class_distribution": null,
+  "real_data_eda_status": "blocked",
+  "blockers": [
+    "Kaggle CLI was unavailable.",
+    "Authorized Kaggle credential files were not present.",
+    "Outbound network access to dataset hosts was unavailable."
+  ],
+  "publisher_reported_row_count": 284807,
+  "publisher_reported_fraud_count": 492,
+  "publisher_counts_verified_locally": false,
+  "audit_date": "2026-11-06"
+}
