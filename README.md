@@ -8,7 +8,7 @@ Help analysts examine historical transaction labels, compare candidate detection
 
 ## Current status
 
-Mission 01 code, tests, notebooks, and documentation are implemented and pushed to origin/main. Real ULB acquisition and real-data EDA remain blocked because this environment has no Kaggle CLI or authorized local credentials. The downloader exited before a network request. No real-data statistics are claimed. The synthetic smoke fixture is clearly labeled and only validates code paths.
+Mission 01's real-data EDA is complete. The acquired ULB file contains 284,807 rows, 31 numeric columns, and 492 fraud labels; the raw CSV is excluded from Git. Provenance, integrity checks, generated reports, and the Mission 02 evaluation handoff are documented in docs/data/ and reports/. No model was trained. See PROGRESS.md for validation and delivery history.
 
 ## Architecture
 
@@ -27,7 +27,7 @@ Python 3.11, NumPy, pandas, SciPy, Matplotlib, Seaborn, pytest, Ruff, Jupyter no
 
 ## Dataset
 
-The primary candidate is the ULB Credit Card Fraud Detection dataset distributed on Kaggle. Its source describes anonymized European card transactions from September 2013, with PCA features V1–V28, elapsed seconds in Time, Amount, and a binary Class label. Its published counts are source-reported and have not yet been verified against a local file. See docs/data/dataset-selection.md and docs/data/data-dictionary.md.
+The primary dataset is the ULB Credit Card Fraud Detection dataset distributed on Kaggle. Its locally acquired file passed the ulb-credit-card-v1 schema check: 284,315 Class 0 and 492 Class 1 rows, 31 numeric fields, no nulls or infinities, and 1,081 duplicate copies beyond first. Time is elapsed seconds; V1–V28 are anonymized PCA-derived fields. See docs/data/data-quality-report.md, docs/data/data-dictionary.md, and reports/EDA_REPORT.md.
 
 ## Setup
 
@@ -49,12 +49,12 @@ The policy option applies only to that PowerShell process.
 
 ## Dataset acquisition
 
-The acquisition script uses the official Kaggle CLI and credentials already configured locally. It never displays credentials, leaves incomplete files behind, refuses to replace an existing file, validates schema and labels, records file size and SHA-256, and writes provenance metadata beside the ignored raw file.
+The acquisition script uses the official Kaggle CLI and credentials already configured locally. It never displays credentials, leaves incomplete files behind, refuses to replace an existing file, validates schema and labels, records file size and SHA-256, and writes provenance metadata beside the ignored raw file. Kaggle CLI is a one-time acquisition tool and is not a project runtime dependency.
 
     .\.venv\Scripts\python.exe -m pip install kaggle
     .\.venv\Scripts\python.exe scripts\download_dataset.py
 
-Complete Kaggle account access and configure credentials locally before acquisition. Never put credentials in this repository or chat. The script will fail safely if the CLI, credentials, or network are unavailable.
+For a fresh clone without the local ignored CSV, install Kaggle CLI and configure authorized credentials locally before acquisition. Never put credentials in this repository or chat. The script will fail safely if the CLI, credentials, or network are unavailable.
 
 ## Run EDA
 
@@ -72,11 +72,17 @@ The report generator writes EDA_REPORT.md, a JSON summary, quality profile, nume
 
 Fixture output goes under reports/demo and is not ULB evidence.
 
+Key generated outputs include reports/EDA_REPORT.md, reports/figures/, reports/tables/, reports/summaries/eda_summary.json, and reports/summaries/data_quality_profile.json.
+
 ## Checks
 
 PowerShell:
 
     .\scripts\run-checks.ps1
+
+To run the same checks with another interpreter, including a fully isolated environment:
+
+    .\scripts\run-checks.ps1 -PythonPath .venv-isolated\Scripts\python.exe
 
 CMD:
 
@@ -85,6 +91,12 @@ CMD:
     .venv\Scripts\python.exe -m ruff format --check .
     .venv\Scripts\python.exe -m compileall -q src scripts tests
     .venv\Scripts\python.exe scripts\validate_notebooks.py
+
+Routine pytest and CI do not require the local CSV. To run the opt-in real-data integration check:
+
+    $env:RUN_REAL_DATA_TESTS = "1"
+    .\.venv\Scripts\python.exe -m pytest -m real_data
+    Remove-Item Env:RUN_REAL_DATA_TESTS
 
 ## Six-mission roadmap
 

@@ -9,10 +9,12 @@
 - [x] Create four notebooks with explicit source status and fixture fallback.
 - [x] Add controlled unit tests and reproducibility checks.
 - [x] Document scientific limitations and Mission 02 interfaces.
-- [ ] Acquire and verify the real ULB CSV — Blocked: Kaggle CLI and authorized local credentials are absent; the downloader exited before a network request.
-- [ ] Run real-data EDA and execute notebooks on the real CSV — Blocked by dataset acquisition.
-- [x] Create logical Mission 01 commits — Four implementation and test commits are complete; the documentation/status commit is being prepared.
-- [x] Push validated commits to origin/main — Fresh fetch confirmed no remote-only changes; a normal non-forced push succeeded.
+- [x] Acquire the real ULB CSV, validate provenance, schema, checksum, and observed class counts.
+- [x] Run real-data EDA and execute all four notebooks against the acquired CSV.
+- [x] Add opt-in real-data integration coverage without making local data mandatory for unit tests or CI.
+- [x] Complete data-quality, findings, and Mission 02 handoff documentation.
+- [x] Create logical commits for the acquisition/environment fixes, real-data EDA artifacts, and integration test.
+- [ ] Push validated commits to origin/main and verify remote synchronization.
 
 ## Mission 02 — Machine learning engine
 

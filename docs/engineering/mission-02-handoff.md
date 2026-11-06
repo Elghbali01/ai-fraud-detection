@@ -1,59 +1,57 @@
 # Mission 02 Handoff
 
-## Available dataset
+## Validated dataset
 
-Selected candidate: ULB Credit Card Fraud Detection, expected at data/raw/creditcard.csv. The file was not acquired in this environment. Kaggle CLI and authorized local credentials were absent, and the downloader exited before a network request. No synthetic substitute is labeled as the real dataset. Use scripts/download_dataset.py after authorized local access is available.
+The locally acquired ULB Credit Card Fraud Detection CSV is source-verified by the dataset identifier, valid ulb-credit-card-v1 schema, and SHA-256 sidecar check. It contains 284,807 rows and 31 numeric columns: Time, V1–V28, Amount, and Class. Class counts are 284,315 label 0 and 492 label 1 (0.172749% positive; 577.876:1 count ratio). There are no missing values, infinities, or invalid target labels. There are 1,081 exact duplicate copies beyond first, across 1,854 rows in duplicate groups.
 
-## Validated schema
+The raw file is excluded from Git. Provenance is recorded in data/raw/dataset-provenance.json, and the validated report is reports/EDA_REPORT.md. Do not substitute a fixture for the ULB observations.
 
-Version ulb-credit-card-v1: Time, V1–V28, Amount, Class; 31 numeric fields. Class labels allowed are 0 and 1. Target missingness and infinite numeric values fail validation. Extra columns are reported and permitted unless strict mode is selected. Feature nulls are reported for review. The loader does not mutate or drop records.
+## Key findings and risks
 
-## Data quality and scientific findings
+- A predict-all-zero rule has 99.827251% accuracy and 0% fraud recall. Accuracy is insufficient.
+- Amount is right-skewed; the fraud-class median is 9.25 and mean 122.211, while the legitimate median is 22 and mean 88.291. These are descriptive, not causal.
+- Time is monotonic in row order, spans 0–172,792 elapsed seconds, and has no calendar origin.
+- A row-quantile chronological candidate gives 384, 56, and 52 positive cases in train, validation, and test. Those holdout counts are small and performance intervals may be wide.
+- Exact duplicates should not cross random partitions. The proposed temporal boundaries preserve identical Time values; near-duplicate similarity was not assessed.
+- The dataset has no customer, merchant, location, or device identity fields. It cannot support entity-level generalization checks.
+- V1–V28 are anonymized PCA-derived values; no business meanings or causal explanations are available.
 
-Local row count, class distribution, missingness, duplicate count, and numeric profiles remain unverified. The publisher page claims 284,807 rows and 492 fraud cases. The source describes Time as elapsed seconds, and V1–V28 as PCA-derived anonymized features. No currency unit or calendar origin is assumed.
+## Recommended evaluation design
 
-## Reusable modules
+1. Freeze the schema, source checksum, and experiment configuration. Keep Class out of all features.
+2. Start with a chronological candidate: train on Time through 132,929 seconds, validation through 151,328 seconds, and reserve the later 151,329–172,792-second period as a candidate final test. Reassess this design before training because the validation/test subsets contain only 56/52 fraud cases. Do not use the final period for model selection or threshold tuning.
+3. Compare a stratified random development evaluation as a secondary, optimistic view. Group exact duplicate rows into the same fold. Keep the chronological holdout as the primary robustness view; do not silently choose whichever split gives the best score.
+4. Fit imputers, scalers, feature selection, calibration, and any resampling inside training folds only. Never select features on the full dataset. If resampling is evaluated, apply it only to each training fold.
+5. Save seeds, package versions, source hash, split definitions, preprocessing, estimator parameters, and metric outputs. Reproduce all data-derived fit steps from training data only.
 
-- loading.py: safe CSV reads and ULB loader.
-- schema.py: schema contract and validation result.
-- profiling.py: column, null, duplicate, class, numeric, zero, non-finite, and memory profile.
-- analytics.py: class imbalance, amount summaries, elapsed-time bins, correlation, rank associations, and IQR diagnostics.
-- visualization.py: bounded class/amount/time/PCA/correlation figures.
-- reporting.py and serialization.py: Markdown, CSV, JSON outputs.
+The two-day source period limits claims about longer-term performance. Report exact evaluation windows and positive counts. Use confidence intervals or other uncertainty summaries where practical; 52 positive test examples do not support fine-grained claims.
 
-## Evaluation strategy for Mission 02
+## Supervised baseline track
 
-Inspect source ordering and label counts over elapsed Time before choosing final validation. Compare a stratified random split baseline with a chronological holdout or forward-chaining strategy. The two-day span limits long-term generalization claims. Keep the latest test interval untouched during model/threshold selection, fit preprocessing only inside training folds, and report PR-AUC/AUPRC, precision, recall, confusion counts, and capacity/cost implications at declared thresholds. Accuracy alone is insufficient.
+Compare, using identical splits and a reproducible preprocessing pipeline:
 
-## Leakage risks
+1. DummyClassifier as a metric sanity baseline.
+2. LogisticRegression with training-fold-only scaling and explicit class-imbalance handling.
+3. RandomForest.
+4. HistGradientBoosting.
 
-- Never include Class among predictive inputs.
-- Do not fit scaling, imputation, feature selection, resampling, or calibration on the full dataset before splitting.
-- Do not use future test observations for threshold/model selection.
-- Inspect ordering, repeated rows, and any later engineered fields before training.
-- Do not infer identity or temporal metadata that the CSV does not contain.
+Do not assume class weights or resampling improve operational performance; compare methods on untouched validation data. Avoid adding identifiers or inferred calendar features absent from the source.
 
-## Recommended baselines
+## Separate unsupervised track
 
-1. Majority-class prediction as an illustrative metric sanity check only.
-2. Logistic regression with training-fold-only scaling and class-aware metrics.
-3. A tree-based baseline without assumptions about business semantics of PCA variables.
-4. An unsupervised anomaly score evaluated separately from labeled classification; labels are only for evaluation.
+Evaluate IsolationForest separately from supervised classification. Fit it without Class, then use labels only to evaluate ranking or detection behavior. Report its anomaly score and operating threshold distinctly from predicted fraud probability, historical Class, and human confirmation. Do not present an anomaly as proof of fraud.
 
-## Expected ML interfaces
+## Metrics and threshold selection
 
-Mission 02 should expose a reproducible train/evaluate API consuming a validated feature frame and target column, with explicit split strategy, random seed, preprocessing pipeline, and metric report. Inference should accept the same versioned feature contract and return a predicted class/probability distinctly from anomaly score and future risk outputs.
+Report PR-AUC/AUPRC as a primary ranking measure, plus precision, recall, F1 where useful, confusion-matrix counts, ROC-AUC as a secondary measure, and precision/recall at operational review capacity. Include positive counts and uncertainty. Accuracy alone is misleading at 0.172749% fraud prevalence.
 
-## Known blockers and reproduction commands
+Choose thresholds on validation data against a stated cost or review-capacity objective. If calibrated probabilities are needed, fit and assess calibration using training/validation procedures only. Freeze model and threshold before using the final test. Report the chosen threshold, predicted positive volume, false positives, true positives, false negatives, and resulting precision/recall.
 
-Blocker: real ULB file unavailable in this run. GitHub delivery is complete; obtain Kaggle CLI and authorized local access before real-data analysis:
+## Reusable Mission 01 components
 
-    .\.venv\Scripts\python.exe -m pip install kaggle
-    .\.venv\Scripts\python.exe scripts\download_dataset.py
-    .\scripts\run-eda.ps1
-    .\.venv\Scripts\python.exe -m pytest
+- loading.py and schema.py: CSV loading and versioned schema checks.
+- profiling.py: null, duplicate, numeric, class, and memory profiles.
+- analytics.py: class balance, amount summaries, elapsed-time bins, correlations, associations, and IQR diagnostics.
+- visualization.py and reporting.py: reproducible figures, tables, and summaries.
 
-Fixture smoke checks:
-
-    .\.venv\Scripts\python.exe -m fraud_detection.eda --synthetic-demo --output-dir reports
-    .\.venv\Scripts\python.exe scripts\validate_notebooks.py
+Mission 01 completed EDA and did not train or select any model. This handoff is an evaluation plan; it is not a claim that a split or model has been validated for production.

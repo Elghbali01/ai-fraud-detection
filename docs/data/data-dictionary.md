@@ -1,26 +1,30 @@
 # ULB Data Dictionary
 
-Schema contract version: ulb-credit-card-v1.
+Schema contract: ulb-credit-card-v1. The acquired file passed the contract validation on 2026-11-06.
 
-## Expected columns
+## Source and observed file
 
-| Field | Type | Meaning | Notes |
+Source: [ULB Credit Card Fraud Detection on Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud). The locally acquired CSV has 284,807 rows and 31 ordered fields: Time, V1–V28, Amount, Class. All 31 fields are numeric: 30 float64 and one int64 target. No field contains missing or infinite values in this file.
+
+The raw CSV remains local and is excluded from Git. Its byte count and checksum are recorded in data/raw/dataset-provenance.json and summarized in docs/data/data-quality-report.md.
+
+## Fields
+
+| Field | Observed type | Meaning | Observed values and cautions |
 |---|---|---|---|
-| Time | Numeric | Seconds elapsed between this transaction and the first transaction in the dataset. | Not a calendar timestamp; do not infer date/hour-of-day. |
-| V1–V28 | Numeric | PCA-transformed input variables. | The source withholds original feature meanings. Correlations and SHAP values cannot be mapped automatically to business causes. |
-| Amount | Numeric | Transaction amount as supplied by the dataset. | No currency unit is assumed in this project. Zero remains a valid numeric value. |
-| Class | Binary numeric target | 1 denotes a fraud label; 0 denotes a genuine/legitimate label. | Historical annotation, not a model output or legal determination. |
+| Time | float64 | Elapsed seconds between a transaction and the first transaction in the file, according to the dataset description. | 0–172,792 seconds; 124,592 distinct values. File order is monotonic by Time. It is not a calendar timestamp and must not be converted into dates or time-of-day. |
+| V1–V28 | float64 | Anonymized PCA-derived input variables. | Numeric, with no missing or infinite values in the acquired file. Original feature meanings are withheld; do not attach business names or causal meaning. Each field's observed range, quantiles, zero count, and uniqueness are in reports/tables/column_profile.csv. |
+| Amount | float64 | Transaction amount as supplied in the file. | 0–25,691.16 dataset units. No currency unit is assumed. There are 1,825 zero values, retained as observed numeric values. |
+| Class | int64 | Historical binary dataset label. | 0: 284,315 transactions; 1: 492 transactions. This is a source label, not a prediction, risk score, or legal finding. |
 
-Expected ordered column list:
+## Ordered schema
 
-    Time, V1, V2, ..., V28, Amount, Class
+Time, V1, V2, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12, V13, V14, V15, V16, V17, V18, V19, V20, V21, V22, V23, V24, V25, V26, V27, V28, Amount, Class.
 
-The validator requires all 31 fields to be numeric and labels to be 0 or 1. Missing feature values are reported for data-quality review; target nulls are invalid. Infinite values are invalid. Extra columns are reported and permitted by default; strict mode rejects them. Validation does not change or remove any observations.
+The validator requires all 31 fields to be numeric and Class labels to be 0 or 1. Missing target values and infinite numeric values are invalid. Missing feature values are reported for quality review. Unexpected extra fields are reported and permitted by default; strict mode rejects them. Validation does not alter or remove observations.
 
-## Source statements versus local facts
+## Missingness, zeros, duplicates
 
-The source page describes European card transactions from September 2013, covering two days, and lists 284,807 rows, 492 frauds, 31 columns, and a 150.83 MB CSV. Those are publisher-provided claims until a downloaded file is validated. Actual row count, class distribution, nulls, duplicates, data types, and checksum remain pending local acquisition.
+The acquired file contains no nulls or infinite values. Numeric zero is counted separately from missingness and is retained. The data contains 1,081 duplicate copies beyond the first and 1,854 rows that belong to exact duplicate groups; none were removed. Duplicate totals and class-conditional summaries are generated under reports/.
 
-## Missingness and zeros
-
-Null/NaN means missing. Numeric zero is counted separately and retained as a valid value unless domain evidence establishes otherwise. Do not replace zeros with missing values as a blanket preprocessing rule.
+Publisher descriptions refer to a short, historical set of European card transactions. The dataset does not include customer, merchant, device, location, or calendar-time identifiers, and it does not support direct real-world identity or causal interpretation.
