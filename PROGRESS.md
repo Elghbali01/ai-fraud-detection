@@ -30,7 +30,7 @@ Final Mission 01 validation:
 - scripts/download_dataset.py: exit code 2; Kaggle CLI unavailable. It exited before any network request. No credentials were read or printed and no dataset was downloaded.
 - Real-data integration and notebook execution: blocked because the CSV was unavailable.
 
-At final audit C: had 857,010,176 bytes free. The project .venv used 23,504,647 bytes and ignored smoke outputs used 455,884 bytes. The CSV was absent. The remaining difference from the initial disk reading was not attributed to project artifacts; no unrelated files were removed.
+Disk free-space readings varied during the run: 6,454,374,400 bytes at initial audit, 927,645,696 and 857,010,176 bytes at interim checks, and 10,833,227,776 bytes at the latest post-push check. The project .venv used 23,504,647 bytes and ignored smoke outputs used 455,884 bytes; no raw CSV was present. The fluctuations were not attributed to project artifacts, and no unrelated files were removed.
 
 Synthetic smoke results are not real ULB findings.
 
@@ -52,8 +52,9 @@ Five validated commits were created on main:
 - 20be8db docs: record mission 01 delivery status
 - b301caa docs: confirm synchronized mission 01 delivery
 - 7b2b1e8 docs: clarify verified blockers and dependencies
+- f33ae6d docs: update final resource and delivery audit
 
-The first fresh fetch found origin/main at 13461f7, with five local implementation commits ahead and no remote-only commits. A normal non-forced push advanced the remote to a07c1f6. Later status/documentation pushes advanced origin/main through 20be8db, b301caa, and 7b2b1e8. The final verification after that delivery confirmed branch main, local and remote hashes equal, 0 ahead/behind, and a clean working tree.
+The first fresh fetch found origin/main at 13461f7, with five local implementation commits ahead and no remote-only commits. A normal non-forced push advanced the remote to a07c1f6. Later status/documentation pushes advanced origin/main through 20be8db, b301caa, and 7b2b1e8. The latest resource/audit update f33ae6d was also pushed; its post-push fetch confirmed branch main, local and remote hashes equal, 0 ahead/behind, and a clean working tree.
 
 ## Known issues and blockers
 
@@ -61,7 +62,7 @@ The first fresh fetch found origin/main at 13461f7, with five local implementati
 - Kaggle CLI and authorized local credentials were unavailable; dataset network access was not tested.
 - No real-data figures or statistics have been generated.
 - The initial unprivileged GitHub probe was denied. An authorized elevated fetch and push later succeeded.
-- System drive free space was 857,010,176 bytes at final audit; the decrease from the initial reading was not attributed to project artifacts.
+- System drive readings fluctuated during execution; the latest post-push reading was 10,833,227,776 bytes free.
 
 ## Mission 02 readiness
 
