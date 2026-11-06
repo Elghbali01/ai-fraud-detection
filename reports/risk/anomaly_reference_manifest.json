@@ -1,0 +1,27 @@
+{
+  "reference_version": "anomaly-reference-v1",
+  "source_partition": "training",
+  "label_filter": "Class == 0 known-legitimate training rows",
+  "reference_rows": 198980,
+  "score_direction": "higher = more anomalous",
+  "score_is_probability": false,
+  "percentile_method": "empirical midrank among sorted reference scores",
+  "category_policy": {
+    "typical": "percentile < 0.95",
+    "unusual": "0.95 <= percentile < 0.99",
+    "highly_unusual": "percentile >= 0.99"
+  },
+  "score_quantiles": {
+    "p50": 0.38606932651962383,
+    "p95": 0.47684900502747496,
+    "p99": 0.5741356772769544
+  },
+  "dataset_sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+  "split_manifest_id": "3547d288e55133319d9ab6c50b2f3224322b942c6a35e9ef257dbaaaedd22330",
+  "model_version": "mission02-anomaly:m02-20261106T185430319319Z-logistic_balanced_c1-3547d288",
+  "scikit_learn_version": "1.9.1",
+  "artifact_path": "../../data/models/mission03-anomaly-reference-v1.npz",
+  "artifact_sha256": "565f38835e56ffd22a6e0adaf919638f3000589170ae1ceadd661a975a62593e",
+  "artifact_size_bytes": 1109326,
+  "artifact_format": "NumPy compressed archive; sorted anomaly scores only"
+}

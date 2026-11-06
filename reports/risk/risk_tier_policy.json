@@ -1,0 +1,12 @@
+{
+  "policy_version": "risk-tier-policy-v1",
+  "low_upper_exclusive": 0.000684135684401594,
+  "decision_threshold": 0.1835921396957453,
+  "critical_lower_inclusive": 0.9082513380124138,
+  "validation_quantile_low": 0.95,
+  "validation_quantile_critical": 0.75,
+  "validation_rows": 42722,
+  "validation_flagged_rows": 52,
+  "source_partition": "validation",
+  "policy_semantics": "operational triage; not independently calibrated"
+}

@@ -1,0 +1,9 @@
+{
+  "output_space": "raw_log_odds",
+  "partition": "validation",
+  "rows": 42722,
+  "tolerance": 1e-07,
+  "passed": true,
+  "maximum_absolute_error": 3.197442310920451e-14,
+  "mean_absolute_error": 4.24131078608264e-16
+}

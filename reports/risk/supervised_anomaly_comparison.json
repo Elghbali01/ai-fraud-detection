@@ -1,0 +1,82 @@
+{
+  "partition": "validation",
+  "rows": 42722,
+  "fraud_labels": 56,
+  "spearman_correlation": 0.07542147600450862,
+  "supervised_high_boundary": 0.1835921396957453,
+  "anomaly_high_boundary_percentile": 0.95,
+  "alert_budgets": [
+    {
+      "budget_percentage": 0.1,
+      "k": 43,
+      "supervised_fraud_captured": 40,
+      "supervised_precision_at_k": 0.9302325581395349,
+      "supervised_recall_at_k": 0.7142857142857143,
+      "anomaly_fraud_captured": 0,
+      "anomaly_precision_at_k": 0.0,
+      "anomaly_recall_at_k": 0.0,
+      "overlap_count": 2,
+      "overlap_fraction_of_k": 0.046511627906976744,
+      "jaccard": 0.023809523809523808,
+      "fraud_captured_in_overlap": 0,
+      "fraud_fraction_of_overlap": 0.0
+    },
+    {
+      "budget_percentage": 0.5,
+      "k": 214,
+      "supervised_fraud_captured": 51,
+      "supervised_precision_at_k": 0.2383177570093458,
+      "supervised_recall_at_k": 0.9107142857142857,
+      "anomaly_fraud_captured": 2,
+      "anomaly_precision_at_k": 0.009345794392523364,
+      "anomaly_recall_at_k": 0.03571428571428571,
+      "overlap_count": 34,
+      "overlap_fraction_of_k": 0.1588785046728972,
+      "jaccard": 0.08629441624365482,
+      "fraud_captured_in_overlap": 2,
+      "fraud_fraction_of_overlap": 0.058823529411764705
+    },
+    {
+      "budget_percentage": 1.0,
+      "k": 428,
+      "supervised_fraud_captured": 51,
+      "supervised_precision_at_k": 0.1191588785046729,
+      "supervised_recall_at_k": 0.9107142857142857,
+      "anomaly_fraud_captured": 13,
+      "anomaly_precision_at_k": 0.030373831775700934,
+      "anomaly_recall_at_k": 0.23214285714285715,
+      "overlap_count": 85,
+      "overlap_fraction_of_k": 0.1985981308411215,
+      "jaccard": 0.11024643320363164,
+      "fraud_captured_in_overlap": 13,
+      "fraud_fraction_of_overlap": 0.15294117647058825
+    }
+  ],
+  "quadrants": [
+    {
+      "quadrant": "high_supervised_high_anomaly",
+      "rows": 52,
+      "fraud_labels": 44,
+      "fraud_prevalence": 0.8461538461538461
+    },
+    {
+      "quadrant": "high_supervised_low_anomaly",
+      "rows": 0,
+      "fraud_labels": 0,
+      "fraud_prevalence": null
+    },
+    {
+      "quadrant": "low_supervised_high_anomaly",
+      "rows": 2896,
+      "fraud_labels": 6,
+      "fraud_prevalence": 0.0020718232044198894
+    },
+    {
+      "quadrant": "low_supervised_low_anomaly",
+      "rows": 39774,
+      "fraud_labels": 6,
+      "fraud_prevalence": 0.0001508523155830442
+    }
+  ],
+  "interpretation": "The signals describe different targets and are reported side by side; no blended fraud score is defined."
+}

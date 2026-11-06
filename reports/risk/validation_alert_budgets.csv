@@ -1,0 +1,7 @@
+budget_type,budget_value,name,k,alerts,fraud_captured,false_alerts,precision_at_k,recall_at_k,fraud_prevalence_in_alerts,validation_rows,validation_fraud_count,tie_break
+count,10.0,top_10,10,10,10,0,1.0,0.17857142857142858,1.0,42722,56,stable source/input row order
+count,50.0,top_50,50,50,43,7,0.86,0.7678571428571429,0.86,42722,56,stable source/input row order
+count,100.0,top_100,100,100,48,52,0.48,0.8571428571428571,0.48,42722,56,stable source/input row order
+percentage,0.1,top_0.1_percent,43,43,40,3,0.9302325581395349,0.7142857142857143,0.9302325581395349,42722,56,stable source/input row order
+percentage,0.5,top_0.5_percent,214,214,51,163,0.2383177570093458,0.9107142857142857,0.2383177570093458,42722,56,stable source/input row order
+percentage,1.0,top_1_percent,428,428,51,377,0.1191588785046729,0.9107142857142857,0.1191588785046729,42722,56,stable source/input row order

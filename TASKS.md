@@ -32,8 +32,19 @@ The final-test period was scored in two deterministic runs to correct missing Is
 
 ## Mission 03 — Explainable AI and risk intelligence
 
-- [ ] Add SHAP explanations with PCA and dataset limitations.
-- [ ] Define risk-score meaning, calibration, and analyst prioritization.
+- [x] Preserve the frozen Mission 02 classifier, calibration mapping, threshold, and consumed-test boundary.
+- [x] Implement exact StandardScaler + LogisticRegression raw-log-odds contributions and numerical reconstruction checks.
+- [x] Implement deterministic training-only SHAP background, global/local raw-log-odds explanations, and additivity checks.
+- [x] Generate global importance, coefficient comparison, beeswarm, local waterfall, and validation risk/anomaly figures.
+- [x] Implement neutral explanation narratives and versioned bounded single/batch intelligence services.
+- [x] Implement probability display score, validation-only risk tiers, stable TopK/percentage ranking, and capacity diagnostics.
+- [x] Reuse Isolation Forest with a known-legitimate training reference; keep anomaly percentile separate from fraud probability.
+- [x] Implement validation-only supervised/anomaly correlation, overlap, Jaccard, capture, and quadrant diagnostics.
+- [x] Generate machine-readable reports, risk policies, and notebooks 10–14 from the verified development partitions.
+- [x] Add synthetic tests and an opt-in real-artifact integration test that does not load final-test rows.
+- [x] Document explainability semantics, risk policy, anomaly meaning, limitations, and Mission 04 interfaces.
+- [x] Run full isolated validation, execute all 14 notebooks, and verify opt-in Mission 03 real-data integration.
+- [x] Review, commit, and push validated Mission 03 changes; verify origin/main synchronization.
 
 ## Mission 04 — FastAPI backend
 

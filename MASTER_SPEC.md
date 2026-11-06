@@ -16,6 +16,7 @@ Build a local-first financial fraud analysis platform that helps analysts inspec
 
 - Train supervised fraud classifiers with leakage-safe evaluation and threshold analysis.
 - Produce separately identified anomaly scores, calibrated or otherwise documented risk estimates, and SHAP-based explanations.
+- Mission 03 specifically adds exact raw-log-odds contributions, raw-output SHAP, validation-derived risk tiers, stable budget ranking, separate anomaly intelligence, reports, notebooks, and versioned Python contracts without retraining the frozen Mission 02 classifier.
 - Provide versioned FastAPI interfaces and a Next.js analyst interface.
 - Compare models and allow useful outputs to be exported.
 
@@ -32,6 +33,8 @@ Build a local-first financial fraud analysis platform that helps analysts inspec
 - Historical labels, predictions, risk scores, anomaly scores, and explanations are distinct.
 - Predictions and anomalies never constitute proof of fraud.
 - Associations do not establish causality; PCA features are not business concepts.
+- Linear and SHAP explanations describe raw logistic log-odds; neither is presented as additive to the post-fit calibrated probability.
+- The Mission 02 final test is consumed; Mission 03 only parses training and validation observations, and no new independent test performance is claimed.
 - Do not fit learned preprocessing on complete data before splitting.
 - Do not use a future test partition for model or threshold selection.
 - Never fabricate dataset statistics, model performance, test outcomes, or data provenance.
@@ -42,6 +45,7 @@ Build a local-first financial fraud analysis platform that helps analysts inspec
 - Reusable data and analytics logic belongs in src/fraud_detection.
 - Notebooks and scripts orchestrate package functions and do not duplicate business logic.
 - Training and evaluation code belongs to Mission 02 modules; explainability belongs to Mission 03.
+- Mission 03 services load trusted Mission 02 artifacts and keep calibrated risk, review tiers, explanations, and anomaly scores separate.
 - FastAPI schemas and services belong to backend in Mission 04.
 - The frontend communicates through documented API contracts in Mission 05.
 - Model binaries and raw datasets are not checked into Git.

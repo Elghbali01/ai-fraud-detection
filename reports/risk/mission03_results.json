@@ -1,0 +1,2080 @@
+{
+  "mission": "Mission 03",
+  "report_version": "mission03-results-v1",
+  "data_scope": "frozen training and validation partitions only; final-test partition not loaded",
+  "dataset_sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+  "split_manifest_id": "3547d288e55133319d9ab6c50b2f3224322b942c6a35e9ef257dbaaaedd22330",
+  "partitions": {
+    "training_rows": 199364,
+    "training_fraud_labels": 384,
+    "validation_rows": 42722,
+    "validation_fraud_labels": 56,
+    "final_test_rows_loaded": 0,
+    "final_test_labels_loaded": 0
+  },
+  "environment": {
+    "python": ".venv-isolated runtime",
+    "shap_version": "0.51.0",
+    "numpy_version": "2.3.5"
+  },
+  "model": {
+    "model_version": "mission02:m02-20261106T185430319319Z-logistic_balanced_c1-3547d288",
+    "classifier_sha256": "87f0e2f492fbed062e38b366a2d98e2a98a655f7e1c81657cd6986c1874fa088",
+    "anomaly_model_version": "mission02-anomaly:m02-20261106T185430319319Z-logistic_balanced_c1-3547d288",
+    "anomaly_sha256": "e5c071d8e39a013f1ebacac600109633b15bc97fc43f64d085662399b5dc6d60",
+    "threshold": 0.1835921396957453,
+    "threshold_source": "frozen Mission 02 artifact manifest",
+    "calibration": "training-only out-of-fold sigmoid mapping persisted in ModelBundle"
+  },
+  "linear_explainability": {
+    "output_space": "raw_log_odds",
+    "attribution_space": "StandardScaler-transformed feature space",
+    "validation_maximum_absolute_reconstruction_error": 2.842170943040401e-14,
+    "maximum_raw_sigmoid_probability_error": 0.0,
+    "calibrated_probability_additivity_claimed": false
+  },
+  "shap": {
+    "partition": "training",
+    "label_filter": "none; natural training prevalence",
+    "sample_method": "uniform row sample without replacement",
+    "sample_size": 512,
+    "random_state": 17,
+    "feature_columns": [
+      "Time",
+      "V1",
+      "V2",
+      "V3",
+      "V4",
+      "V5",
+      "V6",
+      "V7",
+      "V8",
+      "V9",
+      "V10",
+      "V11",
+      "V12",
+      "V13",
+      "V14",
+      "V15",
+      "V16",
+      "V17",
+      "V18",
+      "V19",
+      "V20",
+      "V21",
+      "V22",
+      "V23",
+      "V24",
+      "V25",
+      "V26",
+      "V27",
+      "V28",
+      "Amount"
+    ],
+    "dataset_sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+    "split_manifest_id": "3547d288e55133319d9ab6c50b2f3224322b942c6a35e9ef257dbaaaedd22330",
+    "background_sha256": "25b6bd3cb932f457d14961b2944b4e35ae22cfc89bf9c0a819c702314da73c48",
+    "feature_space": "StandardScaler-transformed model input",
+    "output_space": "raw_log_odds",
+    "explainer": "SHAP LinearExplainer with Independent interventional masker",
+    "shap_version": "0.51.0",
+    "background_transformed_sha256": "dc87d84ce72e9b7d773bbab8200a93275fe416239d666e0a8049e37a222f8d64",
+    "validation_rows_explained": 42722,
+    "validation_additivity": {
+      "passed": true,
+      "tolerance": 1e-07,
+      "maximum_absolute_error": 3.197442310920451e-14,
+      "mean_absolute_error": 4.24131078608264e-16,
+      "rows": 42722
+    },
+    "training_stability_sample_rows": 5000,
+    "training_stability_sample_seed": 17,
+    "validation_beeswarm_sample_rows": 5000,
+    "validation_beeswarm_seed": 17,
+    "global_top_10_features": [
+      "V4",
+      "Amount",
+      "V1",
+      "V14",
+      "V6",
+      "V2",
+      "V12",
+      "V22",
+      "Time",
+      "V10"
+    ],
+    "additivity_tolerance": 1e-07
+  },
+  "global_attributions": {
+    "stability": {
+      "training_sample_rows": 5000,
+      "validation_rows": 42722,
+      "spearman_rank_correlation": 0.9479421579532814,
+      "training_top_10": [
+        "V4",
+        "Amount",
+        "V12",
+        "V14",
+        "V1",
+        "V6",
+        "V2",
+        "V10",
+        "V22",
+        "V5"
+      ],
+      "validation_top_10": [
+        "V4",
+        "Amount",
+        "V1",
+        "V14",
+        "V6",
+        "V2",
+        "V12",
+        "V22",
+        "Time",
+        "V10"
+      ],
+      "mean_absolute_rank_difference": 1.5333333333333334,
+      "interpretation": "Descriptive attribution-rank stability only; it is not a causal or performance test."
+    },
+    "top_features": [
+      {
+        "feature": "V4",
+        "coefficient": 1.145355014098567,
+        "absolute_coefficient": 1.145355014098567,
+        "mean_abs_shap_log_odds": 0.9028423683766864,
+        "mean_shap_log_odds": -0.24730773953098656,
+        "positive_shap_fraction": 0.38961190955479613,
+        "mean_abs_shap_legitimate": 0.9002184539324875,
+        "mean_abs_shap_fraud": 2.901984041165878,
+        "mean_shap_fraud_minus_legitimate": 3.142185225738424,
+        "mean_abs_exact_linear_contribution": 0.8923443526728713
+      },
+      {
+        "feature": "Amount",
+        "coefficient": 1.8851551584319004,
+        "absolute_coefficient": 1.8851551584319004,
+        "mean_abs_shap_log_odds": 0.8378806005978596,
+        "mean_shap_log_odds": 0.04960507084200286,
+        "positive_shap_fraction": 0.23702073872946022,
+        "mean_abs_shap_legitimate": 0.8372680478969443,
+        "mean_abs_shap_fraud": 1.3045801280487936,
+        "mean_shap_fraud_minus_legitimate": 0.39766413649789245,
+        "mean_abs_exact_linear_contribution": 0.8331191325778886
+      },
+      {
+        "feature": "V1",
+        "coefficient": 0.975387641163991,
+        "absolute_coefficient": 0.975387641163991,
+        "mean_abs_shap_log_odds": 0.8255383085946206,
+        "mean_shap_log_odds": 0.14681014944120171,
+        "positive_shap_fraction": 0.555732409531389,
+        "mean_abs_shap_legitimate": 0.8252925624642794,
+        "mean_abs_shap_fraud": 1.0127705299721221,
+        "mean_shap_fraud_minus_legitimate": -0.764455641214214,
+        "mean_abs_exact_linear_contribution": 0.8277170609371255
+      },
+      {
+        "feature": "V14",
+        "coefficient": -1.0710274753088453,
+        "absolute_coefficient": 1.0710274753088453,
+        "mean_abs_shap_log_odds": 0.732885426089345,
+        "mean_shap_log_odds": 0.13519735672053865,
+        "positive_shap_fraction": 0.5131080005617714,
+        "mean_abs_shap_legitimate": 0.7252057875119703,
+        "mean_abs_shap_fraud": 6.583947203629939,
+        "mean_shap_fraud_minus_legitimate": 6.411262842461927,
+        "mean_abs_exact_linear_contribution": 0.7343155125598919
+      },
+      {
+        "feature": "V6",
+        "coefficient": -0.7997558673397634,
+        "absolute_coefficient": 0.7997558673397634,
+        "mean_abs_shap_log_odds": 0.6024945851514477,
+        "mean_shap_log_odds": 0.07850346626970357,
+        "positive_shap_fraction": 0.6672206357380273,
+        "mean_abs_shap_legitimate": 0.6021223367273264,
+        "mean_abs_shap_fraud": 0.8861080005721611,
+        "mean_shap_fraud_minus_legitimate": 0.5739877896737859,
+        "mean_abs_exact_linear_contribution": 0.6035878625750006
+      },
+      {
+        "feature": "V2",
+        "coefficient": 0.8906248600465595,
+        "absolute_coefficient": 0.8906248600465595,
+        "mean_abs_shap_log_odds": 0.574701737463793,
+        "mean_shap_log_odds": -0.04638484240415607,
+        "positive_shap_fraction": 0.5070455503019522,
+        "mean_abs_shap_legitimate": 0.5739545393505618,
+        "mean_abs_shap_fraud": 1.1439866428052252,
+        "mean_shap_fraud_minus_legitimate": 0.8490384872795673,
+        "mean_abs_exact_linear_contribution": 0.5748796987376583
+      },
+      {
+        "feature": "V12",
+        "coefficient": -1.0395571088783604,
+        "absolute_coefficient": 1.0395571088783604,
+        "mean_abs_shap_log_odds": 0.5406078860043689,
+        "mean_shap_log_odds": -0.12731312696226577,
+        "positive_shap_fraction": 0.4082205889237395,
+        "mean_abs_shap_legitimate": 0.5367928386990835,
+        "mean_abs_shap_fraud": 3.4472651775634895,
+        "mean_shap_fraud_minus_legitimate": 3.5391404815856897,
+        "mean_abs_exact_linear_contribution": 0.5558906713050092
+      },
+      {
+        "feature": "V22",
+        "coefficient": 0.5424674748797844,
+        "absolute_coefficient": 0.5424674748797844,
+        "mean_abs_shap_log_odds": 0.5387521979872517,
+        "mean_shap_log_odds": 0.15360815949030737,
+        "positive_shap_fraction": 0.6022424043818173,
+        "mean_abs_shap_legitimate": 0.5387044381978181,
+        "mean_abs_shap_fraud": 0.5751400404153932,
+        "mean_shap_fraud_minus_legitimate": 0.09477716115220075,
+        "mean_abs_exact_linear_contribution": 0.5371312602437804
+      },
+      {
+        "feature": "Time",
+        "coefficient": -0.24775660373129044,
+        "absolute_coefficient": 0.24775660373129044,
+        "mean_abs_shap_log_odds": 0.5357257948282514,
+        "mean_shap_log_odds": -0.5357257948282514,
+        "positive_shap_fraction": 0.0,
+        "mean_abs_shap_legitimate": 0.5357162008081596,
+        "mean_abs_shap_fraud": 0.5430354102075227,
+        "mean_shap_fraud_minus_legitimate": -0.007319209399363036,
+        "mean_abs_exact_linear_contribution": 0.5154832130178904
+      },
+      {
+        "feature": "V10",
+        "coefficient": -0.7399541056316562,
+        "absolute_coefficient": 0.7399541056316562,
+        "mean_abs_shap_log_odds": 0.4965857637529899,
+        "mean_shap_log_odds": -0.06074053734149541,
+        "positive_shap_fraction": 0.4912925424839661,
+        "mean_abs_shap_legitimate": 0.4941817461355446,
+        "mean_abs_shap_fraud": 2.328189614930109,
+        "mean_shap_fraud_minus_legitimate": 2.251937981194453,
+        "mean_abs_exact_linear_contribution": 0.4966495797133706
+      }
+    ],
+    "summary_csv": "reports/explainability/global_shap_feature_summary.csv"
+  },
+  "local_examples": [
+    {
+      "contract_version": "mission03-intelligence-v1",
+      "model_version": "mission02:m02-20261106T185430319319Z-logistic_balanced_c1-3547d288",
+      "schema_version": "ulb-credit-card-v1",
+      "transaction_id": 199896,
+      "fraud_probability": 0.9082513380124138,
+      "raw_estimator_probability": 0.9999999598517929,
+      "raw_decision_score": 17.030688011636574,
+      "risk_score": 90.82513380124138,
+      "decision_threshold": 0.1835921396957453,
+      "predicted_class": 1,
+      "decision_status": "flagged_for_review",
+      "probability_calibration_status": "sigmoid mapping fitted on training-only cross-fitted scores; validation Brier improved=True, log_loss improved=True",
+      "explanation": {
+        "method": "shap_interventional_log_odds",
+        "output_space": "raw_log_odds",
+        "base_value": -3.496393253439458,
+        "linear_intercept": -3.557846610773832,
+        "baseline_semantics": "Expected raw model log-odds over the deterministic training-only SHAP background.",
+        "feature_contributions": [
+          {
+            "feature": "Amount",
+            "transformed_feature_value": 5.002706726024128,
+            "coefficient": 1.8851551584319004,
+            "contribution": 9.421787901346734,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V14",
+            "transformed_feature_value": -4.991067093306837,
+            "coefficient": -1.0710274753088453,
+            "contribution": 5.311056734616965,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V4",
+            "transformed_feature_value": 2.5693304029552957,
+            "coefficient": 1.145355014098567,
+            "contribution": 2.890873026665321,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V12",
+            "transformed_feature_value": -2.5359183647066383,
+            "coefficient": -1.0395571088783604,
+            "contribution": 2.704897015493131,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V20",
+            "transformed_feature_value": 3.855357984511781,
+            "coefficient": -0.6826335257629008,
+            "contribution": -2.64416312389288,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V10",
+            "transformed_feature_value": -3.412129939159123,
+            "coefficient": -0.7399541056316562,
+            "contribution": 2.5013783348592784,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V3",
+            "transformed_feature_value": -4.64099466345665,
+            "coefficient": 0.43474148303598253,
+            "contribution": -2.0688744184981616,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V16",
+            "transformed_feature_value": -3.0333170429500234,
+            "coefficient": -0.5755015570789833,
+            "contribution": 1.7422899121888498,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V17",
+            "transformed_feature_value": -3.5853627848367107,
+            "coefficient": -0.44821095788138576,
+            "contribution": 1.595977131669557,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V2",
+            "transformed_feature_value": -1.534475809282237,
+            "coefficient": 0.8906248600465595,
+            "contribution": -1.3414301875931776,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V6",
+            "transformed_feature_value": -1.4506691647557626,
+            "coefficient": -0.7997558673397634,
+            "contribution": 1.1569272431191482,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V9",
+            "transformed_feature_value": -1.5075632480556627,
+            "coefficient": -0.39873943895104835,
+            "contribution": 0.59527899925263,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V1",
+            "transformed_feature_value": -0.5855355151627517,
+            "coefficient": 0.975387641163991,
+            "contribution": -0.5893647980251837,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V11",
+            "transformed_feature_value": 1.548608826068599,
+            "coefficient": 0.30124110594077136,
+            "contribution": 0.47624156658416966,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V7",
+            "transformed_feature_value": 0.8770627248469635,
+            "coefficient": -0.570022056103813,
+            "contribution": -0.4736974813346726,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "Time",
+            "transformed_feature_value": 1.8183857279693516,
+            "coefficient": -0.24775660373129044,
+            "contribution": -0.47075965404549786,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V23",
+            "transformed_feature_value": -2.418919097835262,
+            "coefficient": 0.16200778670217478,
+            "contribution": -0.3856299897405789,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V5",
+            "transformed_feature_value": -0.551752849631076,
+            "coefficient": 0.676453246451441,
+            "contribution": -0.37153081680433153,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V13",
+            "transformed_feature_value": 0.7060766531867643,
+            "coefficient": -0.43449533742446406,
+            "contribution": -0.2917703400010875,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V8",
+            "transformed_feature_value": -0.4644194895718072,
+            "coefficient": -0.47351516551407774,
+            "contribution": 0.2341032390491096,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V28",
+            "transformed_feature_value": 1.3674954980890583,
+            "coefficient": 0.1408885354298987,
+            "contribution": 0.20006849593155704,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V18",
+            "transformed_feature_value": -1.228886420236665,
+            "coefficient": -0.0993335642218203,
+            "contribution": 0.12577166709898258,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V24",
+            "transformed_feature_value": -0.3454573935554353,
+            "coefficient": -0.35396913262160684,
+            "contribution": 0.12199969692083545,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V22",
+            "transformed_feature_value": 0.2024986849316725,
+            "coefficient": 0.5424674748797844,
+            "contribution": 0.11791601897107575,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V19",
+            "transformed_feature_value": -0.6662202836266446,
+            "coefficient": 0.14083334051199026,
+            "contribution": -0.0902584790751976,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V25",
+            "transformed_feature_value": 0.9602046861872032,
+            "coefficient": 0.09190195539622023,
+            "contribution": 0.0848908545191028,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V27",
+            "transformed_feature_value": 0.5356566516146899,
+            "coefficient": -0.08056506885658725,
+            "contribution": -0.044016516338512016,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V21",
+            "transformed_feature_value": 1.912192408030804,
+            "coefficient": 0.017099981629977206,
+            "contribution": 0.03293884471884411,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V26",
+            "transformed_feature_value": -0.6145064064242453,
+            "coefficient": 0.02730441624649674,
+            "contribution": -0.019084136863977152,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V15",
+            "transformed_feature_value": -0.1011200000635713,
+            "coefficient": -0.03320469449926582,
+            "contribution": 0.003264524283998516,
+            "direction": "increases_raw_log_odds"
+          }
+        ],
+        "top_positive_features": [
+          {
+            "feature": "Amount",
+            "transformed_feature_value": 5.002706726024128,
+            "coefficient": 1.8851551584319004,
+            "contribution": 9.421787901346734,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V14",
+            "transformed_feature_value": -4.991067093306837,
+            "coefficient": -1.0710274753088453,
+            "contribution": 5.311056734616965,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V4",
+            "transformed_feature_value": 2.5693304029552957,
+            "coefficient": 1.145355014098567,
+            "contribution": 2.890873026665321,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V12",
+            "transformed_feature_value": -2.5359183647066383,
+            "coefficient": -1.0395571088783604,
+            "contribution": 2.704897015493131,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V10",
+            "transformed_feature_value": -3.412129939159123,
+            "coefficient": -0.7399541056316562,
+            "contribution": 2.5013783348592784,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V16",
+            "transformed_feature_value": -3.0333170429500234,
+            "coefficient": -0.5755015570789833,
+            "contribution": 1.7422899121888498,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V17",
+            "transformed_feature_value": -3.5853627848367107,
+            "coefficient": -0.44821095788138576,
+            "contribution": 1.595977131669557,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V6",
+            "transformed_feature_value": -1.4506691647557626,
+            "coefficient": -0.7997558673397634,
+            "contribution": 1.1569272431191482,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V9",
+            "transformed_feature_value": -1.5075632480556627,
+            "coefficient": -0.39873943895104835,
+            "contribution": 0.59527899925263,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V11",
+            "transformed_feature_value": 1.548608826068599,
+            "coefficient": 0.30124110594077136,
+            "contribution": 0.47624156658416966,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V8",
+            "transformed_feature_value": -0.4644194895718072,
+            "coefficient": -0.47351516551407774,
+            "contribution": 0.2341032390491096,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V28",
+            "transformed_feature_value": 1.3674954980890583,
+            "coefficient": 0.1408885354298987,
+            "contribution": 0.20006849593155704,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V18",
+            "transformed_feature_value": -1.228886420236665,
+            "coefficient": -0.0993335642218203,
+            "contribution": 0.12577166709898258,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V24",
+            "transformed_feature_value": -0.3454573935554353,
+            "coefficient": -0.35396913262160684,
+            "contribution": 0.12199969692083545,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V22",
+            "transformed_feature_value": 0.2024986849316725,
+            "coefficient": 0.5424674748797844,
+            "contribution": 0.11791601897107575,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V25",
+            "transformed_feature_value": 0.9602046861872032,
+            "coefficient": 0.09190195539622023,
+            "contribution": 0.0848908545191028,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V21",
+            "transformed_feature_value": 1.912192408030804,
+            "coefficient": 0.017099981629977206,
+            "contribution": 0.03293884471884411,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V15",
+            "transformed_feature_value": -0.1011200000635713,
+            "coefficient": -0.03320469449926582,
+            "contribution": 0.003264524283998516,
+            "direction": "increases_raw_log_odds"
+          }
+        ],
+        "top_negative_features": [
+          {
+            "feature": "V20",
+            "transformed_feature_value": 3.855357984511781,
+            "coefficient": -0.6826335257629008,
+            "contribution": -2.64416312389288,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V3",
+            "transformed_feature_value": -4.64099466345665,
+            "coefficient": 0.43474148303598253,
+            "contribution": -2.0688744184981616,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V2",
+            "transformed_feature_value": -1.534475809282237,
+            "coefficient": 0.8906248600465595,
+            "contribution": -1.3414301875931776,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V1",
+            "transformed_feature_value": -0.5855355151627517,
+            "coefficient": 0.975387641163991,
+            "contribution": -0.5893647980251837,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V7",
+            "transformed_feature_value": 0.8770627248469635,
+            "coefficient": -0.570022056103813,
+            "contribution": -0.4736974813346726,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "Time",
+            "transformed_feature_value": 1.8183857279693516,
+            "coefficient": -0.24775660373129044,
+            "contribution": -0.47075965404549786,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V23",
+            "transformed_feature_value": -2.418919097835262,
+            "coefficient": 0.16200778670217478,
+            "contribution": -0.3856299897405789,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V5",
+            "transformed_feature_value": -0.551752849631076,
+            "coefficient": 0.676453246451441,
+            "contribution": -0.37153081680433153,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V13",
+            "transformed_feature_value": 0.7060766531867643,
+            "coefficient": -0.43449533742446406,
+            "contribution": -0.2917703400010875,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V19",
+            "transformed_feature_value": -0.6662202836266446,
+            "coefficient": 0.14083334051199026,
+            "contribution": -0.0902584790751976,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V27",
+            "transformed_feature_value": 0.5356566516146899,
+            "coefficient": -0.08056506885658725,
+            "contribution": -0.044016516338512016,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V26",
+            "transformed_feature_value": -0.6145064064242453,
+            "coefficient": 0.02730441624649674,
+            "contribution": -0.019084136863977152,
+            "direction": "decreases_raw_log_odds"
+          }
+        ],
+        "feature_count": 30,
+        "all_contributions_returned": true,
+        "reconstruction_error": 3.552713678800501e-15,
+        "sigmoid_probability_error": 0.0,
+        "calibrated_probability_additivity_claim": false,
+        "background": {
+          "partition": "training",
+          "label_filter": "none; natural training prevalence",
+          "sample_method": "uniform row sample without replacement",
+          "sample_size": 512,
+          "random_state": 17,
+          "feature_columns": [
+            "Time",
+            "V1",
+            "V2",
+            "V3",
+            "V4",
+            "V5",
+            "V6",
+            "V7",
+            "V8",
+            "V9",
+            "V10",
+            "V11",
+            "V12",
+            "V13",
+            "V14",
+            "V15",
+            "V16",
+            "V17",
+            "V18",
+            "V19",
+            "V20",
+            "V21",
+            "V22",
+            "V23",
+            "V24",
+            "V25",
+            "V26",
+            "V27",
+            "V28",
+            "Amount"
+          ],
+          "dataset_sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+          "split_manifest_id": "3547d288e55133319d9ab6c50b2f3224322b942c6a35e9ef257dbaaaedd22330",
+          "background_sha256": "25b6bd3cb932f457d14961b2944b4e35ae22cfc89bf9c0a819c702314da73c48",
+          "feature_space": "StandardScaler-transformed model input",
+          "output_space": "raw_log_odds",
+          "explainer": "SHAP LinearExplainer with Independent interventional masker",
+          "shap_version": "0.51.0"
+        }
+      },
+      "selection_rule": "highest_validation_probability",
+      "partition": "validation",
+      "validation_label_for_descriptive_analysis": 1,
+      "anomaly": {
+        "score": 0.5938397979340254,
+        "percentile": 0.9930495527188662,
+        "category": "Highly unusual",
+        "score_direction": "higher = more anomalous",
+        "score_is_probability": false
+      },
+      "narrative": [
+        "The estimated fraud-risk probability is 90.8251%, above the stored 18.3592% review threshold; the transaction is flagged for analyst review.",
+        "The strongest positive raw-score contributions are from anonymized model features Amount, V14, V4.",
+        "The strongest negative raw-score contributions are from anonymized model features V20, V3, V2.",
+        "These contributions describe the fitted model's statistical behavior; they do not establish a cause or prove fraud.",
+        "The separate Isolation Forest ranks this observation at approximately the 99.3% anomaly percentile (Highly unusual); this is not a fraud probability."
+      ]
+    },
+    {
+      "contract_version": "mission03-intelligence-v1",
+      "model_version": "mission02:m02-20261106T185430319319Z-logistic_balanced_c1-3547d288",
+      "schema_version": "ulb-credit-card-v1",
+      "transaction_id": 215953,
+      "fraud_probability": 0.1835921396957453,
+      "raw_estimator_probability": 0.9999172329715791,
+      "raw_decision_score": 9.399398012900377,
+      "risk_score": 18.35921396957453,
+      "decision_threshold": 0.1835921396957453,
+      "predicted_class": 1,
+      "decision_status": "flagged_for_review",
+      "probability_calibration_status": "sigmoid mapping fitted on training-only cross-fitted scores; validation Brier improved=True, log_loss improved=True",
+      "explanation": {
+        "method": "shap_interventional_log_odds",
+        "output_space": "raw_log_odds",
+        "base_value": -3.496393253439458,
+        "linear_intercept": -3.557846610773832,
+        "baseline_semantics": "Expected raw model log-odds over the deterministic training-only SHAP background.",
+        "feature_contributions": [
+          {
+            "feature": "V14",
+            "transformed_feature_value": -7.713294934377646,
+            "coefficient": -1.0710274753088453,
+            "contribution": 8.226637546454482,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V4",
+            "transformed_feature_value": 3.2567455128477336,
+            "coefficient": 1.145355014098567,
+            "contribution": 3.678207369547742,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V17",
+            "transformed_feature_value": 6.330458693485319,
+            "coefficient": -0.44821095788138576,
+            "contribution": -2.8484027113099786,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V16",
+            "transformed_feature_value": 3.5506973211148036,
+            "coefficient": -0.5755015570789833,
+            "contribution": -2.0468206061608503,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V2",
+            "transformed_feature_value": 2.003464156880165,
+            "coefficient": 0.8906248600465595,
+            "contribution": 1.8095470996233411,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V3",
+            "transformed_feature_value": -3.7027874085716266,
+            "coefficient": 0.43474148303598253,
+            "contribution": -1.6609968051143287,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V5",
+            "transformed_feature_value": 2.2964232509941196,
+            "coefficient": 0.676453246451441,
+            "contribution": 1.555127152928988,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V12",
+            "transformed_feature_value": -1.273196154057862,
+            "coefficient": -1.0395571088783604,
+            "contribution": 1.392225164874597,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V10",
+            "transformed_feature_value": -1.22295431073565,
+            "coefficient": -0.7399541056316562,
+            "contribution": 0.8814888406585688,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V6",
+            "transformed_feature_value": -1.0644875981128827,
+            "coefficient": -0.7997558673397634,
+            "contribution": 0.8480762693380433,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V11",
+            "transformed_feature_value": 2.454017950547965,
+            "coefficient": 0.30124110594077136,
+            "contribution": 0.7489880125711995,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V9",
+            "transformed_feature_value": -1.855944707388254,
+            "coefficient": -0.39873943895104835,
+            "contribution": 0.7341924268878549,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V8",
+            "transformed_feature_value": -1.518202522717039,
+            "coefficient": -0.47351516551407774,
+            "contribution": 0.733085486404801,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V24",
+            "transformed_feature_value": -1.97193132151734,
+            "coefficient": -0.35396913262160684,
+            "contribution": 0.6977212624331687,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "Amount",
+            "transformed_feature_value": -0.3575623211318092,
+            "coefficient": 1.8851551584319004,
+            "contribution": -0.6831509434821291,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V22",
+            "transformed_feature_value": -1.03082435731848,
+            "coefficient": 0.5424674748797844,
+            "contribution": -0.5511216174694182,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V1",
+            "transformed_feature_value": 0.5586542046836894,
+            "coefficient": 0.975387641163991,
+            "contribution": 0.5266637138599242,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "Time",
+            "transformed_feature_value": 2.024426369712064,
+            "coefficient": -0.24775660373129044,
+            "contribution": -0.5218075836742879,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V7",
+            "transformed_feature_value": 0.8468580124124266,
+            "coefficient": -0.570022056103813,
+            "contribution": -0.4564801290487135,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V18",
+            "transformed_feature_value": 4.55738998607737,
+            "coefficient": -0.0993335642218203,
+            "contribution": -0.4489997919128162,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V20",
+            "transformed_feature_value": -0.535643448350584,
+            "coefficient": -0.6826335257629008,
+            "contribution": 0.3532816658519056,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V13",
+            "transformed_feature_value": -0.7196924781139348,
+            "coefficient": -0.43449533742446406,
+            "contribution": 0.3277196997927947,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V19",
+            "transformed_feature_value": -2.3149809073130574,
+            "coefficient": 0.14083334051199026,
+            "contribution": -0.3224589454135876,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V25",
+            "transformed_feature_value": -2.7419858667121213,
+            "coefficient": 0.09190195539622023,
+            "contribution": -0.2553476965417588,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V23",
+            "transformed_feature_value": 0.6120489215161655,
+            "coefficient": 0.16200778670217478,
+            "contribution": 0.10541043063962034,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V28",
+            "transformed_feature_value": 0.3388954295584018,
+            "coefficient": 0.1408885354298987,
+            "contribution": 0.055150538733179405,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V27",
+            "transformed_feature_value": 0.426530558407765,
+            "coefficient": -0.08056506885658725,
+            "contribution": -0.03522476512524574,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V21",
+            "transformed_feature_value": 1.9225584095208057,
+            "coefficient": 0.017099981629977206,
+            "contribution": 0.033116103153899464,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V15",
+            "transformed_feature_value": -0.6833825754354936,
+            "coefficient": -0.03320469449926582,
+            "contribution": 0.022598375217578938,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V26",
+            "transformed_feature_value": -0.012045641955455818,
+            "coefficient": 0.02730441624649674,
+            "contribution": -0.002634297378738691,
+            "direction": "decreases_raw_log_odds"
+          }
+        ],
+        "top_positive_features": [
+          {
+            "feature": "V14",
+            "transformed_feature_value": -7.713294934377646,
+            "coefficient": -1.0710274753088453,
+            "contribution": 8.226637546454482,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V4",
+            "transformed_feature_value": 3.2567455128477336,
+            "coefficient": 1.145355014098567,
+            "contribution": 3.678207369547742,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V2",
+            "transformed_feature_value": 2.003464156880165,
+            "coefficient": 0.8906248600465595,
+            "contribution": 1.8095470996233411,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V5",
+            "transformed_feature_value": 2.2964232509941196,
+            "coefficient": 0.676453246451441,
+            "contribution": 1.555127152928988,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V12",
+            "transformed_feature_value": -1.273196154057862,
+            "coefficient": -1.0395571088783604,
+            "contribution": 1.392225164874597,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V10",
+            "transformed_feature_value": -1.22295431073565,
+            "coefficient": -0.7399541056316562,
+            "contribution": 0.8814888406585688,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V6",
+            "transformed_feature_value": -1.0644875981128827,
+            "coefficient": -0.7997558673397634,
+            "contribution": 0.8480762693380433,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V11",
+            "transformed_feature_value": 2.454017950547965,
+            "coefficient": 0.30124110594077136,
+            "contribution": 0.7489880125711995,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V9",
+            "transformed_feature_value": -1.855944707388254,
+            "coefficient": -0.39873943895104835,
+            "contribution": 0.7341924268878549,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V8",
+            "transformed_feature_value": -1.518202522717039,
+            "coefficient": -0.47351516551407774,
+            "contribution": 0.733085486404801,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V24",
+            "transformed_feature_value": -1.97193132151734,
+            "coefficient": -0.35396913262160684,
+            "contribution": 0.6977212624331687,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V1",
+            "transformed_feature_value": 0.5586542046836894,
+            "coefficient": 0.975387641163991,
+            "contribution": 0.5266637138599242,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V20",
+            "transformed_feature_value": -0.535643448350584,
+            "coefficient": -0.6826335257629008,
+            "contribution": 0.3532816658519056,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V13",
+            "transformed_feature_value": -0.7196924781139348,
+            "coefficient": -0.43449533742446406,
+            "contribution": 0.3277196997927947,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V23",
+            "transformed_feature_value": 0.6120489215161655,
+            "coefficient": 0.16200778670217478,
+            "contribution": 0.10541043063962034,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V28",
+            "transformed_feature_value": 0.3388954295584018,
+            "coefficient": 0.1408885354298987,
+            "contribution": 0.055150538733179405,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V21",
+            "transformed_feature_value": 1.9225584095208057,
+            "coefficient": 0.017099981629977206,
+            "contribution": 0.033116103153899464,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V15",
+            "transformed_feature_value": -0.6833825754354936,
+            "coefficient": -0.03320469449926582,
+            "contribution": 0.022598375217578938,
+            "direction": "increases_raw_log_odds"
+          }
+        ],
+        "top_negative_features": [
+          {
+            "feature": "V17",
+            "transformed_feature_value": 6.330458693485319,
+            "coefficient": -0.44821095788138576,
+            "contribution": -2.8484027113099786,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V16",
+            "transformed_feature_value": 3.5506973211148036,
+            "coefficient": -0.5755015570789833,
+            "contribution": -2.0468206061608503,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V3",
+            "transformed_feature_value": -3.7027874085716266,
+            "coefficient": 0.43474148303598253,
+            "contribution": -1.6609968051143287,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "Amount",
+            "transformed_feature_value": -0.3575623211318092,
+            "coefficient": 1.8851551584319004,
+            "contribution": -0.6831509434821291,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V22",
+            "transformed_feature_value": -1.03082435731848,
+            "coefficient": 0.5424674748797844,
+            "contribution": -0.5511216174694182,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "Time",
+            "transformed_feature_value": 2.024426369712064,
+            "coefficient": -0.24775660373129044,
+            "contribution": -0.5218075836742879,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V7",
+            "transformed_feature_value": 0.8468580124124266,
+            "coefficient": -0.570022056103813,
+            "contribution": -0.4564801290487135,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V18",
+            "transformed_feature_value": 4.55738998607737,
+            "coefficient": -0.0993335642218203,
+            "contribution": -0.4489997919128162,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V19",
+            "transformed_feature_value": -2.3149809073130574,
+            "coefficient": 0.14083334051199026,
+            "contribution": -0.3224589454135876,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V25",
+            "transformed_feature_value": -2.7419858667121213,
+            "coefficient": 0.09190195539622023,
+            "contribution": -0.2553476965417588,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V27",
+            "transformed_feature_value": 0.426530558407765,
+            "coefficient": -0.08056506885658725,
+            "contribution": -0.03522476512524574,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V26",
+            "transformed_feature_value": -0.012045641955455818,
+            "coefficient": 0.02730441624649674,
+            "contribution": -0.002634297378738691,
+            "direction": "decreases_raw_log_odds"
+          }
+        ],
+        "feature_count": 30,
+        "all_contributions_returned": true,
+        "reconstruction_error": 0.0,
+        "sigmoid_probability_error": 0.0,
+        "calibrated_probability_additivity_claim": false,
+        "background": {
+          "partition": "training",
+          "label_filter": "none; natural training prevalence",
+          "sample_method": "uniform row sample without replacement",
+          "sample_size": 512,
+          "random_state": 17,
+          "feature_columns": [
+            "Time",
+            "V1",
+            "V2",
+            "V3",
+            "V4",
+            "V5",
+            "V6",
+            "V7",
+            "V8",
+            "V9",
+            "V10",
+            "V11",
+            "V12",
+            "V13",
+            "V14",
+            "V15",
+            "V16",
+            "V17",
+            "V18",
+            "V19",
+            "V20",
+            "V21",
+            "V22",
+            "V23",
+            "V24",
+            "V25",
+            "V26",
+            "V27",
+            "V28",
+            "Amount"
+          ],
+          "dataset_sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+          "split_manifest_id": "3547d288e55133319d9ab6c50b2f3224322b942c6a35e9ef257dbaaaedd22330",
+          "background_sha256": "25b6bd3cb932f457d14961b2944b4e35ae22cfc89bf9c0a819c702314da73c48",
+          "feature_space": "StandardScaler-transformed model input",
+          "output_space": "raw_log_odds",
+          "explainer": "SHAP LinearExplainer with Independent interventional masker",
+          "shap_version": "0.51.0"
+        }
+      },
+      "selection_rule": "closest_to_frozen_threshold",
+      "partition": "validation",
+      "validation_label_for_descriptive_analysis": 1,
+      "anomaly": {
+        "score": 0.6054829997485925,
+        "percentile": 0.9945924213488793,
+        "category": "Highly unusual",
+        "score_direction": "higher = more anomalous",
+        "score_is_probability": false
+      },
+      "narrative": [
+        "The estimated fraud-risk probability is 18.3592%, above the stored 18.3592% review threshold; the transaction is flagged for analyst review.",
+        "The strongest positive raw-score contributions are from anonymized model features V14, V4, V2.",
+        "The strongest negative raw-score contributions are from anonymized model features V17, V16, V3.",
+        "These contributions describe the fitted model's statistical behavior; they do not establish a cause or prove fraud.",
+        "The separate Isolation Forest ranks this observation at approximately the 99.5% anomaly percentile (Highly unusual); this is not a fraud probability."
+      ]
+    },
+    {
+      "contract_version": "mission03-intelligence-v1",
+      "model_version": "mission02:m02-20261106T185430319319Z-logistic_balanced_c1-3547d288",
+      "schema_version": "ulb-credit-card-v1",
+      "transaction_id": 210271,
+      "fraud_probability": 0.00011480390947842634,
+      "raw_estimator_probability": 0.01700848108032356,
+      "raw_decision_score": -4.05688838562655,
+      "risk_score": 0.011480390947842634,
+      "decision_threshold": 0.1835921396957453,
+      "predicted_class": 0,
+      "decision_status": "not_flagged_by_policy",
+      "probability_calibration_status": "sigmoid mapping fitted on training-only cross-fitted scores; validation Brier improved=True, log_loss improved=True",
+      "explanation": {
+        "method": "shap_interventional_log_odds",
+        "output_space": "raw_log_odds",
+        "base_value": -3.496393253439458,
+        "linear_intercept": -3.557846610773832,
+        "baseline_semantics": "Expected raw model log-odds over the deterministic training-only SHAP background.",
+        "feature_contributions": [
+          {
+            "feature": "V1",
+            "transformed_feature_value": 1.0256706944449094,
+            "coefficient": 0.975387641163991,
+            "contribution": 0.9821858261928077,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V12",
+            "transformed_feature_value": 0.9242617371319579,
+            "coefficient": -1.0395571088783604,
+            "contribution": -0.892157807372631,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "Time",
+            "transformed_feature_value": 1.9553597148699084,
+            "coefficient": -0.24775660373129044,
+            "contribution": -0.504695863839514,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V3",
+            "transformed_feature_value": -0.9100848316148221,
+            "coefficient": 0.43474148303598253,
+            "contribution": -0.44689314512971745,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V17",
+            "transformed_feature_value": -0.941497079261396,
+            "coefficient": -0.44821095788138576,
+            "contribution": 0.4109675512638994,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V14",
+            "transformed_feature_value": 0.25878971202102163,
+            "coefficient": -1.0710274753088453,
+            "contribution": -0.31168414532629174,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V6",
+            "transformed_feature_value": -0.33565880532208037,
+            "coefficient": -0.7997558673397634,
+            "contribution": 0.26519116601744236,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V16",
+            "transformed_feature_value": 0.45334471258831305,
+            "coefficient": -0.5755015570789833,
+            "contribution": -0.26428935713120427,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V4",
+            "transformed_feature_value": 0.27251885981257806,
+            "coefficient": 1.145355014098567,
+            "contribution": 0.2602084092873422,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V2",
+            "transformed_feature_value": -0.3197262458075028,
+            "coefficient": 0.8906248600465595,
+            "contribution": -0.2595440276318733,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V24",
+            "transformed_feature_value": -0.6355459850424126,
+            "coefficient": -0.35396913262160684,
+            "contribution": 0.22468210403290445,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V9",
+            "transformed_feature_value": 0.44635904790985526,
+            "coefficient": -0.39873943895104835,
+            "contribution": -0.183826880794605,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V10",
+            "transformed_feature_value": 0.2098392641518126,
+            "coefficient": -0.7399541056316562,
+            "contribution": -0.17871264760206704,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V11",
+            "transformed_feature_value": 0.3761996235905687,
+            "coefficient": 0.30124110594077136,
+            "contribution": 0.12306372181455007,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V22",
+            "transformed_feature_value": 0.15476311558467865,
+            "coefficient": 0.5424674748797844,
+            "contribution": 0.09202102520546314,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V8",
+            "transformed_feature_value": -0.08743161959731174,
+            "coefficient": -0.47351516551407774,
+            "contribution": 0.055593765401336794,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V25",
+            "transformed_feature_value": -0.5535362653956354,
+            "coefficient": 0.09190195539622023,
+            "contribution": -0.054224898894695193,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V5",
+            "transformed_feature_value": -0.08093161074158817,
+            "coefficient": 0.676453246451441,
+            "contribution": -0.05304226125924806,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "Amount",
+            "transformed_feature_value": 0.032657455481110785,
+            "coefficient": 1.8851551584319004,
+            "contribution": 0.052473881321860795,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V19",
+            "transformed_feature_value": 0.34566494728608177,
+            "coefficient": 0.14083334051199026,
+            "contribution": 0.052248698208988295,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V7",
+            "transformed_feature_value": -0.03972060703418966,
+            "coefficient": -0.570022056103813,
+            "contribution": 0.04888923850592663,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V23",
+            "transformed_feature_value": 0.15612485446183594,
+            "coefficient": 0.16200778670217478,
+            "contribution": 0.03154718163189449,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V18",
+            "transformed_feature_value": 0.32201138048037825,
+            "coefficient": -0.0993335642218203,
+            "contribution": -0.028284539190023706,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V15",
+            "transformed_feature_value": -0.526291922828976,
+            "coefficient": -0.03320469449926582,
+            "contribution": 0.01738222808908922,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V13",
+            "transformed_feature_value": 0.07415307534557562,
+            "coefficient": -0.43449533742446406,
+            "contribution": -0.01720249182050568,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V28",
+            "transformed_feature_value": -0.16923882125097797,
+            "coefficient": 0.1408885354298987,
+            "contribution": -0.016439751665122928,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V27",
+            "transformed_feature_value": -0.15803377354456563,
+            "coefficient": -0.08056506885658725,
+            "contribution": 0.011870700529598696,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V20",
+            "transformed_feature_value": -0.03393540752791342,
+            "coefficient": -0.6826335257629008,
+            "contribution": 0.010798937041528685,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V26",
+            "transformed_feature_value": 0.4397728267224891,
+            "coefficient": 0.02730441624649674,
+            "contribution": 0.009702342157898666,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V21",
+            "transformed_feature_value": 0.08394857552500833,
+            "coefficient": 0.017099981629977206,
+            "contribution": 0.0016759087678758842,
+            "direction": "increases_raw_log_odds"
+          }
+        ],
+        "top_positive_features": [
+          {
+            "feature": "V1",
+            "transformed_feature_value": 1.0256706944449094,
+            "coefficient": 0.975387641163991,
+            "contribution": 0.9821858261928077,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V17",
+            "transformed_feature_value": -0.941497079261396,
+            "coefficient": -0.44821095788138576,
+            "contribution": 0.4109675512638994,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V6",
+            "transformed_feature_value": -0.33565880532208037,
+            "coefficient": -0.7997558673397634,
+            "contribution": 0.26519116601744236,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V4",
+            "transformed_feature_value": 0.27251885981257806,
+            "coefficient": 1.145355014098567,
+            "contribution": 0.2602084092873422,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V24",
+            "transformed_feature_value": -0.6355459850424126,
+            "coefficient": -0.35396913262160684,
+            "contribution": 0.22468210403290445,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V11",
+            "transformed_feature_value": 0.3761996235905687,
+            "coefficient": 0.30124110594077136,
+            "contribution": 0.12306372181455007,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V22",
+            "transformed_feature_value": 0.15476311558467865,
+            "coefficient": 0.5424674748797844,
+            "contribution": 0.09202102520546314,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V8",
+            "transformed_feature_value": -0.08743161959731174,
+            "coefficient": -0.47351516551407774,
+            "contribution": 0.055593765401336794,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "Amount",
+            "transformed_feature_value": 0.032657455481110785,
+            "coefficient": 1.8851551584319004,
+            "contribution": 0.052473881321860795,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V19",
+            "transformed_feature_value": 0.34566494728608177,
+            "coefficient": 0.14083334051199026,
+            "contribution": 0.052248698208988295,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V7",
+            "transformed_feature_value": -0.03972060703418966,
+            "coefficient": -0.570022056103813,
+            "contribution": 0.04888923850592663,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V23",
+            "transformed_feature_value": 0.15612485446183594,
+            "coefficient": 0.16200778670217478,
+            "contribution": 0.03154718163189449,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V15",
+            "transformed_feature_value": -0.526291922828976,
+            "coefficient": -0.03320469449926582,
+            "contribution": 0.01738222808908922,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V27",
+            "transformed_feature_value": -0.15803377354456563,
+            "coefficient": -0.08056506885658725,
+            "contribution": 0.011870700529598696,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V20",
+            "transformed_feature_value": -0.03393540752791342,
+            "coefficient": -0.6826335257629008,
+            "contribution": 0.010798937041528685,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V26",
+            "transformed_feature_value": 0.4397728267224891,
+            "coefficient": 0.02730441624649674,
+            "contribution": 0.009702342157898666,
+            "direction": "increases_raw_log_odds"
+          },
+          {
+            "feature": "V21",
+            "transformed_feature_value": 0.08394857552500833,
+            "coefficient": 0.017099981629977206,
+            "contribution": 0.0016759087678758842,
+            "direction": "increases_raw_log_odds"
+          }
+        ],
+        "top_negative_features": [
+          {
+            "feature": "V12",
+            "transformed_feature_value": 0.9242617371319579,
+            "coefficient": -1.0395571088783604,
+            "contribution": -0.892157807372631,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "Time",
+            "transformed_feature_value": 1.9553597148699084,
+            "coefficient": -0.24775660373129044,
+            "contribution": -0.504695863839514,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V3",
+            "transformed_feature_value": -0.9100848316148221,
+            "coefficient": 0.43474148303598253,
+            "contribution": -0.44689314512971745,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V14",
+            "transformed_feature_value": 0.25878971202102163,
+            "coefficient": -1.0710274753088453,
+            "contribution": -0.31168414532629174,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V16",
+            "transformed_feature_value": 0.45334471258831305,
+            "coefficient": -0.5755015570789833,
+            "contribution": -0.26428935713120427,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V2",
+            "transformed_feature_value": -0.3197262458075028,
+            "coefficient": 0.8906248600465595,
+            "contribution": -0.2595440276318733,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V9",
+            "transformed_feature_value": 0.44635904790985526,
+            "coefficient": -0.39873943895104835,
+            "contribution": -0.183826880794605,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V10",
+            "transformed_feature_value": 0.2098392641518126,
+            "coefficient": -0.7399541056316562,
+            "contribution": -0.17871264760206704,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V25",
+            "transformed_feature_value": -0.5535362653956354,
+            "coefficient": 0.09190195539622023,
+            "contribution": -0.054224898894695193,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V5",
+            "transformed_feature_value": -0.08093161074158817,
+            "coefficient": 0.676453246451441,
+            "contribution": -0.05304226125924806,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V18",
+            "transformed_feature_value": 0.32201138048037825,
+            "coefficient": -0.0993335642218203,
+            "contribution": -0.028284539190023706,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V13",
+            "transformed_feature_value": 0.07415307534557562,
+            "coefficient": -0.43449533742446406,
+            "contribution": -0.01720249182050568,
+            "direction": "decreases_raw_log_odds"
+          },
+          {
+            "feature": "V28",
+            "transformed_feature_value": -0.16923882125097797,
+            "coefficient": 0.1408885354298987,
+            "contribution": -0.016439751665122928,
+            "direction": "decreases_raw_log_odds"
+          }
+        ],
+        "feature_count": 30,
+        "all_contributions_returned": true,
+        "reconstruction_error": 0.0,
+        "sigmoid_probability_error": 0.0,
+        "calibrated_probability_additivity_claim": false,
+        "background": {
+          "partition": "training",
+          "label_filter": "none; natural training prevalence",
+          "sample_method": "uniform row sample without replacement",
+          "sample_size": 512,
+          "random_state": 17,
+          "feature_columns": [
+            "Time",
+            "V1",
+            "V2",
+            "V3",
+            "V4",
+            "V5",
+            "V6",
+            "V7",
+            "V8",
+            "V9",
+            "V10",
+            "V11",
+            "V12",
+            "V13",
+            "V14",
+            "V15",
+            "V16",
+            "V17",
+            "V18",
+            "V19",
+            "V20",
+            "V21",
+            "V22",
+            "V23",
+            "V24",
+            "V25",
+            "V26",
+            "V27",
+            "V28",
+            "Amount"
+          ],
+          "dataset_sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+          "split_manifest_id": "3547d288e55133319d9ab6c50b2f3224322b942c6a35e9ef257dbaaaedd22330",
+          "background_sha256": "25b6bd3cb932f457d14961b2944b4e35ae22cfc89bf9c0a819c702314da73c48",
+          "feature_space": "StandardScaler-transformed model input",
+          "output_space": "raw_log_odds",
+          "explainer": "SHAP LinearExplainer with Independent interventional masker",
+          "shap_version": "0.51.0"
+        }
+      },
+      "selection_rule": "median_validation_probability",
+      "partition": "validation",
+      "validation_label_for_descriptive_analysis": 0,
+      "anomaly": {
+        "score": 0.3626225651491239,
+        "percentile": 0.1692732937983717,
+        "category": "Typical",
+        "score_direction": "higher = more anomalous",
+        "score_is_probability": false
+      },
+      "narrative": [
+        "The estimated fraud-risk probability is 0.0115%, below the stored 18.3592% review threshold; the transaction is not flagged by this policy.",
+        "The strongest positive raw-score contributions are from anonymized model features V1, V17, V6.",
+        "The strongest negative raw-score contributions are from anonymized model features V12, Time, V3.",
+        "These contributions describe the fitted model's statistical behavior; they do not establish a cause or prove fraud.",
+        "The separate Isolation Forest ranks this observation at approximately the 16.9% anomaly percentile (Typical); this is not a fraud probability."
+      ]
+    }
+  ],
+  "risk": {
+    "risk_score": "100 * calibrated fraud probability",
+    "policy": {
+      "policy_version": "risk-tier-policy-v1",
+      "low_upper_exclusive": 0.000684135684401594,
+      "decision_threshold": 0.1835921396957453,
+      "critical_lower_inclusive": 0.9082513380124138,
+      "validation_quantile_low": 0.95,
+      "validation_quantile_critical": 0.75,
+      "validation_rows": 42722,
+      "validation_flagged_rows": 52,
+      "source_partition": "validation",
+      "policy_semantics": "operational triage; not independently calibrated"
+    },
+    "policy_threshold_consistency": {
+      "policy_version": "risk-tier-policy-v1",
+      "decision_threshold": 0.1835921396957453,
+      "policy_decision_threshold": 0.1835921396957453,
+      "threshold_consistent": true,
+      "risk_score_definition": "100 * calibrated fraud probability",
+      "risk_tier_semantics": "configurable analyst triage categories"
+    },
+    "validation_tiers": [
+      {
+        "tier": "Low",
+        "rows": 40585,
+        "fraud_labels": 4,
+        "fraud_prevalence": 9.855858075643711e-05,
+        "predicted_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "precision_among_alerts": null,
+        "recall_of_all_fraud": 0.07142857142857142
+      },
+      {
+        "tier": "Elevated",
+        "rows": 2085,
+        "fraud_labels": 8,
+        "fraud_prevalence": 0.0038369304556354917,
+        "predicted_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "precision_among_alerts": null,
+        "recall_of_all_fraud": 0.14285714285714285
+      },
+      {
+        "tier": "High",
+        "rows": 18,
+        "fraud_labels": 10,
+        "fraud_prevalence": 0.5555555555555556,
+        "predicted_alerts": 18,
+        "true_alerts": 10,
+        "false_alerts": 8,
+        "precision_among_alerts": 0.5555555555555556,
+        "recall_of_all_fraud": 0.17857142857142858
+      },
+      {
+        "tier": "Critical",
+        "rows": 34,
+        "fraud_labels": 34,
+        "fraud_prevalence": 1.0,
+        "predicted_alerts": 34,
+        "true_alerts": 34,
+        "false_alerts": 0,
+        "precision_among_alerts": 1.0,
+        "recall_of_all_fraud": 0.6071428571428571
+      }
+    ],
+    "validation_alert_budgets": [
+      {
+        "budget_type": "count",
+        "budget_value": 10,
+        "name": "top_10",
+        "k": 10,
+        "alerts": 10,
+        "fraud_captured": 10,
+        "false_alerts": 0,
+        "precision_at_k": 1.0,
+        "recall_at_k": 0.17857142857142858,
+        "fraud_prevalence_in_alerts": 1.0,
+        "validation_rows": 42722,
+        "validation_fraud_count": 56,
+        "tie_break": "stable source/input row order"
+      },
+      {
+        "budget_type": "count",
+        "budget_value": 50,
+        "name": "top_50",
+        "k": 50,
+        "alerts": 50,
+        "fraud_captured": 43,
+        "false_alerts": 7,
+        "precision_at_k": 0.86,
+        "recall_at_k": 0.7678571428571429,
+        "fraud_prevalence_in_alerts": 0.86,
+        "validation_rows": 42722,
+        "validation_fraud_count": 56,
+        "tie_break": "stable source/input row order"
+      },
+      {
+        "budget_type": "count",
+        "budget_value": 100,
+        "name": "top_100",
+        "k": 100,
+        "alerts": 100,
+        "fraud_captured": 48,
+        "false_alerts": 52,
+        "precision_at_k": 0.48,
+        "recall_at_k": 0.8571428571428571,
+        "fraud_prevalence_in_alerts": 0.48,
+        "validation_rows": 42722,
+        "validation_fraud_count": 56,
+        "tie_break": "stable source/input row order"
+      },
+      {
+        "budget_type": "percentage",
+        "budget_value": 0.1,
+        "name": "top_0.1_percent",
+        "k": 43,
+        "alerts": 43,
+        "fraud_captured": 40,
+        "false_alerts": 3,
+        "precision_at_k": 0.9302325581395349,
+        "recall_at_k": 0.7142857142857143,
+        "fraud_prevalence_in_alerts": 0.9302325581395349,
+        "validation_rows": 42722,
+        "validation_fraud_count": 56,
+        "tie_break": "stable source/input row order"
+      },
+      {
+        "budget_type": "percentage",
+        "budget_value": 0.5,
+        "name": "top_0.5_percent",
+        "k": 214,
+        "alerts": 214,
+        "fraud_captured": 51,
+        "false_alerts": 163,
+        "precision_at_k": 0.2383177570093458,
+        "recall_at_k": 0.9107142857142857,
+        "fraud_prevalence_in_alerts": 0.2383177570093458,
+        "validation_rows": 42722,
+        "validation_fraud_count": 56,
+        "tie_break": "stable source/input row order"
+      },
+      {
+        "budget_type": "percentage",
+        "budget_value": 1.0,
+        "name": "top_1_percent",
+        "k": 428,
+        "alerts": 428,
+        "fraud_captured": 51,
+        "false_alerts": 377,
+        "precision_at_k": 0.1191588785046729,
+        "recall_at_k": 0.9107142857142857,
+        "fraud_prevalence_in_alerts": 0.1191588785046729,
+        "validation_rows": 42722,
+        "validation_fraud_count": 56,
+        "tie_break": "stable source/input row order"
+      }
+    ],
+    "validation_median_probability": 0.00011480230055557788,
+    "validation_flagged_rows": 52
+  },
+  "anomaly": {
+    "score_direction": "higher = more anomalous",
+    "score_is_probability": false,
+    "reference_manifest": "reports/risk/anomaly_reference_manifest.json",
+    "reference_rows": 198980,
+    "reference_source_partition": "training known-legitimate rows only",
+    "reference_score_quantiles": {
+      "p50": 0.38606932651962383,
+      "p95": 0.47684900502747496,
+      "p99": 0.5741356772769544
+    },
+    "validation_category_counts": {
+      "Highly unusual": 603,
+      "Typical": 39774,
+      "Unusual": 2345
+    }
+  },
+  "supervised_anomaly_comparison": {
+    "partition": "validation",
+    "rows": 42722,
+    "fraud_labels": 56,
+    "spearman_correlation": 0.07542147600450862,
+    "supervised_high_boundary": 0.1835921396957453,
+    "anomaly_high_boundary_percentile": 0.95,
+    "alert_budgets": [
+      {
+        "budget_percentage": 0.1,
+        "k": 43,
+        "supervised_fraud_captured": 40,
+        "supervised_precision_at_k": 0.9302325581395349,
+        "supervised_recall_at_k": 0.7142857142857143,
+        "anomaly_fraud_captured": 0,
+        "anomaly_precision_at_k": 0.0,
+        "anomaly_recall_at_k": 0.0,
+        "overlap_count": 2,
+        "overlap_fraction_of_k": 0.046511627906976744,
+        "jaccard": 0.023809523809523808,
+        "fraud_captured_in_overlap": 0,
+        "fraud_fraction_of_overlap": 0.0
+      },
+      {
+        "budget_percentage": 0.5,
+        "k": 214,
+        "supervised_fraud_captured": 51,
+        "supervised_precision_at_k": 0.2383177570093458,
+        "supervised_recall_at_k": 0.9107142857142857,
+        "anomaly_fraud_captured": 2,
+        "anomaly_precision_at_k": 0.009345794392523364,
+        "anomaly_recall_at_k": 0.03571428571428571,
+        "overlap_count": 34,
+        "overlap_fraction_of_k": 0.1588785046728972,
+        "jaccard": 0.08629441624365482,
+        "fraud_captured_in_overlap": 2,
+        "fraud_fraction_of_overlap": 0.058823529411764705
+      },
+      {
+        "budget_percentage": 1.0,
+        "k": 428,
+        "supervised_fraud_captured": 51,
+        "supervised_precision_at_k": 0.1191588785046729,
+        "supervised_recall_at_k": 0.9107142857142857,
+        "anomaly_fraud_captured": 13,
+        "anomaly_precision_at_k": 0.030373831775700934,
+        "anomaly_recall_at_k": 0.23214285714285715,
+        "overlap_count": 85,
+        "overlap_fraction_of_k": 0.1985981308411215,
+        "jaccard": 0.11024643320363164,
+        "fraud_captured_in_overlap": 13,
+        "fraud_fraction_of_overlap": 0.15294117647058825
+      }
+    ],
+    "quadrants": [
+      {
+        "quadrant": "high_supervised_high_anomaly",
+        "rows": 52,
+        "fraud_labels": 44,
+        "fraud_prevalence": 0.8461538461538461
+      },
+      {
+        "quadrant": "high_supervised_low_anomaly",
+        "rows": 0,
+        "fraud_labels": 0,
+        "fraud_prevalence": null
+      },
+      {
+        "quadrant": "low_supervised_high_anomaly",
+        "rows": 2896,
+        "fraud_labels": 6,
+        "fraud_prevalence": 0.0020718232044198894
+      },
+      {
+        "quadrant": "low_supervised_low_anomaly",
+        "rows": 39774,
+        "fraud_labels": 6,
+        "fraud_prevalence": 0.0001508523155830442
+      }
+    ],
+    "interpretation": "The signals describe different targets and are reported side by side; no blended fraud score is defined."
+  },
+  "limitations": [
+    "Mission 02 final-test observations are consumed and were not loaded in Mission 03.",
+    "Validation findings are descriptive and do not establish future performance.",
+    "V1\u2013V28 are anonymized PCA-derived coordinates; attribution is not causal.",
+    "Risk tiers are operational categories, not calibrated probability bands.",
+    "Anomaly scores are separate from calibrated fraud probabilities and are not blended."
+  ]
+}

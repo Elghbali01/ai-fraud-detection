@@ -8,11 +8,11 @@ Help analysts examine historical transaction labels, compare candidate detection
 
 ## Current status
 
-Missions 01 and 02 are complete and their validated deliverables are pushed to origin/main. A fresh post-push fetch confirmed local and remote synchronization. Mission 02 compares supervised classifiers and a separate Isolation Forest, uses chronological leakage controls, training-fold probability calibration, and a validation-selected threshold. The latest run selected balanced Logistic Regression and produced aggregate reports under reports/ml/. The raw ULB CSV, model binaries, and virtual environments remain excluded from Git. The final test period was scored twice in deterministic runs to correct and verify missing Isolation Forest artifact persistence; the repeat and its limitations are recorded in docs/ml/leakage-prevention.md. Mission 03 is ready to begin, but no SHAP explanations or production service have been built. See PROGRESS.md for validation and delivery history.
+Missions 01 and 02 are complete and their validated deliverables are pushed to origin/main. Mission 03 implements exact logistic contributions, raw-log-odds SHAP explanations, validation-derived risk tiers and capacity diagnostics, separate anomaly intelligence, versioned service contracts, reports, and notebooks. The generated real-data analyses use only training and validation rows; the final-test period was consumed by Mission 02 and is never loaded for Mission 03. Mission 03 validation and GitHub delivery are recorded in PROGRESS.md. The raw ULB CSV, model binaries, derived anomaly reference, virtual environments, and credentials remain excluded from Git.
 
 ## Architecture
 
-- src/fraud_detection: schema contract, loading, profiling, analytics, plots, report generation, ML training, evaluation, persistence, and inference.
+- src/fraud_detection: schema contract, loading, profiling, analytics, plots, report generation, ML training, evaluation, persistence, inference, explainability, and risk services.
 - scripts: Windows setup, checks, acquisition, and execution entry points.
 - notebooks: analytical narratives that call the reusable package.
 - data/raw: local source datasets, excluded from Git.
@@ -23,7 +23,7 @@ See docs/architecture/system-overview.md.
 
 ## Technology
 
-Python 3.11, NumPy, pandas, SciPy, scikit-learn, joblib, Matplotlib, Seaborn, pytest, Ruff, Jupyter notebooks, and GitHub Actions. No PyTorch, TensorFlow, GPU, cloud service, or heavy tracking server is required.
+Python 3.11, NumPy, pandas, SciPy, scikit-learn, SHAP 0.51.0, joblib, Matplotlib, Seaborn, pytest, Ruff, Jupyter notebooks, and GitHub Actions. No PyTorch, TensorFlow, GPU, cloud service, or heavy tracking server is required.
 
 ## Dataset
 
@@ -41,7 +41,7 @@ CMD from the project root:
     powershell -NoProfile -File scripts\setup.ps1
     .venv\Scripts\activate.bat
 
-The setup creates a project-local .venv and installs the resolved Windows/Python 3.11 dependency set from requirements-mission02.lock. requirements-mission01.lock is retained as the earlier Mission 01 environment record. pyproject.toml remains the project dependency constraint source. If Windows blocks running a local PowerShell script, use a one-process execution policy option rather than changing a machine-wide policy:
+The setup creates a project-local .venv and installs the resolved Windows/Python 3.11 dependency set from requirements-mission03.lock. The Mission 01 and Mission 02 lock files are retained as historical environment records. pyproject.toml remains the project dependency constraint source. If Windows blocks running a local PowerShell script, use a one-process execution policy option rather than changing a machine-wide policy:
 
     powershell -NoProfile -ExecutionPolicy Bypass -File scripts\setup.ps1
 
@@ -126,11 +126,35 @@ Key documentation:
 - docs/engineering/mission-03-handoff.md
 - reports/ml/FINAL_MODEL_REPORT.md and reports/ml/MODEL_COMPARISON.md
 
+## Mission 03 explainability and risk intelligence
+
+Mission 03 reuses the frozen model and threshold without retraining. Exact contribution checks and
+SHAP explain raw logistic log-odds; the later calibrated probability is a separate mapping.
+Validation-derived risk tiers and review-capacity tables are descriptive, while the Isolation
+Forest remains a separate non-probability signal. No final-test rows or labels enter this mission.
+
+Generate the global/local explanation reports, risk diagnostics, and figures:
+
+    powershell -NoProfile -ExecutionPolicy Bypass -File scripts\generate-explanations.ps1
+
+Score a bounded feature CSV, optionally including anomaly intelligence or linear explanations:
+
+    powershell -NoProfile -ExecutionPolicy Bypass -File scripts\analyze-risk.ps1 -InputPath path\to\features.csv -IncludeAnomaly
+
+Run synthetic Mission 03 tests, or opt into the trusted local development-data integration:
+
+    powershell -NoProfile -ExecutionPolicy Bypass -File scripts\validate-explainability.ps1
+    powershell -NoProfile -ExecutionPolicy Bypass -File scripts\validate-explainability.ps1 -RealData
+
+The generated reports live under reports/explainability/ and reports/risk/. The notebooks
+10–14 summarize those outputs without repeating model logic. The training-only anomaly reference
+is derived locally under ignored data/models/ and can be rebuilt by the generation script.
+
 ## Six-mission roadmap
 
 1. Foundation, dataset validation, data engineering, and EDA — complete.
 2. Supervised machine learning, evaluation, and anomaly detection — complete.
-3. Explainable AI and risk intelligence.
+3. Explainable AI and risk intelligence — implemented and validated; see PROGRESS.md.
 4. FastAPI backend.
 5. Next.js frontend and integration.
 6. Hardening, end-to-end testing, documentation, and portfolio delivery.

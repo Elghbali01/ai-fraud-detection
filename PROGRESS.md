@@ -133,4 +133,36 @@ The earlier fixture-only validation recorded 32 passing tests and successful Ruf
 
 ## Mission 02 readiness
 
-The recommended evaluation approach and model tracks are in docs/engineering/mission-02-handoff.md. It includes DummyClassifier, LogisticRegression, RandomForest, and HistGradientBoosting as supervised baselines, plus a separate IsolationForest track. Preserve the final test period for one independent evaluation and choose any threshold on validation data. No model training or selection occurred in Mission 01.
+Historical Mission 01 handoff, superseded by the Mission 02 evaluation and final-test audit above: the recommended evaluation approach and model tracks are in docs/engineering/mission-02-handoff.md. It includes DummyClassifier, LogisticRegression, RandomForest, and HistGradientBoosting as supervised baselines, plus a separate IsolationForest track. At that point, the recommendation was to preserve the final test period and choose thresholds on validation; the later final-test consumption caveat is recorded above. No model training or selection occurred in Mission 01.
+
+## Mission 03 status — implementation and validation complete
+
+Mission 03 reuses the frozen Mission 02 classifier, calibration mapping, anomaly detector, feature schema, and threshold. It reads the manifest-defined training and validation CSV prefix only. The consumed final-test rows and labels are not parsed or scored.
+
+### Data, artifacts, and environment
+
+- Recomputed `data/raw/creditcard.csv` SHA-256: `76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89`; this matches Mission 01 provenance and the split/artifact manifests.
+- Training/validation rows parsed: 199,364 / 42,722. Mission 03 final-test rows and labels loaded: 0 / 0.
+- Selected classifier SHA-256: `87f0e2f492fbed062e38b366a2d98e2a98a655f7e1c81657cd6986c1874fa088`. Isolation Forest SHA-256: `e5c071d8e39a013f1ebacac600109633b15bc97fc43f64d085662399b5dc6d60`. Both local manifests were verified after report generation.
+- Python 3.11.8; NumPy 2.3.5; pandas 3.0.5; SciPy 1.16.3; scikit-learn 1.9.1; SHAP 0.51.0; joblib 1.6.0. `pip check` reported no broken requirements.
+- The existing preflight observed approximately 5.2 GB free disk and 5.54 GiB available RAM. SHAP used a bounded 512-row training background, a 5,000-row training stability sample, and a 5,000-row validation beeswarm sample; full validation summaries were computed for 42,722 rows.
+
+### Explanation and risk results
+
+- The exact StandardScaler/logistic attributions reconstructed all validation raw decision scores; maximum absolute error was `2.84e-14`. The sigmoid of raw decision scores matched raw estimator probabilities with maximum error `0.0`. Calibrated probabilities remain a separate training-fold sigmoid mapping and are not described as additive SHAP/linear outputs.
+- SHAP 0.51.0 used the deterministic uniform training-only natural-prevalence background (512 rows, seed 17), transformed model feature space, and raw-log-odds output. Additivity passed on all 42,722 validation rows with maximum absolute error `3.20e-14` and mean absolute error `4.24e-16`.
+- Leading validation mean-absolute SHAP features were V4, Amount, V1, V14, V6, V2, V12, V22, Time, and V10. These are model attributions; V1–V28 remain anonymized PCA coordinates and no causal interpretation is claimed.
+- The frozen threshold remains `0.1835921396957453`. Validation-only operational tier cutpoints were Low `< 0.0006841357`, Elevated `[0.0006841357, 0.1835921397)`, High `[0.1835921397, 0.9082513380)`, and Critical `>= 0.9082513380`. The 42,722 validation rows included 52 threshold flags; no decision-positive row is labeled Low.
+- Validation TopK capture was 10/10 at K=10, 43/50 at K=50, and 48/100 at K=100. Percentage-budget K uses ceiling: 0.1%=43 rows (40 fraud labels captured), 0.5%=214 (51), and 1%=428 (51). These are retrospective validation diagnostics, not future utility claims.
+- The anomaly reference contains 198,980 known-legitimate training scores (p50 `0.386069`, p95 `0.476849`, p99 `0.574136`). Validation supervised/anomaly Spearman correlation was `0.07542`; at 0.1% review budget the top-K sets overlapped in 2 rows (Jaccard `0.02381`). Scores remain separate; no blended fraud score is defined.
+
+### Deliverables and validation
+
+- Reports: `reports/explainability/GLOBAL_EXPLAINABILITY.md`, `LOCAL_EXPLANATIONS.md`, `global_shap_feature_summary.csv`, `selected_local_explanations.json`, `shap_additivity_validation.json`, and versioned results under `reports/risk/`.
+- Figures: global SHAP importance, validation beeswarm, coefficient/SHAP comparison, exact linear local contributions, SHAP local waterfall, risk distribution, risk-tier diagnostics, alert capacity, supervised/anomaly quadrants, and TopK overlap.
+- Notebooks 10–14 were created from the reusable modules and all 14 project notebooks executed in clean kernels.
+- Full isolated check command: `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-checks.ps1 -PythonPath '.venv-isolated\Scripts\python.exe'` — passed. It reported 63 passed and 3 expected opt-in real-data skips; Ruff, formatting (134 Python/notebook files), compileall, notebook execution, and synthetic EDA smoke all passed.
+- Opt-in Mission 03 integration command with `RUN_MISSION03_REAL_DATA=1`: `python -m pytest -m mission03_real_data -q` — 1 passed, 65 deselected. It verified checksums, full development split sizes, exact reconstruction, SHAP additivity, anomaly-reference provenance, and zero final-test rows in Mission 03 results.
+- Synthetic CLI smoke exercised bounded scoring with explanations and anomaly output plus percentage prioritization. Artifact verification and `pip check` passed. Raw data, `.venv`, `.venv-isolated`, model binaries, and derived anomaly reference are ignored by Git.
+- Known limits remain: anonymized PCA variables, a short historical sample and few fraud labels, calibration/distribution shift, consumed final test, no new independent future cohort, and no validated business cost or production utility.
+- GitHub delivery: validated changes are ready for the authorized normal commits and push; no force push or history rewrite is planned.
