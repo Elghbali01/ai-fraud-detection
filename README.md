@@ -8,7 +8,7 @@ Help analysts examine historical transaction labels, compare candidate detection
 
 ## Current status
 
-Mission 01 code, tests, notebooks, and documentation are implemented. Real ULB acquisition and real-data EDA remain blocked because this environment has no Kaggle CLI or credentials and outbound GitHub/Kaggle access is unavailable. No real-data statistics are claimed. The synthetic smoke fixture is clearly labeled and only validates code paths.
+Mission 01 code, tests, notebooks, and documentation are implemented and pushed to origin/main. Real ULB acquisition and real-data EDA remain blocked because this environment has no Kaggle CLI or authorized local credentials. The downloader exited before a network request. No real-data statistics are claimed. The synthetic smoke fixture is clearly labeled and only validates code paths.
 
 ## Architecture
 

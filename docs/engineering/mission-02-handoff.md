@@ -2,7 +2,7 @@
 
 ## Available dataset
 
-Selected candidate: ULB Credit Card Fraud Detection, expected at data/raw/creditcard.csv. The file was not acquired in this environment. Kaggle CLI and credentials were absent, outbound network access was blocked, and no synthetic substitute is labeled as the real dataset. Use scripts/download_dataset.py after authorized local access is available.
+Selected candidate: ULB Credit Card Fraud Detection, expected at data/raw/creditcard.csv. The file was not acquired in this environment. Kaggle CLI and authorized local credentials were absent, and the downloader exited before a network request. No synthetic substitute is labeled as the real dataset. Use scripts/download_dataset.py after authorized local access is available.
 
 ## Validated schema
 
@@ -46,7 +46,7 @@ Mission 02 should expose a reproducible train/evaluate API consuming a validated
 
 ## Known blockers and reproduction commands
 
-Blocker: real ULB file and GitHub connectivity unavailable in this run. When authorized access is ready:
+Blocker: real ULB file unavailable in this run. GitHub delivery is complete; obtain Kaggle CLI and authorized local access before real-data analysis:
 
     .\.venv\Scripts\python.exe -m pip install kaggle
     .\.venv\Scripts\python.exe scripts\download_dataset.py

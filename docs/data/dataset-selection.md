@@ -25,7 +25,7 @@ Select ULB as the primary Mission 01 candidate because its published data is com
 
 ## Acquisition and verification status
 
-At audit time the expected file was absent; Kaggle CLI and local credentials were unavailable, and network access from this environment was denied. No alternate data was downloaded or represented as ULB. The downloader is scripts/download_dataset.py and will record a source URL, UTC retrieval time, schema report, observed counts, size, and SHA-256 after a successful validated download.
+At audit time the expected file was absent; Kaggle CLI and authorized local credentials were unavailable, so the downloader exited before a network request. No alternate data was downloaded or represented as ULB. The downloader is scripts/download_dataset.py and will record a source URL, UTC retrieval time, schema report, observed counts, size, and SHA-256 after a successful validated download.
 
 ## Sources
 

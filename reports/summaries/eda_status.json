@@ -8,8 +8,7 @@
   "real_data_eda_status": "blocked",
   "blockers": [
     "Kaggle CLI was unavailable.",
-    "Authorized Kaggle credential files were not present.",
-    "Outbound network access to dataset hosts was unavailable."
+    "Authorized Kaggle credential files were not present; download exited before a network request."
   ],
   "publisher_reported_row_count": 284807,
   "publisher_reported_fraud_count": 492,

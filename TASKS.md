@@ -9,7 +9,7 @@
 - [x] Create four notebooks with explicit source status and fixture fallback.
 - [x] Add controlled unit tests and reproducibility checks.
 - [x] Document scientific limitations and Mission 02 interfaces.
-- [ ] Acquire and verify the real ULB CSV — Blocked: Kaggle CLI/credentials and outbound access unavailable in this environment.
+- [ ] Acquire and verify the real ULB CSV — Blocked: Kaggle CLI and authorized local credentials are absent; the downloader exited before a network request.
 - [ ] Run real-data EDA and execute notebooks on the real CSV — Blocked by dataset acquisition.
 - [x] Create logical Mission 01 commits — Four implementation and test commits are complete; the documentation/status commit is being prepared.
 - [x] Push validated commits to origin/main — Fresh fetch confirmed no remote-only changes; a normal non-forced push succeeded.
