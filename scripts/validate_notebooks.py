@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import os
 import sys
 import tempfile
@@ -24,6 +25,27 @@ def main() -> int:
         return 1
     with tempfile.TemporaryDirectory(prefix="fraud-notebook-ipython-") as ipython_dir:
         os.environ["IPYTHONDIR"] = ipython_dir
+        jupyter_data_dir = Path(ipython_dir) / "jupyter"
+        kernel_name = "fraud-mission01-validation"
+        kernel_dir = jupyter_data_dir / "kernels" / kernel_name
+        kernel_dir.mkdir(parents=True)
+        (kernel_dir / "kernel.json").write_text(
+            json.dumps(
+                {
+                    "argv": [
+                        sys.executable,
+                        "-m",
+                        "ipykernel_launcher",
+                        "-f",
+                        "{connection_file}",
+                    ],
+                    "display_name": "Mission 01 validation",
+                    "language": "python",
+                }
+            ),
+            encoding="utf-8",
+        )
+        os.environ["JUPYTER_PATH"] = str(jupyter_data_dir)
         startup_dir = Path(ipython_dir) / "startup"
         startup_dir.mkdir()
         (startup_dir / "sitecustomize.py").write_text(
@@ -43,7 +65,7 @@ def main() -> int:
             NotebookClient(
                 notebook,
                 timeout=300,
-                kernel_name="python3",
+                kernel_name=kernel_name,
                 resources={"metadata": {"path": str(ROOT)}},
             ).execute()
             print(f"Executed: {notebook_path.name}")

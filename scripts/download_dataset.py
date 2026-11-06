@@ -78,6 +78,15 @@ def existing_file_result(destination: Path) -> int:
     return 0
 
 
+def resolve_kaggle_cli(python_executable: str | Path | None = None) -> str | None:
+    """Find Kaggle on PATH or beside the active project Python executable."""
+    executable_name = "kaggle.exe" if os.name == "nt" else "kaggle"
+    local_cli = Path(python_executable or sys.executable).with_name(executable_name)
+    if local_cli.is_file():
+        return str(local_cli)
+    return shutil.which("kaggle")
+
+
 def download(destination: Path) -> int:
     """Download into a temporary directory, validate, and atomically install."""
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -94,7 +103,7 @@ def download(destination: Path) -> int:
         )
         return 2
 
-    kaggle = shutil.which("kaggle")
+    kaggle = resolve_kaggle_cli()
     if kaggle is None:
         print(
             "Kaggle CLI is unavailable. Install it in the project environment and configure "
@@ -124,6 +133,7 @@ def download(destination: Path) -> int:
                     command,
                     check=False,
                     capture_output=True,
+                    stdin=subprocess.DEVNULL,
                     text=True,
                     timeout=900,
                 )

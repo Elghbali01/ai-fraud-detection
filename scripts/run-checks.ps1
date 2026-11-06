@@ -1,9 +1,26 @@
+param([string]$PythonPath)
+
 $ErrorActionPreference = "Stop"
 $ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 Set-Location $ProjectRoot
 $env:PYTHONPATH = Join-Path $ProjectRoot "src"
-$VenvPython = Join-Path $ProjectRoot ".venv\Scripts\python.exe"
-if (-not (Test-Path -LiteralPath $VenvPython)) { $VenvPython = "python" }
+if (-not [string]::IsNullOrWhiteSpace($PythonPath)) {
+    $PythonCandidate = if ([IO.Path]::IsPathRooted($PythonPath)) {
+        $PythonPath
+    } else {
+        Join-Path $ProjectRoot $PythonPath
+    }
+    $VenvPython = (Resolve-Path -LiteralPath $PythonCandidate).Path
+} else {
+    $VenvPython = Join-Path $ProjectRoot ".venv\Scripts\python.exe"
+    if (-not (Test-Path -LiteralPath $VenvPython)) {
+        $PythonCommand = Get-Command python -ErrorAction Stop
+        $VenvPython = $PythonCommand.Source
+    }
+}
+if (-not (Test-Path -LiteralPath $VenvPython)) {
+    throw "Python executable was not found: $VenvPython"
+}
 
 & $VenvPython -m pytest
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
