@@ -9,6 +9,7 @@ from pathlib import Path
 from fraud_detection.schema import SCHEMA_VERSION
 
 KAGGLE_DATASET_ID = "mlg-ulb/creditcardfraud"
+MISSION01_ULB_SHA256 = "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89"
 
 
 def sha256_file(path: str | Path) -> str:

@@ -15,3 +15,11 @@ class EmptyDatasetError(DatasetLoadError):
 
 class SchemaValidationError(DatasetError):
     """Raised when a frame does not meet the required ULB schema."""
+
+
+class InferenceInputError(ValueError):
+    """Raised when transaction features violate the inference contract."""
+
+
+class ArtifactError(RuntimeError):
+    """Raised when a trusted local model artifact is invalid or incompatible."""
