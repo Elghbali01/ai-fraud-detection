@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+.env
+.ipynb_checkpoints/
+.pytest_cache/
+data/raw/
+models/*.pkl
+models/*.joblib
+node_modules/
+.next/
