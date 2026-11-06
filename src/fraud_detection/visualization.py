@@ -27,7 +27,24 @@ def create_eda_figures(frame: pd.DataFrame, output_dir: str | Path) -> list[Path
     class_counts = frame[TARGET_COLUMN].value_counts().reindex([0, 1], fill_value=0)
     fig, ax = plt.subplots(figsize=(7, 4.5))
     sns.barplot(x=["Legitimate (0)", "Fraud (1)"], y=class_counts.to_numpy(), ax=ax)
-    ax.set(title="Observed transaction labels", xlabel="Dataset label", ylabel="Transactions")
+    ax.set_yscale("log")
+    ax.set_ylim(bottom=1)
+    ax.set(
+        title="Observed label counts (logarithmic scale)",
+        xlabel="Dataset label",
+        ylabel="Transactions",
+    )
+    total_labels = int(class_counts.sum())
+    for index, count in enumerate(class_counts.to_numpy()):
+        share = 100 * count / total_labels if total_labels else 0.0
+        ax.annotate(
+            f"{int(count):,} ({share:.3f}%)",
+            (index, max(int(count), 1)),
+            xytext=(0, 8),
+            textcoords="offset points",
+            ha="center",
+            fontsize=9,
+        )
     _save(fig, destination / "class_distribution.png", written)
 
     amount = frame[AMOUNT_COLUMN].dropna().to_numpy(dtype="float64")
@@ -77,6 +94,15 @@ def create_eda_figures(frame: pd.DataFrame, output_dir: str | Path) -> list[Path
             if is_low_volume:
                 right.annotate(
                     "low volume",
+                    (x_hours.iloc[index], bins["fraud_rate"].iloc[index] * 100),
+                    xytext=(0, 8),
+                    textcoords="offset points",
+                    ha="center",
+                    fontsize=8,
+                )
+            elif bins["low_fraud_count"].iloc[index]:
+                right.annotate(
+                    f"few fraud cases ({int(bins['fraud_count'].iloc[index])})",
                     (x_hours.iloc[index], bins["fraud_rate"].iloc[index] * 100),
                     xytext=(0, 8),
                     textcoords="offset points",

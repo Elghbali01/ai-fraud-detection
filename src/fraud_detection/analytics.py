@@ -75,12 +75,15 @@ def time_bin_summary(
     *,
     bin_seconds: int = 21_600,
     minimum_transactions: int = 1_000,
+    minimum_fraud_cases: int = 30,
     time_column: str = TIME_COLUMN,
     target_column: str = TARGET_COLUMN,
 ) -> pd.DataFrame:
-    """Aggregate elapsed-time bins; low-volume bins are explicitly flagged."""
+    """Aggregate elapsed-time bins and flag low transaction or fraud counts."""
     if bin_seconds <= 0:
         raise ValueError("bin_seconds must be greater than zero")
+    if minimum_transactions < 0 or minimum_fraud_cases < 0:
+        raise ValueError("minimum count thresholds must be nonnegative")
     if time_column not in frame or target_column not in frame:
         raise ValueError(f"Required columns: {time_column!r} and {target_column!r}")
     valid = frame[[time_column, target_column]].dropna(subset=[time_column]).copy()
@@ -93,6 +96,7 @@ def time_bin_summary(
                 "fraud_count",
                 "fraud_rate",
                 "low_volume",
+                "low_fraud_count",
             ]
         )
     valid["elapsed_start_seconds"] = (
@@ -110,6 +114,7 @@ def time_bin_summary(
     result["elapsed_end_seconds"] = result["elapsed_start_seconds"] + bin_seconds
     result["fraud_rate"] = result["fraud_count"] / result["transactions"]
     result["low_volume"] = result["transactions"] < minimum_transactions
+    result["low_fraud_count"] = result["fraud_count"] < minimum_fraud_cases
     return result[
         [
             "elapsed_start_seconds",
@@ -118,6 +123,7 @@ def time_bin_summary(
             "fraud_count",
             "fraud_rate",
             "low_volume",
+            "low_fraud_count",
         ]
     ]
 

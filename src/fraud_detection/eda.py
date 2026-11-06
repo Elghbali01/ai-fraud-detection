@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import sys
 from pathlib import Path
@@ -43,6 +44,7 @@ def main(argv: list[str] | None = None) -> int:
         output_dir = args.output_dir / "demo"
         classification = "synthetic_fixture"
         dataset_name = "deterministic synthetic fixture (not ULB observations)"
+        provenance = None
     else:
         if not args.dataset.is_file():
             LOGGER.error(
@@ -62,6 +64,12 @@ def main(argv: list[str] | None = None) -> int:
             if has_verified_kaggle_provenance(args.dataset)
             else "unverified_local_file"
         )
+        provenance_path = args.dataset.parent / "dataset-provenance.json"
+        provenance = (
+            json.loads(provenance_path.read_text(encoding="utf-8"))
+            if classification == "source_verified_file"
+            else None
+        )
         dataset_name = args.dataset.name
 
     try:
@@ -70,6 +78,7 @@ def main(argv: list[str] | None = None) -> int:
             output_dir,
             data_classification=classification,
             dataset_name=dataset_name,
+            provenance=provenance,
         )
     except Exception:
         LOGGER.exception("EDA artifact generation failed")

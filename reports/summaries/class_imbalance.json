@@ -1,0 +1,14 @@
+{
+  "baseline_note": "Illustrative majority-class prediction only; this is not a trained fraud model.",
+  "counts": {
+    "0": 284315,
+    "1": 492
+  },
+  "fraud_count": 492,
+  "fraud_pct": 0.1727485630620034,
+  "labeled_row_count": 284807,
+  "legitimate_count": 284315,
+  "majority_class_baseline_accuracy": 0.9982725143693799,
+  "majority_minority_ratio": 577.8760162601626,
+  "row_count": 284807
+}

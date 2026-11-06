@@ -46,6 +46,7 @@ def test_time_bin_aggregation_counts_low_volume_and_fraud_rates(transaction_fram
     assert result["fraud_count"].sum() == 1
     assert result.loc[result["fraud_count"] > 0, "fraud_rate"].iloc[0] == pytest.approx(0.5)
     assert result["low_volume"].tolist() == [False, False, True]
+    assert result["low_fraud_count"].all()
 
 
 def test_time_bin_validation_and_empty_input(transaction_frame):
@@ -55,6 +56,7 @@ def test_time_bin_validation_and_empty_input(transaction_frame):
     result = time_bin_summary(transaction_frame.iloc[:0])
     assert result.empty
     assert "fraud_rate" in result.columns
+    assert "low_fraud_count" in result.columns
 
 
 def test_correlation_methods_and_feature_associations_are_reproducible(transaction_frame):
