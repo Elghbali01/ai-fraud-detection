@@ -1,4 +1,6 @@
-# Mission 02 Handoff
+# Mission 02 Handoff from Mission 01 (historical)
+
+This is the pre-training handoff written when Mission 01 closed. Mission 02 is now complete. The implemented evaluation protocol, actual timestamp boundaries, results, and deviations from this proposal are recorded in docs/ml/data-splitting.md, docs/ml/mission-02-plan.md, and reports/ml/. In particular, no secondary stratified-random sensitivity run was performed; the chronological protocol was selected before training.
 
 ## Validated dataset
 
