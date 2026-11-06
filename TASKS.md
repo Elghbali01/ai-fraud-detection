@@ -12,7 +12,7 @@
 - [ ] Acquire and verify the real ULB CSV — Blocked: Kaggle CLI/credentials and outbound access unavailable in this environment.
 - [ ] Run real-data EDA and execute notebooks on the real CSV — Blocked by dataset acquisition.
 - [x] Create logical Mission 01 commits — Four implementation and test commits are complete; the documentation/status commit is being prepared.
-- [ ] Push validated commits to origin/main — Blocked pending a fresh remote check because outbound GitHub access was unavailable during audit.
+- [x] Push validated commits to origin/main — Fresh fetch confirmed no remote-only changes; a normal non-forced push succeeded.
 
 ## Mission 02 — Machine learning engine
 
