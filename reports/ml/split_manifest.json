@@ -1,0 +1,143 @@
+{
+  "manifest_id": "3547d288e55133319d9ab6c50b2f3224322b942c6a35e9ef257dbaaaedd22330",
+  "protocol_version": "mission02-chronological-v1",
+  "dataset_sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+  "schema_version": "ulb-credit-card-v1",
+  "feature_columns": [
+    "Time",
+    "V1",
+    "V2",
+    "V3",
+    "V4",
+    "V5",
+    "V6",
+    "V7",
+    "V8",
+    "V9",
+    "V10",
+    "V11",
+    "V12",
+    "V13",
+    "V14",
+    "V15",
+    "V16",
+    "V17",
+    "V18",
+    "V19",
+    "V20",
+    "V21",
+    "V22",
+    "V23",
+    "V24",
+    "V25",
+    "V26",
+    "V27",
+    "V28",
+    "Amount"
+  ],
+  "target_column": "Class",
+  "strategy": "chronological grouped-time row quantiles",
+  "nominal_fractions": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "time_tie_policy": "all rows with equal Time stay in one partition",
+  "seed": 17,
+  "row_count": 284807,
+  "time_cutoffs": {
+    "train_end_inclusive": 132928.0,
+    "validation_end_inclusive": 151328.0
+  },
+  "partitions": {
+    "train": {
+      "rows": 199364,
+      "class_counts": {
+        "0": 198980,
+        "1": 384
+      },
+      "fraud_percentage": 0.19261251,
+      "time_min": 0.0,
+      "time_max": 132928.0
+    },
+    "validation": {
+      "rows": 42722,
+      "class_counts": {
+        "0": 42666,
+        "1": 56
+      },
+      "fraud_percentage": 0.13108001,
+      "time_min": 132929.0,
+      "time_max": 151328.0
+    },
+    "test": {
+      "rows": 42721,
+      "class_counts": {
+        "0": 42669,
+        "1": 52
+      },
+      "fraud_percentage": 0.12172,
+      "time_min": 151329.0,
+      "time_max": 172792.0
+    }
+  },
+  "excluded_rows": 0,
+  "duplicate_audit": {
+    "exact_duplicate_copies_beyond_first": 1081,
+    "rows_in_exact_duplicate_groups": 1854,
+    "exact_duplicate_groups": 773,
+    "repeated_feature_vector_groups": 773,
+    "rows_in_repeated_feature_vector_groups": 1854,
+    "feature_vectors_with_conflicting_labels": 0,
+    "feature_vectors": {
+      "cross_partition_signature_groups": 0,
+      "rows_in_cross_partition_groups": 0
+    },
+    "full_rows": {
+      "cross_partition_signature_groups": 0,
+      "rows_in_cross_partition_groups": 0
+    },
+    "signature_method": "pandas.util.hash_pandas_object; deterministic row signatures"
+  },
+  "development_folds": [
+    {
+      "fold": 1,
+      "fit_rows": 79745,
+      "fit_fraud": 193,
+      "fit_time_min": 0.0,
+      "fit_time_max": 58158.0,
+      "validation_rows": 39872,
+      "validation_fraud": 52,
+      "validation_time_min": 58159.0,
+      "validation_time_max": 75519.0
+    },
+    {
+      "fold": 2,
+      "fit_rows": 119617,
+      "fit_fraud": 245,
+      "fit_time_min": 0.0,
+      "fit_time_max": 75519.0,
+      "validation_rows": 39874,
+      "validation_fraud": 111,
+      "validation_time_min": 75520.0,
+      "validation_time_max": 112553.0
+    },
+    {
+      "fold": 3,
+      "fit_rows": 159491,
+      "fit_fraud": 356,
+      "fit_time_min": 0.0,
+      "fit_time_max": 112553.0,
+      "validation_rows": 39873,
+      "validation_fraud": 28,
+      "validation_time_min": 112555.0,
+      "validation_time_max": 132928.0
+    }
+  ],
+  "software": {
+    "python": "3.11.8",
+    "numpy": "2.3.5",
+    "pandas": "3.0.5"
+  },
+  "row_positions_persisted": false
+}

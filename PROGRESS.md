@@ -1,8 +1,51 @@
 # Project Progress
 
-## Mission 01 status
+## Mission 01 status at close (historical)
 
-Mission 01 is complete against the source-verified ULB CSV. Validation and GitHub delivery succeeded; the raw dataset is excluded from Git. No Mission 02 model was trained.
+Mission 01 was complete against the source-verified ULB CSV. Its validation and GitHub delivery succeeded; the raw dataset is excluded from Git. No Mission 02 model had been trained at that time. Mission 02 is recorded separately below.
+
+## Mission 02 status
+
+The Mission 02 ML engine and scientific reports are complete locally. The final documentation, validation, artifact verification, and GitHub delivery are being recorded in this section. Mission 03 has not started.
+
+### Data and evaluation protocol
+
+- Recomputed SHA-256 for data/raw/creditcard.csv: 76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89; size 150,828,752 bytes. This matches the verified Mission 01 provenance record.
+- Split manifest: reports/ml/split_manifest.json; manifest ID 3547d288e55133319d9ab6c50b2f3224322b942c6a35e9ef257dbaaaedd22330.
+- Chronological grouped-time partitions: train 199,364 rows / 384 fraud through Time 132,928; validation 42,722 / 56 fraud from 132,929–151,328; test 42,721 / 52 fraud from 151,329–172,792. No rows were excluded; equal Time values stay together.
+- Duplicate audit: 773 exact duplicate groups / 1,854 rows / 1,081 copies beyond the first; zero conflicting labels and zero exact feature-vector or full-row duplicate signatures across partitions. No rows were removed.
+- Three expanding training-only folds contained 52, 111, and 28 fraud cases in their validation windows. The final test partition was held until model selection, calibration method, and threshold were frozen.
+
+### Model results
+
+- Eight candidates across DummyClassifier, Logistic Regression, Random Forest, and HistGradientBoosting were compared on the same three training-only temporal folds. Class weighting was compared with unweighted candidates; no resampling was used.
+- Balanced HistGradientBoosting had maximum mean CV Average Precision 0.75238 (SD 0.13229). The one-standard-error rule floor was 0.67601. The simpler balanced Logistic Regression, C=1, was selected with mean AP 0.73880 (SD 0.08916); final training fit took 1.04 seconds.
+- A sigmoid probability mapping was fitted to training-only out-of-fold scores. On validation, raw vs calibrated Brier score was 0.019587 vs 0.000373, and log loss was 0.087627 vs 0.002241. Isotonic calibration was not fit due to the small positive sample.
+- The maximum-F2 threshold selected on validation was 0.18359214. Validation precision was 0.84615, recall 0.78571, and alert count 52/42,722.
+- Final test: Average Precision 0.73727; trapezoidal PR area 0.74608; ROC-AUC 0.97724; precision 0.90476; recall 0.73077; F1 0.80851; F2 0.76000; Brier 0.000450; log loss 0.002851; TN 42,665, FP 4, FN 14, TP 38. Wilson 95% recall interval was 0.5975–0.8323.
+- Isolation Forest fit on 198,980 known Class 0 training rows; higher negative score_samples means more anomalous and is not a fraud probability. Validation AP/ROC-AUC was 0.02883/0.94776; final test AP/ROC-AUC was 0.03845/0.94518. Final-test fraud captures at top 0.1%, 0.5%, and 1% were 0, 13, and 25.
+
+### Artifacts and inference
+
+- Supervised joblib artifact SHA-256: 87f0e2f492fbed062e38b366a2d98e2a98a655f7e1c81657cd6986c1874fa088.
+- Isolation Forest artifact SHA-256: e5c071d8e39a013f1ebacac600109633b15bc97fc43f64d085662399b5dc6d60.
+- Both manifests were verified against local files and loaded with the isolated scikit-learn 1.9.1 environment. A three-row CSV smoke test verified deterministic single-batch repeat output, valid probabilities, the persisted threshold, and separate non-probability anomaly scores.
+- The raw CSV, .venv, .venv-isolated, secrets patterns, and data/models artifacts are ignored by Git.
+
+### Validation
+
+- Full isolated check command: powershell -NoProfile -ExecutionPolicy Bypass -File scripts\run-checks.ps1 -PythonPath .venv-isolated\Scripts\python.exe — passed.
+- Routine pytest: 54 passed, 2 skipped in 13.48 seconds. Skips were the two opt-in local real-data integrations; they were run separately.
+- Ruff lint: passed. Ruff format: 86 files already formatted. Python compile checks passed. Synthetic EDA smoke passed.
+- Notebook validator executed all nine notebooks in clean kernels: the four Mission 01 notebooks and five Mission 02 notebooks.
+- Opt-in command with RUN_REAL_DATA_TESTS=1: python -m pytest -m real_data -q — 2 passed, 54 deselected in 32.25 seconds. Environment variable was removed afterward.
+- The first full validation attempt exposed Ruff import-order and line-length violations in Mission 02 notebook cells. Those cells were corrected; the complete validation was rerun and passed.
+
+### Evaluation audit caveat
+
+The first full real-data workflow discovered that the Isolation Forest artifact had not been persisted. Persistence was corrected and the workflow was run again so both artifacts could be verified. The frozen final-test partition was therefore scored twice in deterministic runs. The registry retains both experiment records; their final-test metrics are identical. No model, calibration, or threshold choice changed based on test metrics. Treat the test period as consumed; a genuinely independent evaluation requires later data.
+
+See docs/ml/ and reports/ml/ for the implementation protocol, complete model comparison, calibration and threshold reports, anomaly analysis, final metrics, plots, manifest, and append-only experiment registry.
 
 ## Real-data validation
 

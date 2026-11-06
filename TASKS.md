@@ -18,10 +18,17 @@
 
 ## Mission 02 — Machine learning engine
 
-- [ ] Define leakage-safe temporal and stratified baselines.
-- [ ] Implement supervised pipelines and anomaly detection.
-- [ ] Evaluate with PR-AUC, confusion counts, threshold analysis, and temporal validation.
-- [ ] Record model artifacts and reproducible experiment metadata.
+- [x] Freeze chronological train/validation/test partitions, timestamp ties, duplicate audits, and expanding-window development folds.
+- [x] Implement leakage-safe preprocessing, Dummy/Logistic/Random Forest/HistGradientBoosting candidates, class-weight comparisons, calibration, threshold policies, and a separate Isolation Forest track.
+- [x] Evaluate temporal-fold Average Precision, validation calibration and F2 threshold, final-test ranking and confusion metrics, uncertainty intervals, and fixed alert budgets.
+- [x] Save versioned local supervised and anomaly artifacts with manifests, checksums, schema and library metadata; keep binaries ignored by Git.
+- [x] Add reusable single/batch inference, CLI commands, Windows scripts, synthetic unit tests, and opt-in real-data integration tests.
+- [x] Generate Mission 02 reports and five notebooks; execute all nine notebooks using clean kernels.
+- [x] Document modeling, splitting, leakage, selection, calibration, anomaly behavior, reproducibility, and Mission 03 handoff.
+- [x] Run full isolated validation, opt-in real-data integration, artifact checks, and inference smoke test.
+- [ ] Review changes and verify GitHub delivery.
+
+The final-test period was scored in two deterministic runs to correct missing Isolation Forest artifact persistence. The repetition did not change model selection or threshold and is disclosed in the leakage audit; future independent evaluation requires new later data.
 
 ## Mission 03 — Explainable AI and risk intelligence
 

@@ -1,0 +1,93 @@
+{
+  "experiment_id": "m02-20261106T184059796541Z-logistic_balanced_c1-3547d288",
+  "frozen_before_final_test_evaluation": true,
+  "dataset_sha256": "76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89",
+  "split_manifest_id": "3547d288e55133319d9ab6c50b2f3224322b942c6a35e9ef257dbaaaedd22330",
+  "selected_model": {
+    "name": "logistic_balanced_c1",
+    "family": "LogisticRegression",
+    "hyperparameters": {
+      "C": 1.0,
+      "class_weight": "balanced",
+      "scaler": "StandardScaler"
+    }
+  },
+  "selection": {
+    "criterion": "one-standard-error rule; simplest candidate within one SE of maximum mean AP",
+    "maximum_mean_average_precision": 0.7523835965496475,
+    "maximum_candidate": "hist_gradient_boosting_balanced",
+    "standard_error": 0.07637595630897161,
+    "eligibility_floor": 0.6760076402406758,
+    "eligible_candidates": [
+      "logistic_balanced_c1",
+      "random_forest_unweighted",
+      "random_forest_balanced",
+      "hist_gradient_boosting_unweighted",
+      "hist_gradient_boosting_balanced"
+    ],
+    "selected_candidate": "logistic_balanced_c1"
+  },
+  "calibration": {
+    "method": "one-dimensional sigmoid (Platt), fit on training-only expanding-fold predictions",
+    "fit_rows": 119619,
+    "fit_fraud_rows": 191,
+    "fit_source": "held-out scores from expanding folds inside the training partition"
+  },
+  "threshold": {
+    "policy": "max_f2",
+    "value": 0.1835921396957453,
+    "validation_metrics": {
+      "precision": 0.8461538461538461,
+      "recall": 0.7857142857142857,
+      "f1": 0.8148148148148148,
+      "f2": 0.7971014492753623,
+      "false_positive": 8,
+      "false_negative": 12,
+      "true_positive": 44,
+      "true_negative": 42658,
+      "alert_count": 52,
+      "alert_percentage": 0.12171714807359206
+    },
+    "constraint_feasible": true
+  },
+  "preprocessing": {
+    "features": [
+      "Time",
+      "V1",
+      "V2",
+      "V3",
+      "V4",
+      "V5",
+      "V6",
+      "V7",
+      "V8",
+      "V9",
+      "V10",
+      "V11",
+      "V12",
+      "V13",
+      "V14",
+      "V15",
+      "V16",
+      "V17",
+      "V18",
+      "V19",
+      "V20",
+      "V21",
+      "V22",
+      "V23",
+      "V24",
+      "V25",
+      "V26",
+      "V27",
+      "V28",
+      "Amount"
+    ],
+    "logistic_scaler": "StandardScaler fitted inside each training fold and final training partition",
+    "tree_models": "no feature scaling",
+    "resampling": "none"
+  },
+  "frozen_at_utc": "2026-11-06T18:40:59.796541+00:00",
+  "source_revision": "5dcbc2c2a9773318d7adb78869519f1440048867",
+  "source_worktree_dirty_at_fit": true
+}

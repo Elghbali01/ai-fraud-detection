@@ -1,6 +1,6 @@
 # AI Fraud Detection & Explainable Intelligence
 
-An extensible financial fraud analytics project. Mission 01 establishes a reproducible data-quality and exploratory analysis layer; later missions add supervised and anomaly models, explanations, an API, and a frontend.
+An extensible financial fraud analytics project. Missions 01 and 02 establish verified data analysis and a reproducible fraud-scoring engine; later missions add explanations, an API, and a frontend.
 
 ## Business and scientific objective
 
@@ -8,22 +8,22 @@ Help analysts examine historical transaction labels, compare candidate detection
 
 ## Current status
 
-Mission 01's real-data EDA and final validation are complete, and the completion work has been pushed to origin/main. The acquired ULB file contains 284,807 rows, 31 numeric columns, and 492 fraud labels; the raw CSV is excluded from Git. Provenance, integrity checks, generated reports, and the Mission 02 evaluation handoff are documented in docs/data/ and reports/. No model was trained. See PROGRESS.md for validation and delivery history.
+Missions 01 and 02 are complete in the local validated implementation. Mission 02 compares supervised classifiers and a separate Isolation Forest, uses chronological leakage controls, training-fold probability calibration, and a validation-selected threshold. The latest run selected balanced Logistic Regression and produced aggregate reports under reports/ml/. The raw ULB CSV, model binaries, and virtual environments remain excluded from Git. The final test period was scored twice in deterministic runs to correct and verify missing Isolation Forest artifact persistence; the repeat and its limitations are recorded in docs/ml/leakage-prevention.md. Mission 03 is ready to begin, but no SHAP explanations or production service have been built. See PROGRESS.md for validation and delivery history.
 
 ## Architecture
 
-- src/fraud_detection: schema contract, loading, profiling, analytics, plots, and report generation.
+- src/fraud_detection: schema contract, loading, profiling, analytics, plots, report generation, ML training, evaluation, persistence, and inference.
 - scripts: Windows setup, checks, acquisition, and execution entry points.
 - notebooks: analytical narratives that call the reusable package.
 - data/raw: local source datasets, excluded from Git.
-- reports: reproducible reports, tables, and figures; fixture outputs are kept separate.
+- reports: reproducible EDA and ML reports, tables, and figures; fixture outputs are kept separate.
 - backend and frontend integration are reserved for their roadmap missions.
 
 See docs/architecture/system-overview.md.
 
 ## Technology
 
-Python 3.11, NumPy, pandas, SciPy, Matplotlib, Seaborn, pytest, Ruff, Jupyter notebooks, and GitHub Actions. No model training or heavy ML frameworks are included in Mission 01.
+Python 3.11, NumPy, pandas, SciPy, scikit-learn, joblib, Matplotlib, Seaborn, pytest, Ruff, Jupyter notebooks, and GitHub Actions. No PyTorch, TensorFlow, GPU, cloud service, or heavy tracking server is required.
 
 ## Dataset
 
@@ -41,7 +41,7 @@ CMD from the project root:
     powershell -NoProfile -File scripts\setup.ps1
     .venv\Scripts\activate.bat
 
-The setup creates a project-local .venv and installs the exact Windows/Python 3.11 dependency set from requirements-mission01.lock. pyproject.toml remains the primary project metadata and dependency constraint source. It does not install Docker, WSL, Node packages, or heavy ML frameworks. If Windows blocks running a local PowerShell script, use a one-process execution policy option rather than changing a machine-wide policy:
+The setup creates a project-local .venv and installs the resolved Windows/Python 3.11 dependency set from requirements-mission02.lock. requirements-mission01.lock is retained as the earlier Mission 01 environment record. pyproject.toml remains the project dependency constraint source. If Windows blocks running a local PowerShell script, use a one-process execution policy option rather than changing a machine-wide policy:
 
     powershell -NoProfile -ExecutionPolicy Bypass -File scripts\setup.ps1
 
@@ -95,13 +95,41 @@ CMD:
 Routine pytest and CI do not require the local CSV. To run the opt-in real-data integration check:
 
     $env:RUN_REAL_DATA_TESTS = "1"
-    .\.venv\Scripts\python.exe -m pytest -m real_data
+    .\.venv\Scripts\python.exe -m pytest -m real_data -q
     Remove-Item Env:RUN_REAL_DATA_TESTS
+
+## Mission 02 machine learning
+
+The package entry point is fraud-ml. For a new, declared experiment, first freeze the verified chronological split and then run the bounded training/evaluation workflow:
+
+    .\.venv\Scripts\python.exe -m fraud_detection.ml.cli prepare
+    .\scripts\train-models.ps1
+
+Training selects from expanding temporal folds inside the training partition, fits sigmoid calibration from training-only out-of-fold scores, selects the F2 threshold on validation, and then scores the final time window. Because this workflow evaluates the final test, do not rerun it to make development decisions; Mission 02's final period is now consumed. The duplicated completion evaluation used to repair missing anomaly-artifact persistence is documented in the leakage audit.
+
+Inspect already saved aggregate results without retraining:
+
+    .\scripts\evaluate-models.ps1
+
+Verify the local supervised and anomaly artifacts:
+
+    .\scripts\verify-model-artifacts.ps1
+
+Saved results, the split manifest, reports, and figures are under reports/ml/. Joblib model files are local under data/models/ and ignored by Git. Only load trusted local artifacts created by this project; joblib deserialization can execute code.
+
+Key documentation:
+
+- docs/ml/data-splitting.md and docs/ml/leakage-prevention.md
+- docs/ml/modeling-strategy.md and docs/ml/model-selection.md
+- docs/ml/calibration-and-thresholds.md and docs/ml/anomaly-detection.md
+- docs/ml/reproducibility.md
+- docs/engineering/mission-03-handoff.md
+- reports/ml/FINAL_MODEL_REPORT.md and reports/ml/MODEL_COMPARISON.md
 
 ## Six-mission roadmap
 
-1. Foundation, dataset validation, data engineering, and EDA.
-2. Supervised machine learning, evaluation, and anomaly detection.
+1. Foundation, dataset validation, data engineering, and EDA — complete.
+2. Supervised machine learning, evaluation, and anomaly detection — complete.
 3. Explainable AI and risk intelligence.
 4. FastAPI backend.
 5. Next.js frontend and integration.
@@ -113,5 +141,6 @@ Routine pytest and CI do not require the local CSV. To run the opt-in real-data 
 - Time is elapsed seconds from the first transaction in this dataset, not a calendar timestamp.
 - The data has no supplied customer, merchant, location, or device history.
 - Accuracy can conceal poor minority-class detection; later model evaluation must include precision-recall and threshold-specific measures.
-- No final model is trained or selected in Mission 01.
+- The chosen model and threshold have only been evaluated on one short historical dataset. The final test is no longer an untouched set because it was scored in two deterministic completion runs; independent future evaluation requires new later data.
+- The selected model is not production-ready. There is no future-period validation, authenticated service, monitoring, or business-cost analysis.
 - Licensing and permitted redistribution must be checked at the source before sharing dataset contents.
