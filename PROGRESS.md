@@ -2,7 +2,7 @@
 
 ## Mission 01 status
 
-The scientific portion of Mission 01 has been completed against the source-verified ULB CSV. Final Git delivery and synchronization verification are recorded below after completion. No Mission 02 model was trained.
+Mission 01 is complete against the source-verified ULB CSV. Validation and GitHub delivery succeeded; the raw dataset is excluded from Git. No Mission 02 model was trained.
 
 ## Real-data validation
 
@@ -41,11 +41,12 @@ Node v20.19.6 was available but is not used by Mission 01. Kaggle CLI 2.2.5 was 
 - Opt-in real-data check: RUN_REAL_DATA_TESTS=1 .\.venv-isolated\Scripts\python.exe -m pytest -m real_data -q — 1 passed, 34 deselected. It verified the current file hash, exact schema, types, counts, quality checks, duplicate count, and EDA report generation.
 - The raw dataset checksum was independently recomputed during final inspection and matched the provenance sidecar. The dataset and both virtual environments are ignored by Git.
 - The fresh pre-commit fetch found origin/main at b5944298ea5bde211b83e84abbc735f564b55242, matching local HEAD; there were no remote-only commits.
-- Three logical completion commits now exist locally:
+- Four logical completion commits were created:
   - 4fc2a75 fix(data): harden downloader and isolated validation setup
   - 57d1d4a feat(eda): publish source-verified ULB analysis
   - 5dd0afa test: add opt-in real ULB integration coverage
-- Documentation has been updated with the final validation evidence. The docs commit, push, and post-push synchronization check are still pending.
+  - 4e831fd docs: finalize real-data mission 01 handoff
+- A normal non-forced push advanced origin/main from b5944298 to 4e831fd6. A fresh post-push fetch confirmed local HEAD and origin/main matched at 4e831fd6dd5b5cd38d2947dbbcaf418e7927c413, with 0 commits ahead, 0 behind, and a clean working tree. This final status update records that verified delivery.
 
 ## Historical record: initial audit before real acquisition
 

@@ -8,7 +8,7 @@ Help analysts examine historical transaction labels, compare candidate detection
 
 ## Current status
 
-Mission 01's real-data EDA is complete. The acquired ULB file contains 284,807 rows, 31 numeric columns, and 492 fraud labels; the raw CSV is excluded from Git. Provenance, integrity checks, generated reports, and the Mission 02 evaluation handoff are documented in docs/data/ and reports/. No model was trained. See PROGRESS.md for validation and delivery history.
+Mission 01's real-data EDA and final validation are complete, and the completion work has been pushed to origin/main. The acquired ULB file contains 284,807 rows, 31 numeric columns, and 492 fraud labels; the raw CSV is excluded from Git. Provenance, integrity checks, generated reports, and the Mission 02 evaluation handoff are documented in docs/data/ and reports/. No model was trained. See PROGRESS.md for validation and delivery history.
 
 ## Architecture
 
