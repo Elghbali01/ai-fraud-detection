@@ -30,7 +30,7 @@ Final Mission 01 validation:
 - scripts/download_dataset.py: exit code 2; Kaggle CLI unavailable. It exited before any network request. No credentials were read or printed and no dataset was downloaded.
 - Real-data integration and notebook execution: blocked because the CSV was unavailable.
 
-At final audit C: had 927,645,696 bytes free. The project .venv used 23,504,647 bytes and ignored smoke outputs used 455,884 bytes. The CSV was absent. The remaining difference from the initial disk reading was not attributed to project artifacts; no unrelated files were removed.
+At final audit C: had 857,010,176 bytes free. The project .venv used 23,504,647 bytes and ignored smoke outputs used 455,884 bytes. The CSV was absent. The remaining difference from the initial disk reading was not attributed to project artifacts; no unrelated files were removed.
 
 Synthetic smoke results are not real ULB findings.
 
@@ -51,8 +51,9 @@ Five validated commits were created on main:
 - a07c1f6 docs: finalize mission 01 documentation
 - 20be8db docs: record mission 01 delivery status
 - b301caa docs: confirm synchronized mission 01 delivery
+- 7b2b1e8 docs: clarify verified blockers and dependencies
 
-The first fresh fetch found origin/main at 13461f7, with five local implementation commits ahead and no remote-only commits. A normal non-forced push advanced the remote to a07c1f6. A second fresh fetch found that state unchanged, and the non-forced status update push advanced origin/main to 20be8db. A final fresh fetch confirmed the local branch and origin/main both at b301caa (0 ahead/behind), with a clean working tree.
+The first fresh fetch found origin/main at 13461f7, with five local implementation commits ahead and no remote-only commits. A normal non-forced push advanced the remote to a07c1f6. Later status/documentation pushes advanced origin/main through 20be8db, b301caa, and 7b2b1e8. The final verification after that delivery confirmed branch main, local and remote hashes equal, 0 ahead/behind, and a clean working tree.
 
 ## Known issues and blockers
 
@@ -60,7 +61,7 @@ The first fresh fetch found origin/main at 13461f7, with five local implementati
 - Kaggle CLI and authorized local credentials were unavailable; dataset network access was not tested.
 - No real-data figures or statistics have been generated.
 - The initial unprivileged GitHub probe was denied. An authorized elevated fetch and push later succeeded.
-- System drive free space was 927,645,696 bytes at final audit; the decrease from the initial reading was not attributed to project artifacts.
+- System drive free space was 857,010,176 bytes at final audit; the decrease from the initial reading was not attributed to project artifacts.
 
 ## Mission 02 readiness
 
