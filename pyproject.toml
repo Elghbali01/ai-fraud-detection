@@ -17,6 +17,7 @@ dependencies = [
   "seaborn>=0.13,<1",
   "scikit-learn>=1.7,<2",
   "joblib>=1.4,<2",
+  "shap==0.51.0",
 ]
 
 [project.optional-dependencies]
@@ -31,6 +32,7 @@ dev = [
 [project.scripts]
 fraud-eda = "fraud_detection.eda:main"
 fraud-ml = "fraud_detection.ml.cli:main"
+fraud-explain = "fraud_detection.explainability.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -39,7 +41,10 @@ where = ["src"]
 testpaths = ["tests"]
 addopts = "-ra"
 pythonpath = ["src"]
-markers = ["real_data: optional integration test requiring the local ULB CSV and provenance."]
+markers = [
+  "real_data: optional integration test requiring the local ULB CSV and provenance.",
+  "mission03_real_data: opt-in Mission 03 integration using trusted local artifacts and development partitions only.",
+]
 
 [tool.ruff]
 line-length = 100

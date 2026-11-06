@@ -23,3 +23,7 @@ class InferenceInputError(ValueError):
 
 class ArtifactError(RuntimeError):
     """Raised when a trusted local model artifact is invalid or incompatible."""
+
+
+class ExplainabilityError(RuntimeError):
+    """Raised when a model explanation cannot be reconstructed faithfully."""
