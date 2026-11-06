@@ -6,7 +6,7 @@ Mission 01 was complete against the source-verified ULB CSV. Its validation and 
 
 ## Mission 02 status
 
-The Mission 02 ML engine and scientific reports are complete locally. The final documentation, validation, artifact verification, and GitHub delivery are being recorded in this section. Mission 03 has not started.
+The Mission 02 ML engine, scientific reports, validation, artifact verification, and GitHub delivery are complete. The engine, test, and scientific-results commits are pushed to origin/main. Fresh post-push fetch verification found local HEAD and origin/main matched, with zero commits ahead or behind and a clean working tree. Mission 03 has not started.
 
 ### Data and evaluation protocol
 
@@ -46,6 +46,14 @@ The Mission 02 ML engine and scientific reports are complete locally. The final 
 The first full real-data workflow discovered that the Isolation Forest artifact had not been persisted. Persistence was corrected and the workflow was run again so both artifacts could be verified. The frozen final-test partition was therefore scored twice in deterministic runs. The registry retains both experiment records; their final-test metrics are identical. No model, calibration, or threshold choice changed based on test metrics. Treat the test period as consumed; a genuinely independent evaluation requires later data.
 
 See docs/ml/ and reports/ml/ for the implementation protocol, complete model comparison, calibration and threshold reports, anomaly analysis, final metrics, plots, manifest, and append-only experiment registry.
+
+### GitHub delivery
+
+- 02bd7a3 feat(ml): add reproducible modeling and inference engine.
+- 44b8036 test(ml): add scientific validation coverage.
+- ad56b46 docs(ml): publish experiments and mission 03 handoff.
+- Push destination: origin/main. The push was non-forced; the remote was fetched and confirmed to have no remote-only commits first.
+- Post-push fetch confirmed local HEAD and origin/main matched, zero commits ahead/behind, and a clean working tree. A follow-up documentation commit records this final delivery status.
 
 ## Real-data validation
 

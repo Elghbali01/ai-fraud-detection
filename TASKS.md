@@ -26,7 +26,7 @@
 - [x] Generate Mission 02 reports and five notebooks; execute all nine notebooks using clean kernels.
 - [x] Document modeling, splitting, leakage, selection, calibration, anomaly behavior, reproducibility, and Mission 03 handoff.
 - [x] Run full isolated validation, opt-in real-data integration, artifact checks, and inference smoke test.
-- [ ] Review changes and verify GitHub delivery.
+- [x] Review changes, push validated commits to origin/main, and verify a clean synchronized working tree.
 
 The final-test period was scored in two deterministic runs to correct missing Isolation Forest artifact persistence. The repetition did not change model selection or threshold and is disclosed in the leakage audit; future independent evaluation requires new later data.
 
