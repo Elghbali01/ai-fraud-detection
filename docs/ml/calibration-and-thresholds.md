@@ -27,6 +27,6 @@ Average Precision and trapezoidal PR area are reported separately. The final-tes
 
 ## Alert budgets
 
-Top-K uses K=floor(N × budget percentage / 100), with at least one alert for a nonempty partition. On the final test, 0.1%, 0.5%, and 1% budgets correspond to 43, 214, and 428 ranked transactions and capture 38, 42, and 42 frauds. These are ranking scenarios, distinct from the threshold-selected confusion matrix. They do not imply staffing capacity or monetary impact.
+Top-K uses K=ceil(N × budget percentage / 100), with at least one alert for a nonempty partition. On the final test, 0.1%, 0.5%, and 1% budgets correspond to 43, 214, and 428 ranked transactions and capture 38, 42, and 42 frauds. These are ranking scenarios, distinct from the threshold-selected confusion matrix. They do not imply staffing capacity or monetary impact.
 
 Detailed threshold curves and budget tables are in reports/ml/THRESHOLD_ANALYSIS.md and reports/ml/alert_budget_comparison.csv.
