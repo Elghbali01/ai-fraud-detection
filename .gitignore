@@ -49,6 +49,8 @@ node_modules/
 out/
 
 # Temporary files and OS/editor metadata
+/.mission06-tooling/
+/frontend/.mission06-tooling/
 *.tmp
 *.temp
 *.bak

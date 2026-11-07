@@ -71,7 +71,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="local-card-head"><span>Local runtime</span><span className={`status-dot ${apiState}`} /></div>
           <p>Loopback API · unauthenticated · trusted workstation only</p>
         </div>
-        <div className="sidebar-foot"><span className="status-dot online" />Mission 05 · local workspace</div>
+        <div className="sidebar-foot"><span className="status-dot online" />Local workspace</div>
       </aside>
 
       <div className="main-column">
@@ -86,7 +86,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Link href="/system" className="topbar-link" aria-label="Open model and system status"><Icon name="external" /><span>System status</span></Link>
           </div>
         </header>
-        <main className="content-wrap" id="main-content">{children}</main>
+        <main className="content-wrap" id="main-content" tabIndex={-1}>{children}</main>
       </div>
     </div>
   );

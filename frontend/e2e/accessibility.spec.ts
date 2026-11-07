@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 const routes = [
@@ -15,6 +16,7 @@ const routes = [
 
 test("primary screens meet WCAG 2.1 A/AA axe checks on desktop and mobile", async ({ page }) => {
   const axeScript = path.join(process.cwd(), "node_modules", "axe-core", "axe.min.js");
+  const axeSource = await readFile(axeScript, "utf8");
   const audit: Array<{ route: string; width: number; violations: unknown[] }> = [];
 
   for (const width of [1440, 390]) {
@@ -23,7 +25,13 @@ test("primary screens meet WCAG 2.1 A/AA axe checks on desktop and mobile", asyn
       await page.goto(route);
       await page.getByRole("main").waitFor();
       if (route === "/predict") await page.getByText("Anonymized PCA components").click();
-      await page.addScriptTag({ path: axeScript });
+      await page.evaluate((source) => {
+        const existingNonce = document.querySelector<HTMLScriptElement>("script[nonce]")?.nonce;
+        const script = document.createElement("script");
+        if (existingNonce) script.nonce = existingNonce;
+        script.textContent = source;
+        document.head.append(script);
+      }, axeSource);
       const violations = await page.evaluate(async () => {
         type AxeReport = {
           run: (
