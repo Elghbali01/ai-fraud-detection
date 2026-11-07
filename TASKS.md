@@ -57,7 +57,7 @@ The final-test period was scored in two deterministic runs to correct missing Is
 - [x] Add synthetic API behavior tests and an opt-in verified-artifact test that sends synthetic inputs only.
 - [x] Run the complete isolated project checks and Mission 04 live HTTPX smoke against a real local server.
 - [x] Document API, database, CSV, investigation, security, local startup, tests, and Mission 05 integration.
-- [ ] Review files/secrets/ignore rules; create logical commits, push normally to origin/main, then verify clean synchronization.
+- [x] Review files/secrets/ignore rules; create logical commits, push normally to origin/main, then verify clean synchronization.
 
 ## Mission 05 — Next.js frontend
 
