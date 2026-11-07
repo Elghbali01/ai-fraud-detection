@@ -245,8 +245,8 @@ requests.
   synchronous/process-local, and the API has no alert delivery, authentication, monitoring, or
   deployment hardening.
 - Model scientific limits remain unchanged: anonymized PCA inputs, a short historical dataset,
-  distribution shift risk, no independent later cohort, and a consumed final-test period. No Mission
-  05 implementation has started.
+  distribution shift risk, no independent later cohort, and a consumed final-test period. At this
+  Mission 04 checkpoint, Mission 05 implementation had not started; its completion is recorded below.
 - Delivery review confirmed there were no unrelated staged changes, credential patterns, raw data,
   model binaries, runtime databases, uploads, or virtual environments in Git. Ignore rules were
   checked for all of those local-only files. The pre-push fetch found `origin/main` at the Mission 03
@@ -256,3 +256,56 @@ requests.
   commit `22cad85d508887b12f1484fe128bb4531faa909e` were pushed to `origin/main` without force or
   history rewriting. A post-push fetch verified local `HEAD` and `origin/main` both at
   `22cad85d508887b12f1484fe128bb4531faa909e`, zero commits ahead/behind, and a clean working tree.
+
+## Mission 05 status — implementation and validation complete
+
+Mission 05 adds the responsive Next.js analyst command center in `frontend/`. It consumes the
+existing local Mission 04 API with typed request/response contracts and no production mock-data
+fallback. It covers overview, guided single prediction, bounded/filterable batch prediction, CSV
+upload and paginated analysis, transaction history, risk policy and prioritization, global/local
+explainability, separate anomaly scoring, investigation workflows, and model/system status. Local
+explanations display the full 30-feature raw-log-odds waterfall; both attribution charts provide
+screen-reader data tables. The CSV workflow accepts file picker and drag-and-drop and downloads an
+exact header-only feature template.
+
+### Validation evidence (2026-11-07)
+
+- `scripts/run-checks.ps1 -PythonPath '.venv-isolated\Scripts\python.exe'`: **81 passed, 4 expected
+  opt-in skips, 1 Starlette TestClient deprecation warning**. Ruff, formatting, compile checks, and
+  the synthetic 200-row EDA smoke passed; all 14 notebooks executed. The first four notebooks used
+  the verified ULB CSV and notebooks 05–14 used the persisted Mission 02/03 artifacts.
+- With `RUN_REAL_DATA_TESTS=1`, `python -m pytest -m real_data -q`: **2 passed, 1 separately gated
+  Mission 03 skip, 82 deselected, 1 warning**. The checksum and real-data integration were verified;
+  no model was retrained and the consumed final-test partition was not evaluated.
+- Frontend quality checks: TypeScript, ESLint, production build, and **5 Vitest files / 16
+  tests passed**. Next.js generated 11 app routes.
+- `scripts/smoke-frontend.ps1 -PythonPath '.venv-isolated\Scripts\python.exe' -ApiPort 8001
+  -FrontendPort 3100`: health and readiness passed, frontend HTTP 200, and **8 Playwright tests
+  passed** (7 real-API workflows and one axe-core suite). Axe checked nine routes at 1440 px and
+  390 px for WCAG 2.1 A/AA and best-practice violations; none were reported.
+- Visual QA exercised nine routes at 1440, 1024, 768, and 390 px (**36 route/viewport
+  combinations**); all rendered without horizontal overflow or browser page errors. Key desktop
+  and mobile workflow states were reviewed in Playwright screenshots.
+- The ULB CSV remains local: 150,828,752 bytes, SHA-256
+  `76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89`. Reports contain source
+  results for all 284,807 rows and 492 fraud labels. The raw file, model artifacts, database, and
+  virtual environments are excluded from Git.
+- The end-to-end checks used throwaway SQLite/upload paths and loopback ports 8001/3100 because a
+  separate user application occupied port 3000. Mission 04's existing default database and that
+  separate application were not changed.
+
+### Corrections and remaining limitations
+
+- Added fresh/legacy SQLite initialization handling, aligned Alembic settings access with the
+  installed configuration interface, and added regression tests for database initialization.
+- Added typed guided feature validation, batch sort/filter controls, CSV drag/drop and template
+  download, complete local log-odds waterfalls, and equivalent accessible chart data tables.
+- The service remains unauthenticated and loopback-only; it is not approved for LAN or production
+  use. Keyboard-only/screen-reader review and target-environment contrast review remain manual.
+  Bundle-size, latency, memory, and throughput benchmarks were not run. The data is historical,
+  anonymized, and lacks merchant/customer/device context; Mission 02's final-test period is
+  consumed. Mission 06 has not started.
+
+Mission 05 implementation commit `e95d597467b3e86eeb1f8fa6a317789ba7084848` contains the
+application and regression-test changes. The separate documentation closeout and actual
+`origin/main` post-push verification are recorded in Git history and the final delivery report.

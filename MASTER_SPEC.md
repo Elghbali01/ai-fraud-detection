@@ -19,6 +19,7 @@ Build a local-first financial fraud analysis platform that helps analysts inspec
 - Mission 03 specifically adds exact raw-log-odds contributions, raw-output SHAP, validation-derived risk tiers, stable budget ranking, separate anomaly intelligence, reports, notebooks, and versioned Python contracts without retraining the frozen Mission 02 classifier.
 - Provide versioned FastAPI interfaces and a Next.js analyst interface.
 - Mission 04 exposes local-only prediction, explanation, risk, anomaly, upload/analysis, history, and analyst investigation routes over the frozen Mission 02/03 artifacts. User-uploaded analyses store only derived outputs and do not compute label-based evaluation metrics.
+- Mission 05 supplies a responsive, typed Next.js analyst interface over the real Mission 04 OpenAPI contract, including prediction, paginated CSV analysis/history, risk prioritization, raw-log-odds explainability, anomaly review, investigations, and readiness status. It does not fabricate production analytics or claim model outputs are ground truth.
 - Compare models and allow useful outputs to be exported.
 
 ## Non-functional requirements
@@ -49,7 +50,7 @@ Build a local-first financial fraud analysis platform that helps analysts inspec
 - Training and evaluation code belongs to Mission 02 modules; explainability belongs to Mission 03.
 - Mission 03 services load trusted Mission 02 artifacts and keep calibrated risk, review tiers, explanations, and anomaly scores separate.
 - FastAPI schemas and services belong to backend in Mission 04.
-- The frontend communicates through documented API contracts in Mission 05.
+- The frontend communicates through documented API contracts in Mission 05 and remains local-only while the backend has no authentication.
 - Model binaries and raw datasets are not checked into Git.
 
 ## Security and privacy

@@ -61,7 +61,14 @@ The final-test period was scored in two deterministic runs to correct missing Is
 
 ## Mission 05 — Next.js frontend
 
-- [ ] Build analyst workflows, visual comparisons, explanation views, and exports.
+- [x] Audit the Mission 04 OpenAPI schema and preserve its request, response, pagination, and scientific semantics.
+- [x] Build a responsive design system, application shell, navigation, health indicators, reusable states, and reduced-motion behavior.
+- [x] Implement API-backed overview, single/batch prediction, CSV upload/analysis/results, transaction history, risk prioritization, explainability, anomaly review, investigations, and model/system status.
+- [x] Add typed feature validation, explicit offline/error states, bounded result pages, and no production mock fallback.
+- [x] Add Vitest coverage and Playwright API/browser workflows, including WCAG 2.1 A/AA axe scans.
+- [x] Run isolated backend regression, real-data integration, frontend quality/build, full-stack smoke, browser E2E, visual viewport, and automated accessibility checks.
+- [x] Document frontend architecture, design, API integration, workflows, local setup, test results, limitations, and Mission 06 handoff.
+- [x] Review Git contents and ignore rules, create logical commits, push to `origin/main`, and verify clean synchronization.
 
 ## Mission 06 — Delivery hardening
 

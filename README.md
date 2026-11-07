@@ -1,6 +1,6 @@
 # AI Fraud Detection & Explainable Intelligence
 
-An extensible financial fraud analytics project. Missions 01 and 02 establish verified data analysis and a reproducible fraud-scoring engine; Mission 03 adds explanations and risk intelligence, and Mission 04 exposes those frozen services through a local API.
+An extensible financial fraud analytics project. Missions 01 and 02 establish verified data analysis and a reproducible fraud-scoring engine; Mission 03 adds explanations and risk intelligence, Mission 04 exposes those frozen services through a local API, and Mission 05 provides a responsive analyst command center.
 
 ## Business and scientific objective
 
@@ -8,7 +8,7 @@ Help analysts examine historical transaction labels, compare candidate detection
 
 ## Current status
 
-Missions 01–03 are complete and their validated deliverables are pushed to origin/main. Mission 04 adds a local-only FastAPI service for the frozen Mission 02 classifier and Mission 03 risk, anomaly, and explanation interfaces. It supports strict single/batch prediction, global/local explanations, feature-only CSV analyses, score history, and analyst investigations. Mission 04 validation and GitHub delivery are recorded in PROGRESS.md. Real-data analyses use only the documented partitions; the final-test period was consumed by Mission 02 and is not loaded by Mission 04. Raw data, model binaries, local SQLite/uploads, virtual environments, and credentials remain excluded from Git.
+Missions 01–05 are implemented and locally validated; their GitHub delivery records are in PROGRESS.md. Mission 04 is a local-only FastAPI service for the frozen Mission 02 classifier and Mission 03 risk, anomaly, and explanation interfaces. Mission 05 is a Next.js analyst console for prediction, CSV analyses, history, risk prioritization, explanations, anomalies, investigations, and model status. The frontend uses the real API and shows explicit loading, empty, and error states. Real-data analyses use only documented partitions; the final-test period was consumed by Mission 02 and is not loaded by later missions. Raw data, model binaries, local SQLite/uploads, virtual environments, and credentials remain excluded from Git. Mission 06 hardening is not started.
 
 ## Architecture
 
@@ -18,7 +18,7 @@ Missions 01–03 are complete and their validated deliverables are pushed to ori
 - data/raw: local source datasets, excluded from Git.
 - reports: reproducible EDA and ML reports, tables, and figures; fixture outputs are kept separate.
 - backend: Mission 04 local FastAPI routes, SQLite persistence, Alembic migrations, and bounded upload workflows.
-- frontend: reserved for Mission 05; it will use the documented local OpenAPI contract.
+- frontend: Mission 05 Next.js App Router application using typed contracts and the documented local OpenAPI service.
 
 See docs/architecture/system-overview.md.
 
@@ -184,14 +184,39 @@ reported 1 passed. A real HTTPX run against a temporary local Uvicorn server ver
 operations. Full results, observed latency, migration behavior, and limitations are in
 `PROGRESS.md`.
 
+## Mission 05 analyst frontend
+
+The responsive dashboard lives in `frontend/` and communicates with the loopback API at
+`http://127.0.0.1:8000/api/v1`. It includes overview, single and batch prediction, feature-only CSV
+analysis and paginated results, transaction history, persisted risk policy and alert prioritization,
+global and local explainability, separate anomaly scoring, investigation workflows, and system
+status. It does not use fallback analytics or fabricate history. See `docs/frontend/` for the
+architecture, API mapping, design system, page workflows, accessibility notes, testing, and local
+development.
+
+With Node.js 20.19.6 and the isolated Python environment installed, start both loopback services
+with `scripts/start-fullstack.ps1 -PythonPath '.venv-isolated\Scripts\python.exe'`, or start them
+separately with `scripts/start-api.ps1` and `scripts/start-frontend.ps1`. The frontend defaults to
+port 3000 and can use port 3100 if 3000 is occupied. Run `scripts/run-frontend-checks.ps1` for
+TypeScript, ESLint, Vitest, and production build checks; run `scripts/smoke-frontend.ps1` for local
+API/frontend health and Playwright workflows. Install the matching browser once with
+`npx playwright install chromium` from `frontend/` before browser tests.
+
+Final local Mission 05 validation on 2026-11-07 reported 81 backend tests passed and 4 expected
+opt-in skips; the separate ULB integration reported 2 passed, 1 separately gated skip, and 82
+deselected. All 14 notebooks executed. Frontend validation reported 16 unit tests passed, a
+successful optimized build, 8 browser tests passed, and zero axe WCAG 2.1 A/AA or best-practice
+violations across nine routes at desktop and mobile widths. Full evidence and remaining hardening
+limits are in `PROGRESS.md` and `docs/engineering/mission-06-handoff.md`.
+
 ## Six-mission roadmap
 
 1. Foundation, dataset validation, data engineering, and EDA — complete.
 2. Supervised machine learning, evaluation, and anomaly detection — complete.
 3. Explainable AI and risk intelligence — implemented and validated; see PROGRESS.md.
 4. FastAPI backend — implementation and local validation complete; GitHub delivery is recorded in PROGRESS.md.
-5. Next.js frontend and integration.
-6. Hardening, end-to-end testing, documentation, and portfolio delivery.
+5. Next.js frontend and local integration — implementation and validation complete; GitHub delivery is recorded in `PROGRESS.md`.
+6. Security, accessibility, performance, and deployment hardening — not started.
 
 ## Scientific limitations
 
