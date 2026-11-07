@@ -9,8 +9,10 @@
 ## Before presenting
 
 1. Build the frontend and install the project dependencies as described in the README.
-2. Run `.\scripts\start-demo.ps1`. Keep the printed session-file path for shutdown.
-3. Open the printed dashboard URL. Confirm the system page reports API readiness and the frozen
+2. Double-click `START_AI_FRAUD.bat`. The launcher verifies both services and opens the dashboard
+   after its readiness checks pass. On the first launch, allow Windows to use the existing default
+   browser association; no credentials or browser permissions are required.
+3. Confirm the system page reports API readiness and the frozen
    model version.
 4. Use only synthetic feature values and
    `docs/portfolio/fixtures/synthetic-demo-transactions.csv`. The file contains 30 rows and no
@@ -62,7 +64,5 @@ local portfolio demonstration only. See the release checklist before sharing the
 
 ## Stop safely
 
-Copy the exact session path printed by the launcher into
-`.\scripts\stop-demo.ps1 -SessionPath "C:\path\from\startup.json"`. The helper validates
-process identity and stops only the demo's recorded processes. It preserves the SQLite database
-and uploaded files for the next demonstration.
+Double-click `STOP_AI_FRAUD.bat`. The helper validates process identity and stops only the demo's
+recorded processes. It preserves the SQLite database and uploaded files for the next demonstration.

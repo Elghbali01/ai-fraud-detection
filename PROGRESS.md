@@ -376,3 +376,36 @@ after it. Both commits were pushed normally to `origin/main` without a force pus
 A fresh post-push fetch verified local `main` and `origin/main` at the final release commit, zero
 commits ahead or behind, and a clean working tree. The final release commit hash is in the delivery
 summary.
+
+## Post-release status — one-click Windows launcher
+
+The Windows launcher and stop workflow were completed and validated on 2026-11-07. The root-level
+`START_AI_FRAUD.bat` and `STOP_AI_FRAUD.bat` use the existing Mission 06 demo scripts, with
+Windows PowerShell 5.1 policy bypass scoped to the child process. Startup checks Python, Node,
+dependencies, the production bundle, model artifacts, SQLite migration state, and loopback ports;
+it waits for API readiness and frontend HTTP readiness before opening the default URL handler.
+It does not install dependencies, retrain models, or delete data.
+
+Validation exercised the actual batch entry from CMD, a complete Windows PowerShell 5.1 startup and
+stop, a duplicate launch that reused the same PIDs, and a separate complete PowerShell 7 startup
+and safe stop. The app reached FastAPI `/api/v1/ready` and `/api/v1/health`, SQLite revision
+`0002_prediction_semantics`, a verified Mission 02 model, and Next.js HTTP 200 with the dashboard
+marker. Normal stop and repeated stop passed. A foreign listener on port 8001 remained untouched;
+injected early backend and frontend exits were logged and cleaned up without starting or leaving
+unowned services. Execution-policy scopes remained unchanged.
+
+The PowerShell 7 smoke exposed that `Get-Process.Path` can be null in this environment and that CIM
+is unavailable. Process verification now falls back to the launched process's `MainModule.FileName`,
+and the Next.js startup error handler safely stops a frontend process if it was already created. The
+complete PowerShell 7 startup and stop passed after that correction.
+
+The existing demo SQLite database remained **102,400 bytes** with SHA-256
+`1c003c25b03efc3c7f088d8f677806c9a6c3192f6ef5944a7991ade09b05f347`. Supervised model,
+Isolation Forest, SHAP background, and anomaly reference hashes remained unchanged. Runtime logs,
+session manifests, and the startup lock are under ignored `data/backend/`; raw data, model files,
+SQLite files, and both Python environments remain excluded from Git.
+
+The CMD invocation was not an Explorer double-click. The default Windows URL handler returned
+successfully for `http://127.0.0.1:3100`, and the page passed its HTTP/content readiness check, but
+the browser window was not visually verified. No claim of visual browser inspection is made. See
+`docs/engineering/post-release-launcher.md` for the detailed test record and remaining limits.

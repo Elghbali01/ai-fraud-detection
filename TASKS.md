@@ -80,3 +80,13 @@ The final-test period was scored in two deterministic runs to correct missing Is
 - [x] Review Git contents and ignore rules, commit the validated release, push normally to `origin/main`, and verify clean synchronization.
 
 The aggregate notebook/check wrapper and broad `real_data` marker were intentionally not re-run in this closeout because they include paths that reopen consumed Mission 02 final-test results. Safe underlying checks were run individually. See `docs/release/final-audit.md` for exact results and limitations.
+
+## Post-release — one-click Windows launcher
+
+- [x] Add root-level `START_AI_FRAUD.bat` and `STOP_AI_FRAUD.bat` using process-scoped Windows PowerShell execution-policy bypass.
+- [x] Make the existing demo scripts Windows PowerShell 5.1-compatible and start FastAPI to readiness before starting Next.js to HTTP readiness.
+- [x] Add preflight checks, duplicate-session reuse, ignored timestamped logs, safe PID/executable/start-time shutdown, and no-install/no-retrain behavior.
+- [x] Verify CMD invocation, Windows PowerShell 5.1, a complete PowerShell 7 startup and stop, duplicate reuse, repeated stop, foreign-port preservation, backend/frontend startup failure handling, logs, and SQLite/model preservation.
+- [x] Document the one-click workflow, requirements, ports, and common errors in README and the post-release launcher audit.
+
+The successful CMD test was not an Explorer double-click. PowerShell 7 completed a separate full startup and safe stop. Windows invoked the default URL handler after endpoint checks, but a visible browser page was not independently verified in this session. See `docs/engineering/post-release-launcher.md`.

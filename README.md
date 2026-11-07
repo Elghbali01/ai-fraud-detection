@@ -62,19 +62,58 @@ The setup creates a project-local .venv and installs the resolved Windows/Python
 
 The policy option applies only to that PowerShell process.
 
-## Local portfolio demo
+## One-Click Windows Launch
 
-After installing the Python and frontend dependencies and building the frontend, start the loopback-only demo:
+On Windows 11, double-click `START_AI_FRAUD.bat` in File Explorer. The launcher uses the bundled
+Windows PowerShell 5.1 with execution-policy bypass limited to that child process; it does not
+change the machine or user execution policy and does not request administrator rights. It checks the
+Python environment, Node.js, installed dependencies, production build, model artifacts, ports, and
+database readiness before reporting success. It opens the dashboard in the Windows default browser
+only after the API `/api/v1/ready` endpoint and frontend HTTP response pass.
 
-    .\scripts\start-demo.ps1
+The one-click demo uses `127.0.0.1:8001` for FastAPI and `127.0.0.1:3100` for the dashboard. It
+reuses `data/backend/mission06-demo.sqlite3` and does not retrain models or delete data. Starting a
+second time validates and reuses the existing session instead of starting duplicate services.
+The batch entry point uses Windows PowerShell 5.1; the internal startup and stop scripts also support
+PowerShell 7.
+Double-click `STOP_AI_FRAUD.bat` to stop only the recorded launcher processes. It verifies each
+process ID, executable path, and start time; repeated stops are safe. The SQLite database, uploads,
+and model artifacts are preserved.
 
-The script verifies the frozen model/API artifacts, the existing production frontend bundle and its configured API URL, the database migration head, and both ports. It uses `127.0.0.1:8001` for the API and `127.0.0.1:3100` for the dashboard by default. It creates or reuses `data/backend/mission06-demo.sqlite3`; existing demo records are preserved. The database and uploads are ignored by Git.
+### Requirements before first launch
 
-Use the session-file path printed by the launcher to stop only its recorded API and frontend processes:
+- Python 3.11 virtual environment at `.venv-isolated` or `.venv`.
+- Node.js 20.9 or newer, installed frontend dependencies, and an existing production build at
+  `frontend/.next` configured for `http://127.0.0.1:8001/api/v1`.
+- Verified local model and explainability artifacts under the ignored `data/models/` directory.
 
-    .\scripts\stop-demo.ps1 -SessionPath "C:\path\printed\by\start-demo\mission06-demo-session-....json"
+The launcher checks dependencies but does not install or update them. For a fresh clone, follow
+the setup instructions above, install the locked frontend dependencies, and build the frontend once
+with `NEXT_PUBLIC_FRAUD_API_URL=http://127.0.0.1:8001/api/v1`. After that preparation, startup and
+shutdown require only the two batch files.
 
-The stop script verifies each PID, executable, and process start time before stopping it. It preserves the SQLite database and uploaded files. For the demonstration, use the explicitly synthetic feature-only fixture at `docs/portfolio/fixtures/synthetic-demo-transactions.csv`; it contains no target labels and is not fraud ground truth.
+### Common launch errors
+
+- **Python environment missing or package import fails:** run the documented Python setup and
+  dependency installation, then launch again.
+- **Node.js or Next.js dependencies missing:** install Node.js 20.9+ and the locked packages under
+  `frontend/`; the launcher never installs them automatically.
+- **Production build missing or API URL mismatch:** rebuild the frontend with the API URL shown
+  above. The launcher will not serve a bundle configured for a different API.
+- **Port 8001 or 3100 is occupied:** the launcher leaves the owning process untouched. Stop that
+  application using its own controls, then retry.
+- **Model artifact verification or SQLite migration fails:** inspect
+  `data/backend/mission06-demo-logs/`. Do not delete the database or model artifacts as a repair.
+- **Startup timeout or partial session:** inspect the log folder and double-click
+  `STOP_AI_FRAUD.bat` before retrying. It acts only on processes whose saved identity still
+  matches.
+- **Browser does not appear:** if the default browser handler cannot be invoked, open the printed
+  dashboard URL after the launcher confirms readiness.
+
+Timestamped launcher, API, and frontend logs live under the Git-ignored
+`data/backend/mission06-demo-logs/`. The demonstration should use only the synthetic feature-only
+fixture at `docs/portfolio/fixtures/synthetic-demo-transactions.csv`; it contains no target labels
+and is not fraud ground truth. See the [demo walkthrough](docs/portfolio/demo-script.md).
 
 ## Dataset acquisition
 
