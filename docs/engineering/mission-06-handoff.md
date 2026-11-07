@@ -106,4 +106,42 @@ inspect the summary/results, then delete the analysis. Demonstrate global SHAP a
 baseline, and create a named synthetic investigation only if prepared to leave a local test case.
 Avoid screenshots containing private local data or presenting synthetic results as production.
 
-Mission 06 is not started by this handoff.
+At the time this Mission 05 handoff was originally recorded, Mission 06 had not started. Its final closeout is appended below.
+
+## Mission 06 closeout — local portfolio release
+
+Mission 06 completed as a local portfolio demonstration, not a production release. The final audit,
+security review, accessibility report, performance observations, browser results, release checklist,
+architecture diagrams, showcase, and demo walkthrough are linked from the repository README.
+
+- Final backend state: 81 passed, 4 expected opt-in skips, and one Starlette `TestClient` deprecation
+  warning; the safe Mission 04 artifact integration separately passed (1 passed, 84 deselected).
+- Python quality checks, artifact verifiers, package consistency, and the post-update advisory scan
+  passed. The scanner found zero known Python package vulnerabilities among 111 installed packages.
+- Frontend TypeScript, ESLint, Vitest (16 tests), and the optimized production build passed.
+- Final Playwright suite: 14 passed; nine main routes had no horizontal overflow at four viewport
+  widths; 18 axe scans reported zero configured violations. The guarded local demo start/stop smoke
+  passed separately.
+- Updated Python dependencies address the observed Pillow, Tornado, and setuptools advisories. npm
+  still reports 10 moderate development-only `minimatch` advisories; the production dependency audit
+  reported zero. See `../release/security-review.md`.
+- Mission 06 did not rerun the broad notebook/check wrapper or `real_data` marker because those paths
+  include access to consumed Mission 02 final-test outputs. It made no new performance evaluation,
+  retraining, or threshold change.
+- Demo startup uses the existing production build on loopback ports 8001/3100. The stop helper checks
+  executable, PID, and process start time and preserves `data/backend/mission06-demo.sqlite3` and
+  uploaded files. The unrelated user-owned development server on port 3000 was left running.
+
+The Mission 01 source dataset remains local and ignored. Its verified SHA-256 is
+`76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89`; the closeout did not rerun
+notebooks that consume historical final-test outputs. Mission 02's final-test period remains
+consumed. Authentication, encryption at rest, manual screen-reader validation, network deployment,
+concurrent-load testing, and independent future-period evaluation remain outside this local release.
+
+### Mission 06 Git delivery
+
+The implementation commit is `6ca7cdfdb9e76bcbe2f1ed985b09bb1456834ddb`
+(`feat(mission-06): harden local dashboard and demo launcher`). The final documentation closeout is
+committed after it and pushed to `origin/main` without force or history rewriting. A fresh fetch
+verifies local `main` and `origin/main` at the final release commit, no ahead/behind commits, and a
+clean working tree. The final release commit hash is provided in the delivery summary.

@@ -11,10 +11,10 @@ The six-mission product gives financial analysts a reproducible way to inspect t
 - Notebooks: analytical narratives import the package and display source status and interpretation limitations.
 - Scripts: Windows-compatible setup, acquisition, checks, and repeatable CLI entry points.
 - Reports: compact figures, tables, and summaries generated from a declared source.
-- Training/evaluation: reserved for Mission 02; preprocessing is fit only on training folds.
-- Explainability/risk: reserved for Mission 03; explanations are constrained by input semantics.
-- API: Mission 04 wraps tested services in versioned FastAPI routes.
-- Frontend: Mission 05 consumes API contracts and labels output types clearly.
+- Training/evaluation: Mission 02's frozen artifacts were fit with training-only preprocessing and a chronological split; its final-test period is consumed.
+- Explainability/risk: Mission 03 provides raw-log-odds explanations and separate validation-derived risk/anomaly signals.
+- API: Mission 04 wraps the tested services in versioned FastAPI routes and local SQLite workflows.
+- Frontend: Mission 05 consumes API contracts and labels output types clearly; Mission 06 hardened the local portfolio demo.
 
 ## Data flow
 
@@ -36,11 +36,11 @@ flowchart LR
 
 ## Training versus inference
 
-Mission 01 does not train models. Mission 02 will separate fit-time transformations and model selection from inference-time loading and scoring. Training metadata, feature contract, model version, and threshold rationale must travel with model artifacts. The future test partition remains untouched until final evaluation.
+Training and evaluation are completed offline in Mission 02. The local API verifies and loads manifest-pinned artifacts at startup; inference does not train models or open the raw ULB CSV. The model version, feature contract, threshold, and checksums travel with the saved artifacts. The final-test period has been consumed and is not used for later development decisions.
 
 ## Integration and artifacts
 
-Reusable services take DataFrames or validated schemas rather than notebook globals. Model binaries live in a local artifact store and are versioned by metadata; raw datasets and large binaries remain outside Git. The API should expose predictions, risk estimates, anomaly scores, and explanations with distinct typed fields.
+Reusable services take DataFrames or validated schemas rather than notebook globals. Model binaries live in a local artifact store and are versioned by metadata; raw datasets and large binaries remain outside Git. The API exposes predictions, risk estimates, anomaly scores, and explanations with distinct typed fields. Mission 06 diagrams and release evidence are in [mission06-architecture.md](mission06-architecture.md) and [docs/release](../release/final-audit.md).
 
 ## Configuration
 

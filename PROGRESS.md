@@ -313,3 +313,66 @@ exact header-only feature template.
   base `b429ca723a6aa22356bf5e38102d24c30cd78c02`; no force push or history rewrite was used.
 - A fresh post-push fetch verified local `main` and `origin/main` both at
   `0280849fe182f0cdc2eac82789268dd1382afab2`, zero commits ahead/behind, and a clean working tree.
+
+## Mission 06 status — local portfolio release complete
+
+Mission 06 completed the delivery hardening and portfolio closeout on 2026-11-07. The result is
+intended for a local synthetic-data demonstration only. It does not authorize production, LAN, or
+cloud deployment. Existing Mission 01–05 outputs were preserved; no model was retrained, no threshold
+or risk policy was retuned, and no new Mission 02 final-test evaluation was performed.
+
+### Validation evidence
+
+- Verified `data/raw/creditcard.csv`: **150,828,752 bytes**, SHA-256
+  `76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89`; it remains ignored and
+  untracked. The local source retains 284,807 rows, 492 positive labels, no missing or infinite
+  values, and 1,081 duplicate copies beyond first.
+- Isolated Python suite: **81 passed, 4 expected opt-in skips, 1 deprecation warning**. Ruff check,
+  Ruff format check (179 files already formatted), compile check, and `pip check` passed. Safe
+  Mission 04 artifact integration: **1 passed, 84 deselected, 1 warning**; requests used synthetic
+  inputs with the verified local artifacts. Model and API artifact verifiers passed.
+- Python advisory scan checked **111 installed packages and found zero known vulnerabilities** after
+  the active lock/build constraints were updated for Pillow, Tornado, and setuptools. Full npm audit
+  retained **10 moderate development-only minimatch advisories** and no high/critical findings;
+  `npm audit --omit=dev` found **zero production dependency vulnerabilities**.
+- Frontend TypeScript and ESLint passed; Vitest reported **5 files / 16 tests passed**; the
+  optimized Next.js production build passed with 11 dynamic routes.
+- Final Playwright run: **14 passed in 52.8 seconds**. Nine main routes at four widths produced 36
+  combinations with no horizontal overflow. Axe checked nine routes at desktop and mobile widths
+  (18 scans) with zero configured WCAG 2.1 A/AA or best-practice violations. The skip-link keyboard
+  check and separate local-demo browser smoke (**1 passed**) succeeded.
+- Generated local performance observations are recorded in `docs/release/performance-report.md`;
+  they are not a concurrent-load or production benchmark. The demo database was preserved when the
+  verified stop helper shut down its recorded processes.
+
+The full `scripts/run-checks.ps1` wrapper and broad opt-in `real_data` marker were not re-run in this
+closeout because their complete paths include historical notebook/ML flows that access Mission 02's
+consumed final-test results. Safe underlying checks were run separately. The four notebooks' prior
+Mission 01 executions against the verified ULB CSV are preserved in earlier audit records; this
+closeout does not claim new notebook execution.
+
+### Closeout changes and remaining limits
+
+Mission 06 added nonce-based CSP and response headers, responsive overflow/contrast fixes, clearer
+investigation outcome semantics, a guarded production-bundle demo start/stop pair, synthetic-only
+portfolio screenshots, and release/security/accessibility/performance/browser documentation. The
+Python lock now uses patched Pillow 13.0.0, Tornado 6.6, and setuptools 84.1.0. The npm development
+advisory remains documented because the available full-tree suggested fix downgrades the Next.js
+ESLint companion package across the current Next 16 toolchain.
+
+The API has no authentication or authorization; SQLite is not encrypted at rest. Manual screen-reader
+review, speech input, independent future-period evaluation, production deployment, concurrent-load
+testing, peak-memory measurement, and business-impact validation remain unperformed. See
+`docs/release/final-audit.md`, `docs/release/security-review.md`,
+`docs/release/accessibility-report.md`, `docs/release/performance-report.md`, and
+`docs/release/release-checklist.md`.
+
+### Mission 06 GitHub delivery
+
+Implementation commit `6ca7cdfdb9e76bcbe2f1ed985b09bb1456834ddb`
+(`feat(mission-06): harden local dashboard and demo launcher`) was created from the fetched
+Mission 05 baseline. The scientific and portfolio documentation closeout is committed separately
+after it. Both commits were pushed normally to `origin/main` without a force push or history rewrite.
+A fresh post-push fetch verified local `main` and `origin/main` at the final release commit, zero
+commits ahead or behind, and a clean working tree. The final release commit hash is in the delivery
+summary.

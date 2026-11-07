@@ -57,3 +57,21 @@ Choose thresholds on validation data against a stated cost or review-capacity ob
 - visualization.py and reporting.py: reproducible figures, tables, and summaries.
 
 Mission 01 completed EDA and did not train or select any model. This handoff is an evaluation plan; it is not a claim that a split or model has been validated for production.
+
+## Mission 01 source-data closeout (observed 2026-11-06)
+
+The evaluation recommendations above were written before the real file was acquired. The later
+Mission 01 run verified the local ULB CSV at `data/raw/creditcard.csv` against SHA-256
+`76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89` (150,828,752 bytes) and
+generated the source-backed EDA in `reports/EDA_REPORT.md`. The observed file has 284,807 rows and
+31 columns; `Class` contains 284,315 zeros and 492 ones (0.172749% positive). The full data-quality
+report found no missing values, infinities, or invalid labels. It counted 1,081 duplicate copies
+beyond first across 1,854 rows participating in duplicate groups; no source rows were removed.
+
+`Time` is monotonic in file order and spans 0–172,792 elapsed seconds, with no calendar origin.
+Fraud and legitimate `Amount` summaries are descriptive only: median/mean 9.25/122.211 for `Class
+1` and 22/88.291 for `Class 0`. Full checks, plots, tables, and provenance are in
+[`docs/data/data-quality-report.md`](../data/data-quality-report.md),
+[`docs/data/eda-findings.md`](../data/eda-findings.md), and the generated
+[`reports/EDA_REPORT.md`](../../reports/EDA_REPORT.md). This addendum records observed Mission 01
+results without replacing the historical pre-model evaluation plan above.

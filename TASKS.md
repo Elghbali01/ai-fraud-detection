@@ -72,4 +72,11 @@ The final-test period was scored in two deterministic runs to correct missing Is
 
 ## Mission 06 — Delivery hardening
 
-- [ ] Complete integration/security/accessibility/performance validation and portfolio documentation.
+- [x] Audit repository state, dataset checksum, tracked-file boundaries, and preserve the consumed Mission 02 final-test boundary.
+- [x] Harden local production CSP/security headers, investigation outcome language, and visual contrast/layout.
+- [x] Run safe isolated backend checks, verified-artifact integration, frontend type/lint/unit/build checks, full browser workflows, accessibility scans, and the local demo smoke.
+- [x] Record dependency audits, local performance observations, accessibility results, screenshots, architecture, showcase, demo walkthrough, and release checklist.
+- [x] Add guarded loopback demo start/stop scripts; verify the demo database persists and only task-owned processes are stopped.
+- [x] Review Git contents and ignore rules, commit the validated release, push normally to `origin/main`, and verify clean synchronization.
+
+The aggregate notebook/check wrapper and broad `real_data` marker were intentionally not re-run in this closeout because they include paths that reopen consumed Mission 02 final-test results. Safe underlying checks were run individually. See `docs/release/final-audit.md` for exact results and limitations.

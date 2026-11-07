@@ -1,6 +1,6 @@
 # AI Fraud Detection & Explainable Intelligence
 
-An extensible financial fraud analytics project. Missions 01 and 02 establish verified data analysis and a reproducible fraud-scoring engine; Mission 03 adds explanations and risk intelligence, Mission 04 exposes those frozen services through a local API, and Mission 05 provides a responsive analyst command center.
+An end-to-end fraud analytics system built on verified historical data. It combines a frozen calibrated classifier, explainability and separate anomaly signals with a local FastAPI service, SQLite analyst workflows, and a responsive Next.js command center.
 
 ## Business and scientific objective
 
@@ -8,7 +8,21 @@ Help analysts examine historical transaction labels, compare candidate detection
 
 ## Current status
 
-Missions 01–05 are implemented and locally validated; their GitHub delivery records are in PROGRESS.md. Mission 04 is a local-only FastAPI service for the frozen Mission 02 classifier and Mission 03 risk, anomaly, and explanation interfaces. Mission 05 is a Next.js analyst console for prediction, CSV analyses, history, risk prioritization, explanations, anomalies, investigations, and model status. The frontend uses the real API and shows explicit loading, empty, and error states. Real-data analyses use only documented partitions; the final-test period was consumed by Mission 02 and is not loaded by later missions. Raw data, model binaries, local SQLite/uploads, virtual environments, and credentials remain excluded from Git. Mission 06 hardening is not started.
+Missions 01–06 are complete for a local portfolio demonstration. The application uses the frozen Mission 02 classifier and Mission 03 risk, anomaly, and explanation services through a local FastAPI API; SQLite stores derived predictions and analyst workflow records. Mission 06 added nonce-based CSP and security headers, clarified investigation semantics, improved contrast, a safe production-demo launcher and shutdown script, complete local browser coverage, and portfolio evidence. The consumed Mission 02 final-test period was not reopened. The service remains unauthenticated and loopback-only; this is not a production banking system. Raw data, model binaries, SQLite runtime files, virtual environments, and credentials are excluded from Git.
+
+## Portfolio overview
+
+![Fraud intelligence dashboard captured from a local run with three deterministic synthetic prediction records and no fraud labels](docs/assets/screenshots/01-dashboard-overview.png)
+
+The screenshot is an authentic local browser capture. Its inputs are synthetic and its model outputs are estimates for review, not confirmed fraud. The system does not retain submitted feature vectors in prediction history.
+
+- **Prediction and review:** single and bounded batch inference, calibrated probability, frozen decision threshold, risk tiers, and persisted derived history.
+- **Explainability:** local and global SHAP views in raw log-odds, with screen-reader data tables.
+- **Separate signals:** alert prioritization and Isolation Forest anomaly outputs remain distinct from the fraud probability.
+- **Analyst workflow:** feature-only CSV analysis, paginated results, investigation status transitions, notes, and workflow events.
+- **Scientific boundary:** ULB descriptive findings and Mission 02 test metrics are historical; neither is live production performance.
+
+See the [project showcase](docs/portfolio/project-showcase.md), [architecture and flow diagrams](docs/architecture/mission06-architecture.md), [demo walkthrough](docs/portfolio/demo-script.md), [browser test results](docs/release/e2e-results.md), [release checklist](docs/release/release-checklist.md), and [Mission 06 release evidence](docs/release/final-audit.md). Supporting evidence: [security](docs/release/security-review.md), [accessibility](docs/release/accessibility-report.md), and [performance observations](docs/release/performance-report.md).
 
 ## Architecture
 
@@ -24,7 +38,7 @@ See docs/architecture/system-overview.md.
 
 ## Technology
 
-Python 3.11, NumPy, pandas, SciPy, scikit-learn, SHAP 0.51.0, joblib, FastAPI, SQLAlchemy, Alembic, Uvicorn, HTTPX, Matplotlib, Seaborn, pytest, Ruff, Jupyter notebooks, and GitHub Actions. No PyTorch, TensorFlow, GPU, cloud service, or heavy tracking server is required.
+Python 3.11.8, NumPy, pandas, SciPy, scikit-learn, SHAP 0.51.0, joblib, FastAPI, SQLAlchemy, Alembic, Uvicorn, HTTPX, Matplotlib, Seaborn, pytest, and Ruff; Node.js 20.19.6, Next.js 16.4.5, React 19.3.0, TypeScript 5.9.3, Vitest, and Playwright. No PyTorch, TensorFlow, GPU, cloud service, or tracking server is required.
 
 ## Dataset
 
@@ -47,6 +61,20 @@ The setup creates a project-local .venv and installs the resolved Windows/Python
     powershell -NoProfile -ExecutionPolicy Bypass -File scripts\setup.ps1
 
 The policy option applies only to that PowerShell process.
+
+## Local portfolio demo
+
+After installing the Python and frontend dependencies and building the frontend, start the loopback-only demo:
+
+    .\scripts\start-demo.ps1
+
+The script verifies the frozen model/API artifacts, the existing production frontend bundle and its configured API URL, the database migration head, and both ports. It uses `127.0.0.1:8001` for the API and `127.0.0.1:3100` for the dashboard by default. It creates or reuses `data/backend/mission06-demo.sqlite3`; existing demo records are preserved. The database and uploads are ignored by Git.
+
+Use the session-file path printed by the launcher to stop only its recorded API and frontend processes:
+
+    .\scripts\stop-demo.ps1 -SessionPath "C:\path\printed\by\start-demo\mission06-demo-session-....json"
+
+The stop script verifies each PID, executable, and process start time before stopping it. It preserves the SQLite database and uploaded files. For the demonstration, use the explicitly synthetic feature-only fixture at `docs/portfolio/fixtures/synthetic-demo-transactions.csv`; it contains no target labels and is not fraud ground truth.
 
 ## Dataset acquisition
 
@@ -202,12 +230,14 @@ TypeScript, ESLint, Vitest, and production build checks; run `scripts/smoke-fron
 API/frontend health and Playwright workflows. Install the matching browser once with
 `npx playwright install chromium` from `frontend/` before browser tests.
 
-Final local Mission 05 validation on 2026-11-07 reported 81 backend tests passed and 4 expected
+Historical Mission 05 validation on 2026-11-07 reported 81 backend tests passed and 4 expected
 opt-in skips; the separate ULB integration reported 2 passed, 1 separately gated skip, and 82
 deselected. All 14 notebooks executed. Frontend validation reported 16 unit tests passed, a
 successful optimized build, 8 browser tests passed, and zero axe WCAG 2.1 A/AA or best-practice
 violations across nine routes at desktop and mobile widths. Full evidence and remaining hardening
-limits are in `PROGRESS.md` and `docs/engineering/mission-06-handoff.md`.
+limits are preserved in `PROGRESS.md` and `docs/engineering/mission-06-handoff.md`. Mission 06
+revalidated the safe backend checks, reran the frontend build and expanded browser suite, and
+records the final evidence under `docs/release/`.
 
 ## Six-mission roadmap
 
@@ -216,7 +246,9 @@ limits are in `PROGRESS.md` and `docs/engineering/mission-06-handoff.md`.
 3. Explainable AI and risk intelligence — implemented and validated; see PROGRESS.md.
 4. FastAPI backend — implementation and local validation complete; GitHub delivery is recorded in PROGRESS.md.
 5. Next.js frontend and local integration — implementation and validation complete; GitHub delivery is recorded in `PROGRESS.md`.
-6. Security, accessibility, performance, and deployment hardening — not started.
+6. Security, accessibility, performance, local demo, and portfolio delivery — complete for a
+   loopback-only demonstration. Authentication, a network deployment, and production readiness are
+   explicitly out of scope.
 
 ## Scientific limitations
 
