@@ -30,11 +30,11 @@ if (-not (Test-Path -LiteralPath $VenvPython)) {
     throw "The local virtual environment is incomplete: $VenvPython"
 }
 if ($OfflineSystemPackages) {
-    & $VenvPython -m pip install --no-index -r requirements-mission03.lock
+    & $VenvPython -m pip install --no-index -r requirements-mission04.lock
 } else {
-    & $VenvPython -m pip install -r requirements-mission03.lock
+    & $VenvPython -m pip install -r requirements-mission04.lock
 }
-if ($LASTEXITCODE -ne 0) { throw "Installing the Mission 03 resolved dependency set failed." }
+if ($LASTEXITCODE -ne 0) { throw "Installing the Mission 04 resolved dependency set failed." }
 & $VenvPython -m pip install --no-build-isolation --no-deps -e .
 if ($LASTEXITCODE -ne 0) { throw "Editable project installation failed." }
 Write-Output "Environment ready: $VenvPath"

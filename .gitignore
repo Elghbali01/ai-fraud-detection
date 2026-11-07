@@ -30,7 +30,13 @@ data/raw/**
 data/processed/**
 !data/processed/.gitkeep
 data/models/**
+data/uploads/**
+data/backend/**
 *.sqlite
+*.sqlite3
+*.sqlite-journal
+*.sqlite-shm
+*.sqlite-wal
 *.db
 *.parquet
 *.pkl

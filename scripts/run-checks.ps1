@@ -28,7 +28,7 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 & $VenvPython -m ruff format --check --no-cache .
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-& $VenvPython -m compileall -q src scripts tests
+& $VenvPython -m compileall -q src scripts tests backend
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 & $VenvPython scripts\validate_notebooks.py
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
