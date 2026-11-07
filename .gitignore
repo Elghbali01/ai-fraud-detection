@@ -59,3 +59,9 @@ Desktop.ini
 
 # Local smoke-only reports
 reports/demo/
+
+# Mission 05 frontend test and TypeScript outputs
+frontend/playwright-report/
+frontend/test-results/
+frontend/coverage/
+*.tsbuildinfo

@@ -15,7 +15,9 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-settings = Settings()
+settings = config.attributes.get("settings")
+if not isinstance(settings, Settings):
+    settings = Settings()
 database_url = settings.database_url
 database_file = Path(database_url.removeprefix("sqlite:///"))
 database_file.parent.mkdir(parents=True, exist_ok=True)

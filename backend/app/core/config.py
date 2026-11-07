@@ -32,6 +32,8 @@ class Settings(BaseSettings):
     cors_origins: tuple[str, ...] = (
         "http://localhost:3000",
         "http://127.0.0.1:3000",
+        "http://localhost:3100",
+        "http://127.0.0.1:3100",
     )
     database_path: Path = PROJECT_ROOT / "data" / "backend" / "mission04.sqlite3"
     upload_directory: Path = PROJECT_ROOT / "data" / "uploads"
