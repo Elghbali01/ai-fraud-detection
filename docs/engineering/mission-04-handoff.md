@@ -1,5 +1,9 @@
 # Mission 04 handoff: FastAPI backend
 
+> Mission 04 is implemented on this contract. The delivered `/api/v1` routes and exact shapes are
+> in `docs/backend/api-reference.md`; the suggested paths below are retained as the original
+> Mission 03 design notes and are superseded by the delivered API reference.
+
 Mission 03 supplies verified local artifacts, reusable explanation and risk services, generated
 contracts, validation-only policies, and the reports under `reports/explainability/` and
 `reports/risk/`. Mission 04 should expose those interfaces without retraining or recomputing

@@ -166,3 +166,86 @@ Mission 03 reuses the frozen Mission 02 classifier, calibration mapping, anomaly
 - Synthetic CLI smoke exercised bounded scoring with explanations and anomaly output plus percentage prioritization. Artifact verification and `pip check` passed. Raw data, `.venv`, `.venv-isolated`, model binaries, and derived anomaly reference are ignored by Git.
 - Known limits remain: anonymized PCA variables, a short historical sample and few fraud labels, calibration/distribution shift, consumed final test, no new independent future cohort, and no validated business cost or production utility.
 - GitHub delivery: implementation commit `aab197b512aa7b71d102f0815a15230ee6311142` and report/documentation commit `f7ac3d386344bc5b5627103e6a7be6c1d534f57f` were pushed to `origin/main` by normal fast-forward from Mission 02 commit `d330df1`; no force push or history rewrite was used. A fresh post-push fetch at this checkpoint found local `HEAD` and `origin/main` both at `f7ac3d386344bc5b5627103e6a7be6c1d534f57f`, zero commits ahead/behind, and a clean working tree. This delivery status is being recorded in the follow-up progress commit.
+
+## Mission 04 status — implementation and validation complete
+
+Mission 04 adds a local FastAPI service over the unchanged Mission 02 classifier and Mission 03
+explainability, risk, anomaly, and prioritization services. It does not retrain, recalibrate, read
+the ULB CSV at API startup, or use the consumed final-test partition for API examples or smoke
+requests.
+
+### Data and trusted artifacts
+
+- Rechecked `data/raw/creditcard.csv`: SHA-256
+  `76274b691b16a6c49d3f159c883398e03ccd6d1ee12d9d8ee38f4b4b98551a89`, matching the acquisition
+  record. Git ignore rules exclude the raw file, model binaries, SQLite runtime files, upload files,
+  `.env`, `.venv`, and `.venv-isolated`.
+- Verified the supervised model SHA-256
+  `87f0e2f492fbed062e38b366a2d98e2a98a655f7e1c81657cd6986c1874fa088`, Isolation Forest SHA-256
+  `e5c071d8e39a013f1ebacac600109633b15bc97fc43f64d085662399b5dc6d60`, and training-only SHAP
+  background SHA-256 `b9ea884dda7cb73312c935aa21cff6dcb551763eb8dbf119077622d037c36b3d`. Artifact
+  verification also checked the dataset/split provenance and all 30 global SHAP summary rows.
+- Preserved the persisted decision threshold `0.1835921396957453`, calibration mapping, and risk
+  policy. The API derives predictions from the actual frozen artifacts.
+
+### Backend, persistence, and security
+
+- Added typed local configuration with `.env.example`, a loopback-only launch script, explicit local
+  CORS allowlist, request IDs, bounded JSON/CSV/batch/explanation/pagination/concurrency settings,
+  and consistent sanitized errors. OpenAPI now has concrete health, readiness, prediction, batch,
+  upload, analysis, and validation-error response schemas.
+- Implemented the prediction, batch, explanation, risk, M03 prioritization, anomaly, upload,
+  analysis, history, and investigation routes. Prioritization supports Top-K and ceiling-rounded
+  percentage budgets, minimum risk score, tier filters, and stable tie ordering. History supports
+  timestamp, tier, model-version, and analysis filters with stable ordering.
+- CSV input is streamed under a byte cap, UTF-8 (optional BOM) and comma delimiter, exact ordered
+  feature columns, strict finite values, bounded rows, and explicit supported media types. CSV
+  analyses persist only derived outputs and aggregates. Uploads expire after 24 hours by default.
+- Added SQLite/Alembic migrations, derived-only prediction history, investigations, notes, and
+  workflow events. Startup verifies the Alembic head; interrupted synchronous jobs are marked failed
+  with `analysis_interrupted_by_restart`, not resumed. The migration transaction fix was covered by
+  a repeatability test.
+- Local smoke and API tests use synthetic vectors only. The real ULB dataset, model binaries, API
+  background sample, and SQLite database are not included in Git. There is no authentication,
+  analyst identity, encryption-at-rest, or production deployment claim.
+
+### Final validation evidence (2026-11-07)
+
+- `scripts/run-checks.ps1 -PythonPath '.venv-isolated\Scripts\python.exe'`: **78 passed, 4
+  expected opt-in skips**, 1 Starlette TestClient deprecation warning. Ruff passed, 168 files were
+  already formatted, Python compile checks passed, all 14 notebooks executed, and the 200-row
+  synthetic EDA smoke wrote under `reports/demo/` only. The four skipped tests are opt-in artifact
+  or real-data integrations; Mission 04's artifact integration was run separately below.
+- `scripts/run-api-checks.ps1 -PythonPath '.venv-isolated\Scripts\python.exe'`: **15 passed, 1
+  expected opt-in skip**, Ruff passed, 48 files formatted. The skip is the separately executed
+  trusted-artifact integration test.
+- With `RUN_MISSION04_ARTIFACT_TESTS=1`,
+  `python -m pytest -m mission04_real_artifacts -q`: **1 passed, 81 deselected**. It loaded actual
+  verified Mission 02/03 artifacts but sent only synthetic zero-valued API vectors; SHAP
+  reconstruction and training-background provenance passed.
+- `scripts/smoke-api.ps1 -PythonPath '.venv-isolated\Scripts\python.exe'`: **30 endpoint operations
+  passed over real HTTPX requests to a running local Uvicorn server**. Coverage included health,
+  readiness, OpenAPI, metadata, prediction, batch, local/global explanation, risk, prioritization,
+  anomaly, CSV upload, analysis/summary/results, history, investigation create/update/note/detail,
+  and safe error responses. In the final smoke run, ten synthetic single predictions measured
+  49.569 ms median and 71.459 ms p95 in an isolated final smoke run; these are local smoke timings,
+  not a throughput benchmark.
+- `scripts/verify-api-artifacts.ps1` and `pip check` passed. `scripts/init-db.ps1` was exercised by
+  the live smoke with a temporary SQLite database and both migrations. PowerShell scripts parsed
+  successfully.
+- The four reports remain source-based ULB results: `reports/EDA_REPORT.md`,
+  `docs/data/data-quality-report.md`, `docs/data/eda-findings.md`, and the Mission 02/03 handoffs.
+  The first four notebooks load the verified ULB CSV through `load_notebook_frame()`; notebooks
+  05–14 consume the persisted Mission 02/03 artifacts. The full notebook runner executed all 14.
+
+### Remaining limitations and delivery
+
+- This remains an unauthenticated, single-user loopback development API. Do not bind it to a LAN or
+  public interface. SQLite is not encrypted, investigation text is user-entered, jobs are
+  synchronous/process-local, and the API has no alert delivery, authentication, monitoring, or
+  deployment hardening.
+- Model scientific limits remain unchanged: anonymized PCA inputs, a short historical dataset,
+  distribution shift risk, no independent later cohort, and a consumed final-test period. No Mission
+  05 implementation has started.
+- Mission 04 code, docs, and validation are complete. Git status/fetch/secret review, commits, push,
+  and remote synchronization are the remaining delivery steps and will be recorded after execution.

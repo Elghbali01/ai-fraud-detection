@@ -48,7 +48,16 @@ The final-test period was scored in two deterministic runs to correct missing Is
 
 ## Mission 04 — FastAPI backend
 
-- [ ] Implement versioned schemas, services, health routes, and inference endpoints.
+- [x] Add FastAPI, Pydantic, SQLAlchemy, Alembic, multipart, Uvicorn, and HTTPX dependencies and a resolved Python 3.11 lock.
+- [x] Load and cross-check only manifest-pinned Mission 02/03 model, risk, anomaly, training-background, and global-summary artifacts.
+- [x] Implement strict prediction, batch, explanation, risk, prioritization, anomaly, health, readiness, model, and capability routes.
+- [x] Implement true chunk-counted upload limits, exact feature-only CSV validation, bounded synchronous analyses, aggregate summaries, and deletion/retention.
+- [x] Add SQLite tables and explicit Alembic upgrade, derived-only history, and analyst investigation/notes/events.
+- [x] Add local-only binding, explicit CORS, request IDs, sanitized errors, body/batch/concurrency/page limits, and privacy/security documentation.
+- [x] Add synthetic API behavior tests and an opt-in verified-artifact test that sends synthetic inputs only.
+- [x] Run the complete isolated project checks and Mission 04 live HTTPX smoke against a real local server.
+- [x] Document API, database, CSV, investigation, security, local startup, tests, and Mission 05 integration.
+- [ ] Review files/secrets/ignore rules; create logical commits, push normally to origin/main, then verify clean synchronization.
 
 ## Mission 05 — Next.js frontend
 

@@ -1,6 +1,6 @@
 # AI Fraud Detection & Explainable Intelligence
 
-An extensible financial fraud analytics project. Missions 01 and 02 establish verified data analysis and a reproducible fraud-scoring engine; later missions add explanations, an API, and a frontend.
+An extensible financial fraud analytics project. Missions 01 and 02 establish verified data analysis and a reproducible fraud-scoring engine; Mission 03 adds explanations and risk intelligence, and Mission 04 exposes those frozen services through a local API.
 
 ## Business and scientific objective
 
@@ -8,7 +8,7 @@ Help analysts examine historical transaction labels, compare candidate detection
 
 ## Current status
 
-Missions 01 and 02 are complete and their validated deliverables are pushed to origin/main. Mission 03 implements exact logistic contributions, raw-log-odds SHAP explanations, validation-derived risk tiers and capacity diagnostics, separate anomaly intelligence, versioned service contracts, reports, and notebooks. The generated real-data analyses use only training and validation rows; the final-test period was consumed by Mission 02 and is never loaded for Mission 03. Mission 03 validation and GitHub delivery are recorded in PROGRESS.md. The raw ULB CSV, model binaries, derived anomaly reference, virtual environments, and credentials remain excluded from Git.
+Missions 01–03 are complete and their validated deliverables are pushed to origin/main. Mission 04 adds a local-only FastAPI service for the frozen Mission 02 classifier and Mission 03 risk, anomaly, and explanation interfaces. It supports strict single/batch prediction, global/local explanations, feature-only CSV analyses, score history, and analyst investigations. Mission 04 validation and GitHub delivery are recorded in PROGRESS.md. Real-data analyses use only the documented partitions; the final-test period was consumed by Mission 02 and is not loaded by Mission 04. Raw data, model binaries, local SQLite/uploads, virtual environments, and credentials remain excluded from Git.
 
 ## Architecture
 
@@ -17,13 +17,14 @@ Missions 01 and 02 are complete and their validated deliverables are pushed to o
 - notebooks: analytical narratives that call the reusable package.
 - data/raw: local source datasets, excluded from Git.
 - reports: reproducible EDA and ML reports, tables, and figures; fixture outputs are kept separate.
-- backend and frontend integration are reserved for their roadmap missions.
+- backend: Mission 04 local FastAPI routes, SQLite persistence, Alembic migrations, and bounded upload workflows.
+- frontend: reserved for Mission 05; it will use the documented local OpenAPI contract.
 
 See docs/architecture/system-overview.md.
 
 ## Technology
 
-Python 3.11, NumPy, pandas, SciPy, scikit-learn, SHAP 0.51.0, joblib, Matplotlib, Seaborn, pytest, Ruff, Jupyter notebooks, and GitHub Actions. No PyTorch, TensorFlow, GPU, cloud service, or heavy tracking server is required.
+Python 3.11, NumPy, pandas, SciPy, scikit-learn, SHAP 0.51.0, joblib, FastAPI, SQLAlchemy, Alembic, Uvicorn, HTTPX, Matplotlib, Seaborn, pytest, Ruff, Jupyter notebooks, and GitHub Actions. No PyTorch, TensorFlow, GPU, cloud service, or heavy tracking server is required.
 
 ## Dataset
 
@@ -41,7 +42,7 @@ CMD from the project root:
     powershell -NoProfile -File scripts\setup.ps1
     .venv\Scripts\activate.bat
 
-The setup creates a project-local .venv and installs the resolved Windows/Python 3.11 dependency set from requirements-mission03.lock. The Mission 01 and Mission 02 lock files are retained as historical environment records. pyproject.toml remains the project dependency constraint source. If Windows blocks running a local PowerShell script, use a one-process execution policy option rather than changing a machine-wide policy:
+The setup creates a project-local .venv and installs the resolved Windows/Python 3.11 dependency set from requirements-mission04.lock. Mission 01–03 lock files are retained as historical environment records. pyproject.toml remains the dependency constraint source. If Windows blocks running a local PowerShell script, use a one-process execution policy option rather than changing a machine-wide policy:
 
     powershell -NoProfile -ExecutionPolicy Bypass -File scripts\setup.ps1
 
@@ -89,7 +90,7 @@ CMD:
     .venv\Scripts\python.exe -m pytest
     .venv\Scripts\python.exe -m ruff check .
     .venv\Scripts\python.exe -m ruff format --check .
-    .venv\Scripts\python.exe -m compileall -q src scripts tests
+    .venv\Scripts\python.exe -m compileall -q src scripts tests backend
     .venv\Scripts\python.exe scripts\validate_notebooks.py
 
 Routine pytest and CI do not require the local CSV. To run the opt-in real-data integration check:
@@ -97,6 +98,13 @@ Routine pytest and CI do not require the local CSV. To run the opt-in real-data 
     $env:RUN_REAL_DATA_TESTS = "1"
     .\.venv\Scripts\python.exe -m pytest -m real_data -q
     Remove-Item Env:RUN_REAL_DATA_TESTS
+
+Mission 04's separate artifact integration checks the verified local models with synthetic
+requests and does not read the ULB CSV:
+
+    $env:RUN_MISSION04_ARTIFACT_TESTS = "1"
+    .\.venv-isolated\Scripts\python.exe -m pytest -m mission04_real_artifacts -q
+    Remove-Item Env:RUN_MISSION04_ARTIFACT_TESTS
 
 ## Mission 02 machine learning
 
@@ -150,12 +158,38 @@ The generated reports live under reports/explainability/ and reports/risk/. The 
 10–14 summarize those outputs without repeating model logic. The training-only anomaly reference
 is derived locally under ignored data/models/ and can be rebuilt by the generation script.
 
+## Mission 04 local API
+
+The backend reuses the checked Mission 02/03 manifests and local ignored artifacts; it does not
+retrain or open the source CSV at startup. Initialize the SQLite schema and start one loopback
+server from PowerShell:
+
+    .\scripts\start-api.ps1 -PythonPath '.venv-isolated\Scripts\python.exe'
+
+The API is available at `http://127.0.0.1:8000`; OpenAPI documentation is at `/docs`. Run focused
+synthetic API checks, a live HTTPX smoke, or trusted-artifact verification with:
+
+    .\scripts\run-api-checks.ps1 -PythonPath '.venv-isolated\Scripts\python.exe'
+    .\scripts\smoke-api.ps1 -PythonPath '.venv-isolated\Scripts\python.exe'
+    .\scripts\verify-api-artifacts.ps1 -PythonPath '.venv-isolated\Scripts\python.exe'
+
+Routes, schema, data handling, security boundaries, and the investigation workflow are documented
+under `docs/backend/`. This API is unauthenticated and single-user; it is not suitable for LAN or
+production exposure.
+
+Mission 04 local validation completed on 2026-11-07. The isolated full-project check reported 78
+passed and 4 expected opt-in skips; all 14 notebooks executed and the synthetic EDA smoke wrote only
+under ignored `reports/demo/`. The focused API suite reported 15 passed and its opt-in artifact test
+reported 1 passed. A real HTTPX run against a temporary local Uvicorn server verified 30 endpoint
+operations. Full results, observed latency, migration behavior, and limitations are in
+`PROGRESS.md`.
+
 ## Six-mission roadmap
 
 1. Foundation, dataset validation, data engineering, and EDA — complete.
 2. Supervised machine learning, evaluation, and anomaly detection — complete.
 3. Explainable AI and risk intelligence — implemented and validated; see PROGRESS.md.
-4. FastAPI backend.
+4. FastAPI backend — implementation and local validation complete; GitHub delivery is recorded in PROGRESS.md.
 5. Next.js frontend and integration.
 6. Hardening, end-to-end testing, documentation, and portfolio delivery.
 
@@ -166,5 +200,5 @@ is derived locally under ignored data/models/ and can be rebuilt by the generati
 - The data has no supplied customer, merchant, location, or device history.
 - Accuracy can conceal poor minority-class detection; later model evaluation must include precision-recall and threshold-specific measures.
 - The chosen model and threshold have only been evaluated on one short historical dataset. The final test is no longer an untouched set because it was scored in two deterministic completion runs; independent future evaluation requires new later data.
-- The selected model is not production-ready. There is no future-period validation, authenticated service, monitoring, or business-cost analysis.
+- The selected model is not production-ready. There is no future-period validation, authenticated or network-deployed service, monitoring, encryption-at-rest, or business-cost analysis. Mission 04's unauthenticated API is local-only.
 - Licensing and permitted redistribution must be checked at the source before sharing dataset contents.

@@ -18,6 +18,7 @@ Build a local-first financial fraud analysis platform that helps analysts inspec
 - Produce separately identified anomaly scores, calibrated or otherwise documented risk estimates, and SHAP-based explanations.
 - Mission 03 specifically adds exact raw-log-odds contributions, raw-output SHAP, validation-derived risk tiers, stable budget ranking, separate anomaly intelligence, reports, notebooks, and versioned Python contracts without retraining the frozen Mission 02 classifier.
 - Provide versioned FastAPI interfaces and a Next.js analyst interface.
+- Mission 04 exposes local-only prediction, explanation, risk, anomaly, upload/analysis, history, and analyst investigation routes over the frozen Mission 02/03 artifacts. User-uploaded analyses store only derived outputs and do not compute label-based evaluation metrics.
 - Compare models and allow useful outputs to be exported.
 
 ## Non-functional requirements
@@ -27,6 +28,7 @@ Build a local-first financial fraud analysis platform that helps analysts inspec
 - Small dependency footprint, no paid API, Docker, WSL, PyTorch, or TensorFlow requirement.
 - Modular functions with type hints, clear exceptions, tests, linting, and documentation.
 - Raw datasets, credentials, and local environments remain outside version control.
+- Mission 04 defaults to loopback, explicit local CORS, strict schemas, streamed request limits, bounded work, SQLite migrations, sanitized errors, and no authentication claim. Its unauthenticated single-user API is not suitable for network exposure.
 
 ## Scientific principles
 
