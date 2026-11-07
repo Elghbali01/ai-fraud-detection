@@ -306,6 +306,10 @@ exact header-only feature template.
   anonymized, and lacks merchant/customer/device context; Mission 02's final-test period is
   consumed. Mission 06 has not started.
 
-Mission 05 implementation commit `e95d597467b3e86eeb1f8fa6a317789ba7084848` contains the
-application and regression-test changes. The separate documentation closeout and actual
-`origin/main` post-push verification are recorded in Git history and the final delivery report.
+### GitHub delivery
+
+- Implementation commit `e95d597467b3e86eeb1f8fa6a317789ba7084848` and documentation closeout
+  commit `0280849fe182f0cdc2eac82789268dd1382afab2` were pushed normally to `origin/main` from
+  base `b429ca723a6aa22356bf5e38102d24c30cd78c02`; no force push or history rewrite was used.
+- A fresh post-push fetch verified local `main` and `origin/main` both at
+  `0280849fe182f0cdc2eac82789268dd1382afab2`, zero commits ahead/behind, and a clean working tree.
